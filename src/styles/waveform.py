@@ -20,57 +20,57 @@ class Waveform(BaseVisualizer):
         """Render waveform."""
         if self.theme is None or len(waveform) == 0:
             return
+            
+        # Optimization: Downsample aggressively. 
+        # Drawing 2000 points is slow. Drawing 200 is fast.
+        # We take 1 point every 4 samples or based on width.
+        step = max(1, len(waveform) // 300) 
         
-        # Sample waveform to fit width
-        num_points = min(len(waveform), self.width)
-        step = len(waveform) // num_points
-        
+        points = []
         center_y = self.height / 2
+        amplitude = self.height / 2
         
-        # Create path for waveform
-        path = QPainterPath()
-        
-        # Calculate first point
-        first_sample = waveform[0]
-        # Major amplitude boost for visibility
-        first_y = center_y - (first_sample * self.height * 50.0) 
-        path.moveTo(0, first_y)
-        
-        # Add points
-        for i in range(1, num_points):
-            idx = i * step
-            if idx >= len(waveform):
-                break
+        # Build Point List
+        for i in range(0, len(waveform), step):
+            sample = waveform[i]
+            # Reduce gain massively. Peak is ~5.0. 
+            # We want that to be nearly full screen, so 5.0 * 0.2 = 1.0
+            val = max(-1.0, min(1.0, sample * 0.2))
             
-            sample = waveform[idx]
-            x = (i / num_points) * self.width
-            y = center_y - (sample * self.height * 65.0)
+            x = (i / len(waveform)) * self.width
+            y = center_y - (val * amplitude)
+            points.append(QPointF(x, y))
             
-            path.lineTo(x, y)
+        if not points:
+            return
+
+        # Create Polygon
+        from PySide6.QtGui import QPolygonF
+        polygon = QPolygonF(points)
         
-        # Draw glow effect (multiple passes with increasing thickness and transparency)
-        for pass_num in range(self.glow_passes, 0, -1):
-            color = self.theme.get_color(0)
-            glow_color = QColor(color)
-            glow_color.setAlpha(40 * pass_num)
-            
-            pen = QPen(glow_color)
-            pen.setWidth(self.line_width + pass_num * 5)
-            pen.setCapStyle(Qt.RoundCap)
-            pen.setJoinStyle(Qt.RoundJoin)
-            
-            painter.setPen(pen)
-            painter.drawPath(path)
+        # Create Polygon
+        from PySide6.QtGui import QPolygonF
+        polygon = QPolygonF(points)
         
-        # Draw main waveform
+        # 1. Optimized Glow (Single fast pass)
         color = self.theme.get_color(0)
+        glow_color = QColor(color)
+        glow_color.setAlpha(50) # Transparent
+        
+        glow_pen = QPen(glow_color)
+        glow_pen.setWidth(8) # Thicker for glow
+        glow_pen.setCosmetic(True) # Hardware accelerated
+        
+        painter.setPen(glow_pen)
+        painter.drawPolyline(polygon)
+        
+        # 2. Main Line (Sharp center)
         pen = QPen(color)
-        pen.setWidth(self.line_width)
-        pen.setCapStyle(Qt.RoundCap)
-        pen.setJoinStyle(Qt.RoundJoin)
+        pen.setWidth(2)
+        pen.setCosmetic(True)
         
         painter.setPen(pen)
-        painter.drawPath(path)
+        painter.drawPolyline(polygon)
         
         # Draw center line
         center_color = QColor(color)

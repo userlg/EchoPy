@@ -1922,3 +1922,321 @@ sounddevice.PortAudioError: Error opening InputStream: Invalid sample rate [PaEr
 2026-01-27 18:32:58,415 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 2)
 2026-01-27 18:32:58,416 - EchoPy - INFO - Gain set to: 141.6
 2026-01-27 18:34:16,591 - EchoPy - INFO - Audio capture stopped
+2026-01-27 18:35:12,620 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 18:35:12,629 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 18:35:12,630 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-27 18:35:12,632 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 18:35:12,633 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 18:35:12,634 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 18:35:12,689 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 18:36:11,859 - EchoPy - INFO - Audio capture stopped
+2026-01-27 18:36:42,825 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 18:36:42,834 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 18:36:42,836 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-27 18:36:42,838 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 18:36:42,838 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 18:36:42,839 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 18:36:42,900 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 18:37:01,743 - EchoPy - INFO - Audio capture stopped
+2026-01-27 18:37:01,743 - EchoPy - INFO - Attempting capture: MME | 44100Hz | 1ch
+2026-01-27 18:37:01,784 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 2)
+2026-01-27 18:37:01,785 - EchoPy - INFO - Gain set to: 60.0
+2026-01-27 18:37:06,499 - EchoPy - INFO - Audio capture stopped
+2026-01-27 18:37:06,499 - EchoPy - INFO - Attempting capture: Windows DirectSound | 44100Hz | 1ch
+2026-01-27 18:37:06,538 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 8)
+2026-01-27 18:37:06,539 - EchoPy - INFO - Gain set to: 60.0
+2026-01-27 18:37:10,773 - EchoPy - INFO - Audio capture stopped
+2026-01-27 18:37:10,774 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 18:37:10,814 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 18:37:10,816 - EchoPy - INFO - Gain set to: 60.0
+2026-01-27 18:37:14,783 - EchoPy - INFO - Audio capture stopped
+2026-01-27 18:37:14,783 - EchoPy - INFO - Attempting capture: Windows WDM-KS | 44100Hz | 1ch
+2026-01-27 18:37:14,789 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 21)
+2026-01-27 18:37:14,790 - EchoPy - INFO - Gain set to: 60.0
+2026-01-27 18:37:18,124 - EchoPy - INFO - Audio capture stopped
+2026-01-27 18:38:16,754 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 18:38:16,765 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 18:38:16,766 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-27 18:38:16,768 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 18:38:16,769 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 18:38:16,769 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 18:38:16,833 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 18:38:29,683 - EchoPy - INFO - Changing style to: fire_effect
+2026-01-27 18:38:33,709 - EchoPy - INFO - Changing style to: circular
+2026-01-27 18:38:36,281 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 18:39:00,866 - EchoPy - INFO - Audio capture stopped
+2026-01-27 18:40:59,788 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 18:40:59,796 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 18:40:59,798 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 18:40:59,801 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 18:40:59,801 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 18:40:59,802 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 18:40:59,852 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 18:41:17,187 - EchoPy - INFO - Audio capture stopped
+2026-01-27 18:41:20,923 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 18:41:20,932 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 18:41:20,933 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 18:41:20,936 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 18:41:20,937 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 18:41:20,937 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 18:41:20,989 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 18:41:35,167 - EchoPy - INFO - Audio capture stopped
+2026-01-27 18:52:19,363 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 18:52:19,371 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 18:52:19,373 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 18:52:19,377 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 18:52:19,377 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 18:52:19,377 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 18:52:19,434 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 18:55:49,666 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 18:55:49,749 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 18:55:49,750 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 18:55:49,752 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 18:55:49,752 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 18:55:49,752 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 18:55:49,800 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 18:56:27,215 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 18:56:27,224 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 18:56:27,225 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 18:56:27,228 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 18:56:27,228 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 18:56:27,228 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 18:56:27,248 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 18:57:09,689 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 18:57:09,699 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 18:57:09,699 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 18:57:09,703 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 18:57:09,703 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 18:57:09,704 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 18:57:09,723 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 18:57:20,873 - EchoPy - INFO - Audio capture stopped
+2026-01-27 18:57:32,229 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 18:57:32,238 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 18:57:32,239 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 18:57:32,241 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 18:57:32,241 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 18:57:32,241 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 18:57:32,260 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 18:57:36,908 - EchoPy - INFO - Audio capture stopped
+2026-01-27 18:57:47,988 - EchoPy - INFO - Audio capture stopped
+2026-01-27 18:58:24,658 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 18:58:24,667 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 18:58:24,669 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 18:58:24,672 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 18:58:24,672 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 18:58:24,672 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 18:58:24,720 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 18:59:41,313 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:00:16,576 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:00:16,586 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:00:16,587 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:00:16,589 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:00:16,589 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:00:16,589 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:00:16,634 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:01:38,726 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:01:38,734 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:01:38,736 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:01:38,738 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:01:38,739 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:01:38,739 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:01:38,759 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:01:42,863 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:03:24,526 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:03:24,534 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:03:24,536 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:03:24,538 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:03:24,538 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:03:24,539 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:03:24,587 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:04:09,066 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:04:09,076 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:04:09,077 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:04:09,080 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:04:09,080 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:04:09,080 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:04:09,102 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:04:17,650 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:05:04,150 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:05:04,160 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:05:04,161 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:05:04,163 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:05:04,163 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:05:04,163 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:05:04,211 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:06:23,012 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:06:23,020 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:06:23,022 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:06:23,025 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:06:23,025 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:06:23,025 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:06:23,076 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:07:11,100 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:07:56,702 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:07:56,711 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:07:56,712 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:07:56,715 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:07:56,715 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:07:56,716 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:07:56,782 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:08:10,511 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:09:18,125 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:09:18,135 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:09:18,136 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:09:18,138 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:09:18,138 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:09:18,138 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:09:18,186 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:10:03,437 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:10:42,114 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:10:42,123 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:10:42,124 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:10:42,126 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:10:42,126 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:10:42,126 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:10:42,186 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:11:32,502 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:12:28,415 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:12:28,424 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:12:28,426 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:12:28,430 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:12:28,431 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:12:28,431 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:12:28,498 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:13:32,385 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:14:14,711 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:14:14,721 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:14:14,722 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:14:14,725 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:14:14,725 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:14:14,725 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:14:14,795 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:14:25,004 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:15:23,556 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:15:23,569 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:15:23,571 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:15:23,574 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:15:23,574 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:15:23,575 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:15:23,668 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:15:55,388 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:15:58,213 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:15:58,225 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:15:58,227 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:15:58,229 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:15:58,229 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:15:58,230 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:15:58,291 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:16:58,041 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:17:24,592 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:17:24,602 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:17:24,603 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:17:24,605 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:17:24,606 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:17:24,606 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:17:24,662 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:18:15,881 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:18:39,348 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:18:39,357 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:18:39,359 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:18:39,361 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:18:39,361 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:18:39,361 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:18:39,414 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:19:03,564 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:19:26,418 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:19:26,427 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:19:26,427 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:19:26,429 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:19:26,429 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:19:26,430 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:19:26,480 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:20:26,257 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:20:29,031 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:20:29,040 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:20:29,042 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:20:29,044 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:20:29,044 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:20:29,045 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:20:29,095 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:21:21,184 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:22:16,836 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:22:16,846 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:22:16,847 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:22:16,849 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:22:16,849 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:22:16,849 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:22:16,902 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:24:16,773 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:24:54,739 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:24:54,749 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:24:54,750 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:24:54,752 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:24:54,752 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:24:54,752 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:24:54,805 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:26:58,392 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:27:37,158 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:27:37,169 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:27:37,170 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:27:37,173 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:27:37,173 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:27:37,173 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:27:37,224 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:28:08,121 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:28:15,225 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:28:15,234 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:28:15,235 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:28:15,238 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:28:15,239 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:28:15,239 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:28:15,290 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:34:15,353 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:35:32,412 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:35:32,422 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:35:32,423 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:35:32,425 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:35:32,426 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:35:32,426 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:35:32,489 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:36:06,101 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:37:02,337 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:37:02,345 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:37:02,346 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:37:02,349 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:37:02,349 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:37:02,349 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:37:02,406 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:37:51,733 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:38:04,283 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:38:04,293 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:38:04,294 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:38:04,296 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:38:04,296 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:38:04,296 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:38:04,357 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:38:15,424 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:38:49,247 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:38:49,256 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:38:49,257 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:38:49,258 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:38:49,259 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:38:49,259 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:38:49,314 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:39:17,441 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:39:58,992 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:39:59,001 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:39:59,002 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:39:59,005 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:39:59,005 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:39:59,005 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 2ch
+2026-01-27 19:39:59,062 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:40:14,209 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:40:30,674 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:40:30,684 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:40:30,685 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:40:30,688 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:40:30,688 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:40:30,688 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 2ch
+2026-01-27 19:40:30,740 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:40:45,833 - EchoPy - INFO - Audio capture stopped

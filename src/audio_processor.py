@@ -86,13 +86,13 @@ class AudioProcessor(QObject):
             
             # Try different configurations in order of preference
             configs = [
-                # 1. Hardware default (usually works)
-                {'rate': int(device_info['default_samplerate']), 'channels': 1},
-                # 2. Hardware default with stereo channels (some WASAPI devices require this)
+                # 1. Prefer Stereo (to capture all music channels)
                 {'rate': int(device_info['default_samplerate']), 'channels': min(2, device_info['max_input_channels'])},
+                # 2. Fallback to Mono
+                {'rate': int(device_info['default_samplerate']), 'channels': 1},
                 # 3. Standard fallback rates
-                {'rate': 44100, 'channels': 1},
-                {'rate': 48000, 'channels': 1}
+                {'rate': 44100, 'channels': min(2, device_info['max_input_channels'])},
+                {'rate': 48000, 'channels': min(2, device_info['max_input_channels'])}
             ]
             
             last_error = None
@@ -158,122 +158,98 @@ class AudioProcessor(QObject):
     
     def _audio_callback(self, indata, frames, time, status):
         """Audio stream callback."""
-        if status:
-            logger.warning(f"Audio callback status: {status}")
-        
-        # 1. Mono capture
-        audio_data = indata[:, 0]
-        
-        # 2. Precision Pre-AGC Gate
-        # The user's music RMS is ~0.00005. We assume noise is < 0.00003.
-        # We must gate BEFORE boosting, otherwise we just boost noise.
-        raw_rms = np.sqrt(np.mean(audio_data**2))
-        
-        # Precision Threshold: Raised to 0.00005 (5e-5) to cut off higher noise floor
-        if raw_rms < 0.00005:
-            # SILENCE DETECTED
-            self.audio_buffer = np.zeros_like(audio_data)
-            self.fft_data = np.zeros(self.fft_size // 2, dtype=np.float32)
+        try:
+            # Debug callback execution (remove later)
+            # print(".", end="", flush=True) 
+            
+            if status:
+                logger.warning(f"Audio callback status: {status}")
+            
+            # 1. Stereo to Mono capture (average channels to ensure we miss nothing)
+            if indata.shape[1] >= 2:
+                audio_data = np.mean(indata, axis=1)
+            else:
+                audio_data = indata[:, 0]
+            
+            # --- DYNAMIC RANGE EXPANDER (Better than AGC) ---
+            # Problem: AGC flattens dynamics (quiet = loud).
+            # Solution: Subtract noise floor, then multiply.
+            # This acts as a "Soft Gate" and preserves relative volume.
+            
+            # 1. Noise Floor Subtraction
+            # Calibrated to silence the constant 0.00017 hiss observed in logs
+            NOISE_FLOOR = 0.0
+            
+            # Using abs() to detect amplitude, then restoring sign (though for FFT we just need magnitude)
+            # But we act on the raw waveform first to clean it.
+            # "Soft Knee" gate:
+            # If val < 0.000035 -> 0
+            # If val = 0.000045 -> 0.00001
+            
+            abs_data = np.abs(audio_data)
+            clean_gain = np.maximum(0, abs_data - NOISE_FLOOR)
+            
+            # 2. Massive Make-up Gain
+            # Reduced from 40000 to 6000 to fix saturation (Peak ~1.0)
+            GAIN_MULTIPLIER = 20000.0
+            
+            boosted_data = clean_gain * GAIN_MULTIPLIER
+            
+            # Restore sign (optional, but good for waveform visuals)
+            self.audio_buffer = boosted_data * np.sign(audio_data)
+            
+            # 3. FFT Processing
+            # Apply window to the clean, boosted data
+            windowed_data = self.audio_buffer * self.window
+            fft_raw = np.fft.rfft(windowed_data, n=self.fft_size)
+            
+            # Normalize: Scale by 2/N
+            fft_magnitude = np.abs(fft_raw)[:self.fft_size // 2] * (2.0 / self.fft_size)
+            
+            # Filter out DC
+            fft_magnitude[:2] = 0.0
+            
+            # Enhanced Log-scaling
+            fft_magnitude = np.log1p(fft_magnitude) / 3.0
+                
+            # Apply User Gain (Fine tuning)
+            fft_magnitude = np.clip(fft_magnitude * (self.gain / 60.0), 0.0, 1.0)
+            
+            # 4. Smoothing and Delivery
+            # Optimized: passing numpy array directly, avoiding list conversions
+            self.fft_data = self.smoother.update(fft_magnitude)
             self.audio_data_ready.emit(self.audio_buffer, self.fft_data)
-            return 
-
-        # --- AUTOMATIC GAIN CONTROL (AGC) ---
-        # If we passed the gate, this is valid signal. Boost it.
         
-        # Track peak with decay
-        current_peak = np.max(np.abs(audio_data))
-        if current_peak > self.running_peak:
-            self.running_peak = current_peak
-        else:
-            self.running_peak *= 0.995 
-            
-        # Floor raised to 0.00008: Limit max boost to avoid amplifying noise floor
-        search_floor = 0.00008 
-        effective_peak = max(self.running_peak, search_floor)
-        
-        # Target level is 0.5 (half scale)
-        norm_factor = 0.5 / effective_peak
-        
-        # Apply normalization
-        normalized_data = audio_data * norm_factor
-        self.audio_buffer = normalized_data.copy()
-        
-        # 3. FFT Processing
-        windowed_data = normalized_data * self.window
-        fft_raw = np.fft.rfft(windowed_data, n=self.fft_size)
-        
-        # Normalize FFT magnitude:
-        # Scale by 2/N to get actual amplitude (0..1)
-        # This prevents the AGC-boosted signal from resulting in massive (>100) values
-        fft_magnitude = np.abs(fft_raw)[:self.fft_size // 2] * (2.0 / self.fft_size)
-        
-        # Filter out DC
-        fft_magnitude[:2] = 0.0
-        
-        # Enhanced Log-scaling
-        fft_magnitude = np.log1p(fft_magnitude) / 3.0
-            
-        # Apply User Gain (Fine tuning)
-        fft_magnitude = np.clip(fft_magnitude * (self.gain / 60.0), 0.0, 1.0)
-        
-        # 4. Smoothing and Delivery
-        self.fft_data = np.array(self.smoother.update(fft_magnitude.tolist()), dtype=np.float32)
-        self.audio_data_ready.emit(self.audio_buffer, self.fft_data)
+        except Exception as e:
+            print(f"CALLBACK FATAL ERROR: {e}")
+            import traceback
+            traceback.print_exc()
     
     def set_smoothing(self, smoothing: float):
-        """
-        Set smoothing factor.
-        
-        Args:
-            smoothing: Smoothing factor (0.0 to 1.0)
-        """
+        """Set smoothing factor."""
         self.smoother.set_smoothing(smoothing)
 
     def set_gain(self, gain: float):
-        """
-        Set gain multiplier.
-        
-        Args:
-            gain: Gain factor (e.g. 60.0 for normal, 120.0 for high)
-        """
+        """Set gain multiplier."""
         self.gain = gain
         logger.info(f"Gain set to: {self.gain}")
     
     def get_devices(self) -> List[dict]:
-        """
-        Get list of available audio input devices.
-        
-        Returns:
-            List of device info dictionaries
-        """
+        """Get list of available audio input devices."""
         try:
             devices = sd.query_devices()
             input_devices = []
-            
-            # Strict filtering: Only allow System Audio / Loopback devices
-            # Keywords that indicate a system loopback device
             valid_keywords = ['stereo mix', 'what u hear', 'loopback', 'wave out', 'waveout', 'monitor']
-            
-            # Keywords to strictly exclude (microphones, etc)
             exclude_keywords = ['mic', 'microphone', 'input', 'headset', 'webcam', 'line in']
             
             for i, device in enumerate(devices):
                 device_name = device['name'].lower()
-                
-                # Check if it's a valid loopback device
                 is_valid = False
-                
-                # 1. Must contain a valid keyword
                 if any(kw in device_name for kw in valid_keywords):
                     is_valid = True
-                
-                # 2. Must NOT contain an exclude keyword (unless it strictly claims to be a mix)
                 if any(kw in device_name for kw in exclude_keywords):
-                    # If it has a bad keyword, it's false unless it SPECIFICALLY says "stereo mix"
                     if 'stereo mix' not in device_name:
                         is_valid = False
-                
-                # 3. Must have input channels
                 if device['max_input_channels'] <= 0:
                     is_valid = False
                     
@@ -288,7 +264,6 @@ class AudioProcessor(QObject):
             
             if not input_devices:
                 logger.warning("No specific System Audio devices found. Listing all non-microphone input devices as fallback.")
-                # Fallback: List everything satisfying basic exclusion rules if nothing else found
                 for i, device in enumerate(devices):
                     device_name = device['name'].lower()
                     if device['max_input_channels'] > 0 and not any(kw in device_name for kw in exclude_keywords):
@@ -299,63 +274,42 @@ class AudioProcessor(QObject):
                             'sample_rate': device['default_samplerate'],
                             'is_loopback': False
                         })
-            
             return input_devices
         except Exception as e:
             logger.error(f"Error querying devices: {e}")
             return []
     
     def find_loopback_device(self) -> Optional[int]:
-        """
-        Find a Windows loopback device (Stereo Mix) for capturing system audio.
-        Heavily prioritizes 'Stereo Mix' as the most stable way to capture system audio
-        in this environment.
-        """
+        """Find a Windows loopback device (Stereo Mix)."""
         try:
             devices = sd.query_devices()
-            
-            # 1. Look for 'Stereo Mix' under Windows WASAPI (Highest Quality)
             for i, device in enumerate(devices):
                 device_name = device['name'].lower()
                 try:
                     host_api = sd.query_hostapis(device['hostapi'])['name']
                 except: continue
-                
                 if host_api == 'Windows WASAPI' and 'stereo mix' in device_name:
                     logger.info(f"Using High Quality WASAPI Stereo Mix: {device['name']} (index {i})")
                     return i
-
-            # 2. Look for 'Stereo Mix' under MME/DirectSound (High Compatibility)
             for i, device in enumerate(devices):
                 device_name = device['name'].lower()
                 if 'stereo mix' in device_name and device['max_input_channels'] > 0:
                     logger.info(f"Using Legacy Stereo Mix: {device['name']} (index {i})")
                     return i
-            
-            # 3. Last resort: ANY device with 'mix' or 'loopback' in name
             for i, device in enumerate(devices):
                 device_name = device['name'].lower()
                 if any(kw in device_name for kw in ['mix', 'loopback']) and device['max_input_channels'] > 0:
                     return i
-                    
             logger.info("No Stereo Mix or loopback device found automatically.")
             return None
-            
         except Exception as e:
             logger.error(f"Error finding loopback device: {e}")
             return None
     
     def set_device(self, device_index: Optional[int]):
-        """
-        Change audio input device.
-        
-        Args:
-            device_index: Device index
-        """
+        """Change audio input device."""
         was_running = self.is_running
-        
         if was_running:
             self.stop()
-        
         if was_running:
             self.start(device_index)

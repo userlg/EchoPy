@@ -4,6 +4,7 @@ import json
 import os
 import logging
 from typing import Any, Dict, Optional
+import numpy as np
 from PySide6.QtGui import QImage, QPixmap
 from PySide6.QtCore import Qt
 
@@ -73,7 +74,7 @@ class Config:
 
 
 class SmoothingBuffer:
-    """Exponential moving average smoother for audio data."""
+    """Exponential moving average smoother for audio data (Vectorized)."""
     
     def __init__(self, size: int, smoothing: float = 0.8):
         """
@@ -85,35 +86,47 @@ class SmoothingBuffer:
         """
         self.size = size
         self.smoothing = max(0.0, min(1.0, smoothing))
-        self.buffer = [0.0] * size
+        self.buffer = np.zeros(size, dtype=np.float32)
     
-    def update(self, values: list) -> list:
+    def update(self, values: Any) -> np.ndarray:
         """
         Update buffer with new values and return smoothed values.
         
         Args:
-            values: New values to smooth
+            values: New values to smooth (list or np.ndarray)
             
         Returns:
-            Smoothed values
+            Smoothed values as np.ndarray
         """
-        if len(values) != self.size:
-            # Resize buffer if needed
-            self.size = len(values)
-            self.buffer = [0.0] * self.size
+        # Ensure input is numpy array
+        if isinstance(values, np.ndarray):
+            new_values = values.astype(np.float32)
+        else:
+            new_values = np.array(values, dtype=np.float32)
         
-        for i in range(len(values)):
-            self.buffer[i] = self.buffer[i] * self.smoothing + values[i] * (1 - self.smoothing)
+        if len(new_values) != self.size:
+            # Resize buffer if needed (resetting history)
+            self.size = len(new_values)
+            self.buffer = np.zeros(self.size, dtype=np.float32)
+        
+        # Vectorized calculation:
+        # buffer = buffer * smoothing + new * (1 - smoothing)
+        self.buffer = self.buffer * self.smoothing + new_values * (1.0 - self.smoothing)
         
         return self.buffer.copy()
     
     def set_smoothing(self, smoothing: float):
         """Set smoothing factor."""
-        self.smoothing = max(0.0, min(1.0, smoothing))
+        # Ensure input is float
+        try:
+           s = float(smoothing)
+        except:
+           s = 0.5
+        self.smoothing = max(0.0, min(1.0, s))
     
     def reset(self):
         """Reset buffer to zeros."""
-        self.buffer = [0.0] * self.size
+        self.buffer = np.zeros(self.size, dtype=np.float32)
 
 
 def load_image(path: str, width: Optional[int] = None, height: Optional[int] = None) -> Optional[QPixmap]:

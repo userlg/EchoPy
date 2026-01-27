@@ -10,6 +10,7 @@ from PySide6.QtCore import Qt, QTimer, QPointF
 from typing import Optional
 from themes import ColorTheme, get_theme
 from utils import logger
+from ui.overlay import DebugOverlay
 
 
 class BaseVisualizer(ABC):
@@ -50,12 +51,19 @@ class BaseVisualizer(ABC):
 
 
 class VisualizerWidget(QWidget):
-    """Widget that renders visualizations."""
+    """Widget that renders visualizations with dynamic behavior."""
+    
+    # --- Smart State Manager Configuration ---
+    # Calibrated for NOISE_FLOOR 0.00018
+    THRESHOLD_ON = 0.01     # 1% volume to wake up (Sensible for soft intros)
+    THRESHOLD_OFF = 0.005   # 0.5% volume to sleep
+    SILENCE_TIMEOUT = 10    # Frames of silence before sleeping
     
     def __init__(self, parent=None):
         """Initialize visualizer widget."""
         super().__init__(parent)
         
+        # ... (keep existing init code, but add silence counter)
         # Set widget properties
         self.setMinimumSize(800, 600)
         self.setAttribute(Qt.WA_OpaquePaintEvent)
@@ -67,6 +75,11 @@ class VisualizerWidget(QWidget):
         self.waveform = np.zeros(2048, dtype=np.float32)
         self.fft_data = np.zeros(1024, dtype=np.float32)
         
+        # Audio analysis state
+        self.current_max_peak = 0.0
+        self.is_silent = True
+        self._silence_frame_counter = 0 # For hysteresis
+        
         # Theme
         self.current_theme = get_theme("modern")
         
@@ -74,20 +87,15 @@ class VisualizerWidget(QWidget):
         self.background_image: Optional[QPixmap] = None
         self.background_opacity = 0.3
         
-        # UI Options
-        self.show_fps = True
-        
-        # FPS tracking
-        self.fps = 0
-        self.frame_count = 0
-        self.fps_timer = QTimer()
-        self.fps_timer.timeout.connect(self._update_fps)
-        self.fps_timer.start(1000)
+        # Debug / Overlay
+        self.debug_overlay = DebugOverlay(self)
         
         # Animation timer
         self.animation_timer = QTimer()
         self.animation_timer.timeout.connect(self.update)
-        self.animation_timer.start(16)  # ~60 FPS
+        self.animation_timer.start(16)  # 60 FPS
+        
+    # ... (Keep setters as they are - no changes there)
     
     def set_visualizer(self, visualizer: BaseVisualizer):
         """Set the active visualizer."""
@@ -96,46 +104,74 @@ class VisualizerWidget(QWidget):
             self.visualizer.set_theme(self.current_theme)
             self.visualizer.set_size(self.width(), self.height())
             logger.debug(f"Visualizer configured: {self.visualizer.name}")
-        # Force immediate update
         self.update()
     
     def set_theme(self, theme: ColorTheme):
-        """Set color theme."""
         self.current_theme = theme
         if self.visualizer:
             self.visualizer.set_theme(theme)
     
     def set_background_image(self, pixmap: Optional[QPixmap]):
-        """Set background image."""
         self.background_image = pixmap
     
     def set_background_opacity(self, opacity: float):
-        """Set background image opacity (0.0 to 1.0)."""
         self.background_opacity = max(0.0, min(1.0, opacity))
     
     def set_show_fps(self, show: bool):
-        """Toggle FPS counter visibility."""
-        self.show_fps = show
+        self.debug_overlay.visible = show
         self.update()
     
     def update_audio_data(self, waveform: np.ndarray, fft_data: np.ndarray):
-        """Update audio data from processor."""
-        self.waveform = waveform
-        self.fft_data = fft_data
-        # Debug: Show when we receive data (only occasionally to avoid spam)
-        if hasattr(self, '_debug_counter'):
-            self._debug_counter += 1
-        else:
-            self._debug_counter = 0
+        """
+        Update audio data with Smart State Detection (Hysteresis).
+        """
+        # 1. Measure Peak
+        peak = 0.0
+        if len(waveform) > 0:
+            peak = np.max(np.abs(waveform))
+        self.current_max_peak = peak
         
-        if self._debug_counter % 300 == 0:  # Print every 300 frames (~5 seconds)
-            max_fft = np.max(fft_data) if len(fft_data) > 0 else 0
-            logger.debug(f"Audio data received - FFT max: {max_fft:.4f}")
-    
+        # 2. State Machine Logic
+        if self.is_silent:
+            # WAKE UP LOGIC
+            if peak > self.THRESHOLD_ON:
+                self.is_silent = False
+                self._silence_frame_counter = 0
+        else:
+            # SLEEP LOGIC
+            if peak < self.THRESHOLD_OFF:
+                self._silence_frame_counter += 1
+                if self._silence_frame_counter > self.SILENCE_TIMEOUT:
+                    self.is_silent = True
+            else:
+                self._silence_frame_counter = 0 # Reset if we see signal
+        
+        # 3. Data Processing
+        if not self.is_silent:
+            self.waveform = waveform
+            self.fft_data = fft_data
+        else:
+            # Visual silence
+            self.waveform.fill(0)
+            self.fft_data.fill(0)
+
+        # DEBUG: Print stats to console for analysis
+        if not hasattr(self, '_debug_print_counter'):
+            self._debug_print_counter = 0
+        
+        self._debug_print_counter += 1
+        # Print every ~60 updates (approx 1 sec if running at 60fps)
+        if self._debug_print_counter >= 60:
+            self._debug_print_counter = 0
+            mode_name = self.visualizer.name if self.visualizer else "None"
+            fps_count = self.debug_overlay.fps
+            print(f"STATS | FPS: {fps_count} | Mode: {mode_name} | Peak: {self.current_max_peak:.4f}", flush=True)
+        
     def paintEvent(self, event):
         """Paint event handler."""
         painter = QPainter(self)
-        painter.setRenderHint(QPainter.Antialiasing)
+        # Disable Antialiasing for performance (Waveform line is too complex)
+        # painter.setRenderHint(QPainter.Antialiasing)
         painter.setRenderHint(QPainter.SmoothPixmapTransform)
         
         # 1. Draw Background
@@ -143,16 +179,24 @@ class VisualizerWidget(QWidget):
         
         # 2. Draw Visualization
         if self.visualizer:
+            # If silent, we are passing zeroed arrays (set in update_audio_data)
+            # so the visualizer will naturally render "stopped" state.
             self.visualizer.render(painter, self.waveform, self.fft_data)
         else:
             self._draw_no_visualizer_message(painter)
         
-        # 3. Draw Overlays (FPS, Stats)
-        if self.show_fps:
-            self._draw_debug_info(painter)
+        # 3. Draw Overlays (via DebugOverlay class - Refactoring step)
+        self.debug_overlay.render(
+            painter, 
+            self.width(), 
+            self.height(), 
+            self.visualizer,
+            self.current_max_peak,
+            self.is_silent
+        )
         
-        # Update frame count
-        self.frame_count += 1
+        # Update frame count in overlay
+        self.debug_overlay.increment_frame()
     
     def _draw_background(self, painter: QPainter):
         """Draw widget background and image."""
@@ -178,32 +222,12 @@ class VisualizerWidget(QWidget):
         painter.setPen(QPen(QColor(255, 255, 255)))
         painter.drawText(self.rect(), Qt.AlignCenter, "No visualizer set")
 
-    def _draw_debug_info(self, painter: QPainter):
-        """Draw FPS and other debug information."""
-        painter.setPen(QPen(self.current_theme.text_color))
-        
-        y_offset = 20
-        painter.drawText(10, y_offset, f"FPS: {self.fps}")
-        
-        if self.visualizer:
-            y_offset += 20
-            painter.drawText(10, y_offset, f"Visualizer: {self.visualizer.name}")
-        
-        max_fft = np.max(self.fft_data) if len(self.fft_data) > 0 else 0
-        y_offset += 20
-        painter.drawText(10, y_offset, f"Audio Peak: {max_fft:.4f}")
-    
     def resizeEvent(self, event):
         """Handle resize events."""
         super().resizeEvent(event)
         if self.visualizer:
             self.visualizer.set_size(self.width(), self.height())
     
-    def _update_fps(self):
-        """Update FPS counter."""
-        self.fps = self.frame_count
-        self.frame_count = 0
-    
     def get_fps(self) -> int:
         """Get current FPS."""
-        return self.fps
+        return self.debug_overlay.fps
