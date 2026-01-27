@@ -1,0 +1,102 @@
+/* EchoPy Modern Stylesheet */
+
+QMainWindow {
+    background-color: #0d0d0d;
+}
+
+/* Glassmorphism effect for panels and dialogs */
+QWidget#ControlPanel, QDialog {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+}
+
+QLabel {
+    color: #ffffff;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 13px;
+}
+
+QPushButton {
+    background-color: #333;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    background-color: #444;
+    border-color: #666;
+}
+
+QPushButton:pressed {
+    background-color: #222;
+}
+
+QPushButton:checked {
+    background-color: #00d2ff;
+    color: #000000;
+    border-color: #00b8e6;
+}
+
+QComboBox, QSpinBox {
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 4px;
+    padding: 5px;
+    color: #ffffff;
+    selection-background-color: #00d2ff;
+}
+
+QComboBox:hover, QSpinBox:hover {
+    border-color: #00d2ff;
+}
+
+QComboBox::drop-down {
+    border: none;
+    width: 20px;
+}
+
+/* Ensure the dropdown list is styled */
+QAbstractItemView {
+    background-color: #2a2a2a;
+    color: #ffffff;
+    border: 1px solid #444;
+    selection-background-color: #3a3a3a;
+}
+
+QSlider::groove:horizontal {
+    border: 1px solid #333;
+    height: 6px;
+    background: #222;
+    margin: 2px 0;
+    border-radius: 3px;
+}
+
+QSlider::handle:horizontal {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #00d2ff, stop:1 #3a7bd5);
+    border: 1px solid #3a7bd5;
+    width: 18px;
+    height: 18px;
+    margin: -6px 0;
+    border-radius: 9px;
+}
+
+QGroupBox {
+    border: 1px solid #333;
+    border-radius: 8px;
+    margin-top: 15px;
+    padding-top: 15px;
+    font-weight: bold;
+    color: #00d2ff; /* Title color */
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    left: 10px;
+    padding: 0 5px;
+    background-color: transparent;
+}

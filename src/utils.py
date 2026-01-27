@@ -1,0 +1,200 @@
+"""Utility functions for EchoPy."""
+
+import json
+import os
+import logging
+from typing import Any, Dict, Optional
+from PySide6.QtGui import QImage, QPixmap
+from PySide6.QtCore import Qt
+
+
+# Configure logging
+def setup_logging(level=logging.INFO):
+    """Setup application logging."""
+    logging.basicConfig(
+        level=level,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.StreamHandler(),
+            logging.FileHandler("echopy.log", encoding='utf-8')
+        ]
+    )
+
+
+logger = logging.getLogger("EchoPy")
+
+
+class Config:
+    """Configuration manager for persistence."""
+    
+    def __init__(self, config_file: str = "config.json"):
+        """Initialize configuration manager."""
+        self.config_file = config_file
+        self.config: Dict[str, Any] = self._load_config()
+    
+    def _load_config(self) -> Dict[str, Any]:
+        """Load configuration from file."""
+        if os.path.exists(self.config_file):
+            try:
+                with open(self.config_file, 'r') as f:
+                    return json.load(f)
+            except Exception as e:
+                logger.error(f"Error loading config: {e}")
+        
+        # Default configuration
+        return {
+            "theme": "modern",
+            "style": "spectrum_bars",
+            "audio_device": None,
+            "sample_rate": 44100,
+            "fft_size": 2048,
+            "smoothing": 0.8,
+            "background_image": None,
+            "fullscreen": False,
+            "fps_limit": 60
+        }
+    
+    def save_config(self):
+        """Save configuration to file."""
+        try:
+            with open(self.config_file, 'w') as f:
+                json.dump(self.config, f, indent=2)
+        except Exception as e:
+            logger.error(f"Error saving config: {e}")
+    
+    def get(self, key: str, default: Any = None) -> Any:
+        """Get configuration value."""
+        return self.config.get(key, default)
+    
+    def set(self, key: str, value: Any):
+        """Set configuration value and save."""
+        self.config[key] = value
+        self.save_config()
+
+
+class SmoothingBuffer:
+    """Exponential moving average smoother for audio data."""
+    
+    def __init__(self, size: int, smoothing: float = 0.8):
+        """
+        Initialize smoothing buffer.
+        
+        Args:
+            size: Buffer size
+            smoothing: Smoothing factor (0.0 to 1.0, higher = smoother)
+        """
+        self.size = size
+        self.smoothing = max(0.0, min(1.0, smoothing))
+        self.buffer = [0.0] * size
+    
+    def update(self, values: list) -> list:
+        """
+        Update buffer with new values and return smoothed values.
+        
+        Args:
+            values: New values to smooth
+            
+        Returns:
+            Smoothed values
+        """
+        if len(values) != self.size:
+            # Resize buffer if needed
+            self.size = len(values)
+            self.buffer = [0.0] * self.size
+        
+        for i in range(len(values)):
+            self.buffer[i] = self.buffer[i] * self.smoothing + values[i] * (1 - self.smoothing)
+        
+        return self.buffer.copy()
+    
+    def set_smoothing(self, smoothing: float):
+        """Set smoothing factor."""
+        self.smoothing = max(0.0, min(1.0, smoothing))
+    
+    def reset(self):
+        """Reset buffer to zeros."""
+        self.buffer = [0.0] * self.size
+
+
+def load_image(path: str, width: Optional[int] = None, height: Optional[int] = None) -> Optional[QPixmap]:
+    """
+    Load and optionally scale an image.
+    
+    Args:
+        path: Path to image file
+        width: Target width (None to keep aspect ratio)
+        height: Target height (None to keep aspect ratio)
+        
+    Returns:
+        QPixmap or None if loading failed
+    """
+    if not os.path.exists(path):
+        return None
+    
+    image = QImage(path)
+    if image.isNull():
+        return None
+    
+    pixmap = QPixmap.fromImage(image)
+    
+    if width or height:
+        if width and height:
+            pixmap = pixmap.scaled(width, height, Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
+        elif width:
+            pixmap = pixmap.scaledToWidth(width, Qt.SmoothTransformation)
+        elif height:
+            pixmap = pixmap.scaledToHeight(height, Qt.SmoothTransformation)
+    
+    return pixmap
+
+
+def frequency_to_bin(frequency: float, sample_rate: int, fft_size: int) -> int:
+    """
+    Convert frequency in Hz to FFT bin index.
+    
+    Args:
+        frequency: Frequency in Hz
+        sample_rate: Sample rate in Hz
+        fft_size: FFT size
+        
+    Returns:
+        Bin index
+    """
+    return int(frequency * fft_size / sample_rate)
+
+
+def bin_to_frequency(bin_index: int, sample_rate: int, fft_size: int) -> float:
+    """
+    Convert FFT bin index to frequency in Hz.
+    
+    Args:
+        bin_index: Bin index
+        sample_rate: Sample rate in Hz
+        fft_size: FFT size
+        
+    Returns:
+        Frequency in Hz
+    """
+    return bin_index * sample_rate / fft_size
+
+
+def map_range(value: float, in_min: float, in_max: float, out_min: float, out_max: float) -> float:
+    """
+    Map a value from one range to another.
+    
+    Args:
+        value: Input value
+        in_min: Input range minimum
+        in_max: Input range maximum
+        out_min: Output range minimum
+        out_max: Output range maximum
+        
+    Returns:
+        Mapped value
+    """
+    return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+
+
+def clamp(value: float, min_val: float, max_val: float) -> float:
+    """Clamp value between min and max."""
+    return max(min_val, min(max_val, value))

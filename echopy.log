@@ -1,0 +1,23 @@
+2026-01-27 16:01:16,017 - EchoPy - INFO - Changing theme to: sunset
+2026-01-27 16:01:16,019 - EchoPy - INFO - Changing style to: radial_bars
+2026-01-27 16:01:16,022 - EchoPy - INFO - Found loopback device: Stereo Mix (3- Realtek High Def (index 2)
+2026-01-27 16:01:16,022 - EchoPy - INFO - Using loopback device for system audio capture: 2
+2026-01-27 16:01:16,110 - EchoPy - INFO - Audio capture started (device: 2)
+2026-01-27 16:03:34,388 - EchoPy - INFO - Audio capture stopped
+2026-01-27 16:03:34,431 - EchoPy - INFO - Audio capture started (device: 2)
+2026-01-27 16:03:42,041 - EchoPy - INFO - Audio capture stopped
+2026-01-27 16:03:42,137 - EchoPy - INFO - Audio capture started (device: 6)
+2026-01-27 16:03:50,808 - EchoPy - INFO - Audio capture stopped
+2026-01-27 16:03:50,850 - EchoPy - INFO - Audio capture started (device: 8)
+2026-01-27 16:04:00,494 - EchoPy - INFO - Audio capture stopped
+2026-01-27 16:04:00,499 - EchoPy - INFO - Audio capture started (device: 18)
+2026-01-27 16:04:08,303 - EchoPy - INFO - Audio capture stopped
+2026-01-27 16:04:08,310 - EchoPy - INFO - Audio capture started (device: 21)
+2026-01-27 16:04:12,655 - EchoPy - INFO - Audio capture stopped
+2026-01-27 16:43:00,208 - EchoPy - WARNING - Stylesheet not found at: C:\Users\Kike\Desktop\EchoPy\src\resources\modern.qss
+2026-01-27 16:43:00,220 - EchoPy - INFO - Changing theme to: sunset
+2026-01-27 16:43:00,222 - EchoPy - INFO - Changing style to: radial_bars
+2026-01-27 16:43:00,225 - EchoPy - INFO - Found loopback device: Stereo Mix (3- Realtek High Def (index 2)
+2026-01-27 16:43:00,225 - EchoPy - INFO - Using loopback device for system audio capture: 2
+2026-01-27 16:43:00,275 - EchoPy - INFO - Audio capture started (device: 2)
+2026-01-27 16:43:29,371 - EchoPy - INFO - Audio capture stopped

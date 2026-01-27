@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "echopy"
+version = "1.0.1"
+authors = [
+  { name="EchoPy Team", email="kike@example.com" },
+]
+description = "A modern real-time music visualizer built with Python and PySide6."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Multimedia :: Sound/Audio :: Visualization",
+]
+dependencies = [
+    "PySide6>=6.6.0",
+    "numpy>=1.24.0",
+    "sounddevice>=0.4.6",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/Kike/EchoPy"
+"Bug Tracker" = "https://github.com/Kike/EchoPy/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+echopy = "main:main"
