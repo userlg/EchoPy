@@ -48,7 +48,7 @@ class Config:
             "audio_device": None,
             "sample_rate": 44100,
             "fft_size": 2048,
-            "smoothing": 0.8,
+            "smoothing": 0.5,
             "background_image": None,
             "fullscreen": False,
             "fps_limit": 60

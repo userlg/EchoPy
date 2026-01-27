@@ -32,7 +32,8 @@ class Waveform(BaseVisualizer):
         
         # Calculate first point
         first_sample = waveform[0]
-        first_y = center_y - (first_sample * self.height * 0.4)
+        # Major amplitude boost for visibility
+        first_y = center_y - (first_sample * self.height * 50.0) 
         path.moveTo(0, first_y)
         
         # Add points
@@ -43,7 +44,7 @@ class Waveform(BaseVisualizer):
             
             sample = waveform[idx]
             x = (i / num_points) * self.width
-            y = center_y - (sample * self.height * 0.4)
+            y = center_y - (sample * self.height * 65.0)
             
             path.lineTo(x, y)
         
@@ -54,7 +55,7 @@ class Waveform(BaseVisualizer):
             glow_color.setAlpha(40 * pass_num)
             
             pen = QPen(glow_color)
-            pen.setWidth(self.line_width + pass_num * 4)
+            pen.setWidth(self.line_width + pass_num * 5)
             pen.setCapStyle(Qt.RoundCap)
             pen.setJoinStyle(Qt.RoundJoin)
             

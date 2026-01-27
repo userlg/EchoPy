@@ -25,17 +25,29 @@ class SpectrumBars(BaseVisualizer):
         total_width = self.width - (self.num_bars - 1) * self.bar_spacing
         bar_width = total_width / self.num_bars
         
-        # Sample FFT data to match number of bars
-        samples_per_bar = len(fft_data) // self.num_bars
+        # Logarithmic sampling for better harmonic distribution
+        # Frequencies are distributed logarithmically (like human hearing)
+        # We start from log10(2) to skip only DC and sub-hum (0-40Hz), preserving bass
+        log_indices = np.logspace(np.log10(2), np.log10(len(fft_data)), self.num_bars + 1)
+        indices = log_indices.astype(int)
         
         for i in range(self.num_bars):
-            # Get average magnitude for this bar
-            start_idx = i * samples_per_bar
-            end_idx = start_idx + samples_per_bar
-            magnitude = np.mean(fft_data[start_idx:end_idx]) if end_idx <= len(fft_data) else 0
+            # Get indices for this bar's frequency range
+            start_idx = indices[i]
+            end_idx = indices[i+1]
+            
+            # Ensure at least one bin is sampled
+            if end_idx <= start_idx:
+                end_idx = start_idx + 1
+            
+            # Average magnitude in this range
+            if start_idx < len(fft_data):
+                magnitude = np.mean(fft_data[start_idx:end_idx])
+            else:
+                magnitude = 0
             
             # Scale to height with minimum baseline
-            bar_height = max(5, magnitude * self.height * 2.5)  # Minimum 5px height
+            bar_height = max(5, magnitude * self.height * 15.0)  # Increased scaling for visibility
             bar_height = min(bar_height, self.height - 10)
             
             # Calculate position

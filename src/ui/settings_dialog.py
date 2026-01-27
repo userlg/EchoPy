@@ -12,6 +12,9 @@ class SettingsDialog(QDialog):
     # Signals
     device_changed = Signal(int)
     smoothing_changed = Signal(float)
+    device_changed = Signal(int)
+    smoothing_changed = Signal(float)
+    gain_changed = Signal(float)
     sample_rate_changed = Signal(int)
     
     def __init__(self, parent=None):
@@ -67,6 +70,20 @@ class SettingsDialog(QDialog):
         smoothing_layout.addWidget(self.smoothing_label)
         
         viz_layout.addRow("Smoothing:", smoothing_layout)
+        
+        # Gain / Height slider
+        gain_layout = QHBoxLayout()
+        self.gain_slider = QSlider(Qt.Horizontal)
+        self.gain_slider.setMinimum(10)
+        self.gain_slider.setMaximum(300)
+        self.gain_slider.setValue(100)
+        self.gain_slider.valueChanged.connect(self._on_gain_changed)
+        
+        self.gain_label = QLabel("100%")
+        gain_layout.addWidget(self.gain_slider)
+        gain_layout.addWidget(self.gain_label)
+        
+        viz_layout.addRow("Gain / Height:", gain_layout)
         
         # Background opacity
         opacity_layout = QHBoxLayout()
@@ -131,6 +148,10 @@ class SettingsDialog(QDialog):
         """Get smoothing value."""
         return self.smoothing_slider.value() / 100.0
     
+    def get_gain(self) -> float:
+        """Get gain value."""
+        return self.gain_slider.value() # Return as percentage multiplier (e.g. 100.0)
+    
     def get_opacity(self) -> float:
         """Get background opacity value."""
         return self.opacity_slider.value() / 100.0
@@ -150,6 +171,10 @@ class SettingsDialog(QDialog):
     def _on_smoothing_changed(self, value: int):
         """Handle smoothing slider change."""
         self.smoothing_label.setText(f"{value / 100:.2f}")
+
+    def _on_gain_changed(self, value: int):
+        """Handle gain slider change."""
+        self.gain_label.setText(f"{value}%")
     
     def _on_apply(self):
         """Handle apply button click."""
@@ -159,4 +184,5 @@ class SettingsDialog(QDialog):
             self.device_changed.emit(device_idx)
         
         self.smoothing_changed.emit(self.get_smoothing())
+        self.gain_changed.emit(self.get_gain())
         self.sample_rate_changed.emit(self.get_sample_rate())

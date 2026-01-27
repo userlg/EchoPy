@@ -1,7 +1,7 @@
 """Main window for EchoPy visualizer."""
 
 from PySide6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QMenuBar,
-                                QMenu, QMessageBox)
+                                QMenu, QMessageBox, QPushButton)
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QAction, QKeySequence, QPixmap
 from visualizer import VisualizerWidget
@@ -12,6 +12,7 @@ from ui.settings_dialog import SettingsDialog
 from themes import get_theme
 from utils import Config, SmoothingBuffer, load_image, logger
 import os
+import sys
 
 
 class MainWindow(QMainWindow):
@@ -43,6 +44,8 @@ class MainWindow(QMainWindow):
         self.control_panel = ControlPanel()
         
         # Create settings dialog
+        
+        # Create settings dialog
         self.settings_dialog = SettingsDialog(self)
         
         # Setup UI
@@ -56,9 +59,9 @@ class MainWindow(QMainWindow):
         # Start audio processing AFTER visualizer is set
         self.audio_processor.start()
         
-        # Show control panel immediately
-        self.control_panel.show()
-        QTimer.singleShot(100, self._position_control_panel)
+        # Control panel is hidden by default, toggle with Ctrl+H
+        # self.control_panel.show()
+        # QTimer.singleShot(100, self._position_control_panel)
     
     def _setup_ui(self):
         """Setup user interface."""
@@ -123,9 +126,10 @@ class MainWindow(QMainWindow):
         view_menu.addAction(fullscreen_action)
         
         # Show controls action
-        controls_action = QAction("&Show Controls", self)
+        controls_action = QAction("&Toggle Controls", self)
         controls_action.setShortcut(QKeySequence("Ctrl+H"))
-        controls_action.triggered.connect(self._show_controls)
+        controls_action.setShortcutContext(Qt.ApplicationShortcut)
+        controls_action.triggered.connect(self._toggle_controls)
         view_menu.addAction(controls_action)
         
         # Screenshot action
@@ -176,16 +180,21 @@ class MainWindow(QMainWindow):
         # Settings dialog signals
         self.settings_dialog.device_changed.connect(self._change_device)
         self.settings_dialog.smoothing_changed.connect(self._change_smoothing)
+        self.settings_dialog.gain_changed.connect(self._change_gain)
     
     def _load_config(self):
         """Load configuration from file."""
         # Set initial theme
         theme_name = self.config.get("theme", "modern")
         self._change_theme(theme_name)
+        # Sync control panel UI
+        self.control_panel.set_current_theme_name(theme_name)
         
         # Set initial style
         style_name = self.config.get("style", "spectrum_bars")
         self._change_style(style_name)
+        # Sync control panel UI
+        self.control_panel.set_current_style(style_name)
         
         # Load background image if saved
         bg_path = self.config.get("background_image")
@@ -247,6 +256,15 @@ class MainWindow(QMainWindow):
         """Change smoothing factor."""
         self.audio_processor.set_smoothing(smoothing)
         self.config.set("smoothing", smoothing)
+
+    def _change_gain(self, gain: float):
+        """Change gain multiplier."""
+        # Convert percentage (e.g. 100.0) to multiplier (e.g. 60.0 default base)
+        # Base gain is 60.0, so 100% = 60.0
+        base_gain = 60.0
+        multiplier = gain / 100.0
+        new_gain = base_gain * multiplier
+        self.audio_processor.set_gain(new_gain)
     
     def _toggle_fullscreen(self, checked: bool):
         """Toggle fullscreen mode."""
@@ -259,6 +277,13 @@ class MainWindow(QMainWindow):
         """Show control panel."""
         self.control_panel.show()
         self._position_control_panel()
+        
+    def _toggle_controls(self):
+        """Toggle control panel visibility."""
+        if self.control_panel.isVisible():
+            self.control_panel.hide()
+        else:
+            self._show_controls()
     
     def _position_control_panel(self):
         """Position control panel on screen."""
@@ -268,6 +293,7 @@ class MainWindow(QMainWindow):
         y = 20
         
         self.control_panel.move(x, y)
+        
     
     def _show_settings(self):
         """Show settings dialog."""

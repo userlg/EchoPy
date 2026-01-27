@@ -30,17 +30,28 @@ class CircularSpectrum(BaseVisualizer):
         # Maximum radius
         max_radius = min(self.width, self.height) / 2 - 20
         
-        # Sample FFT data
-        samples_per_bar = len(fft_data) // self.num_bars
+        # Logarithmic sampling for better harmonic distribution
+        # Frequencies are distributed logarithmically (like human hearing)
+        log_indices = np.logspace(np.log10(2), np.log10(len(fft_data)), self.num_bars + 1)
+        indices = log_indices.astype(int)
         
-        # Angle step
+        # Angle step for circular layout
         angle_step = 360 / self.num_bars
         
         for i in range(self.num_bars):
-            # Get magnitude
-            start_idx = i * samples_per_bar
-            end_idx = start_idx + samples_per_bar
-            magnitude = np.mean(fft_data[start_idx:end_idx]) if end_idx <= len(fft_data) else 0
+            # Get indices for this bar
+            start_idx = indices[i]
+            end_idx = indices[i+1]
+            
+            # Ensure at least one bin is sampled
+            if end_idx <= start_idx:
+                end_idx = start_idx + 1
+            
+            # Average magnitude
+            if start_idx < len(fft_data):
+                magnitude = np.mean(fft_data[start_idx:end_idx])
+            else:
+                magnitude = 0
             
             # Calculate bar length
             bar_length = magnitude * (max_radius - self.min_radius) * 2.5

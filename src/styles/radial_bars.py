@@ -29,8 +29,9 @@ class RadialBars(BaseVisualizer):
         # Maximum radius
         max_radius = min(self.width, self.height) / 2 - 10
         
-        # Sample FFT data
-        samples_per_ray = len(fft_data) // self.num_rays
+        # Logarithmic sampling for better harmonic distribution
+        log_indices = np.logspace(np.log10(2), np.log10(len(fft_data)), self.num_rays + 1)
+        indices = log_indices.astype(int)
         
         # Angle step
         angle_step = 360 / self.num_rays
@@ -40,13 +41,22 @@ class RadialBars(BaseVisualizer):
         self.rotation += beat_magnitude * 2
         
         for i in range(self.num_rays):
-            # Get magnitude
-            start_idx = i * samples_per_ray
-            end_idx = start_idx + samples_per_ray
-            magnitude = np.mean(fft_data[start_idx:end_idx]) if end_idx <= len(fft_data) else 0
+            # Get indices for this bar
+            start_idx = indices[i]
+            end_idx = indices[i+1]
+            
+            # Ensure at least one bin is sampled
+            if end_idx <= start_idx:
+                end_idx = start_idx + 1
+            
+            # Average magnitude
+            if start_idx < len(fft_data):
+                magnitude = np.mean(fft_data[start_idx:end_idx])
+            else:
+                magnitude = 0
             
             # Calculate bar dimensions
-            bar_length = magnitude * max_radius * 2.0
+            bar_length = magnitude * max_radius * 2.5 # Increased scaling for visibility
             bar_length = min(bar_length, max_radius)
             bar_width = 15
             

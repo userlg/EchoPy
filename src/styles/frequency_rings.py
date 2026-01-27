@@ -26,14 +26,20 @@ class FrequencyRings(BaseVisualizer):
         center_x = self.width / 2
         center_y = self.height / 2
         
-        # Sample FFT into frequency bands
-        samples_per_ring = len(fft_data) // self.num_rings
+        # Logarithmic sampling
+        log_indices = np.logspace(np.log10(2), np.log10(len(fft_data)), self.num_rings + 1)
+        indices = log_indices.astype(int)
         
         current_magnitudes = []
         for i in range(self.num_rings):
-            start_idx = i * samples_per_ring
-            end_idx = start_idx + samples_per_ring
-            magnitude = np.mean(fft_data[start_idx:end_idx]) if end_idx <= len(fft_data) else 0
+            start_idx = indices[i]
+            end_idx = indices[i+1]
+            
+            # Ensure at least one bin is sampled
+            if end_idx <= start_idx:
+                end_idx = start_idx + 1
+                
+            magnitude = np.mean(fft_data[start_idx:end_idx]) if start_idx < len(fft_data) else 0
             current_magnitudes.append(magnitude)
         
         # Add to history

@@ -16,6 +16,7 @@ class AudioLines(BaseVisualizer):
         super().__init__("Audio Lines")
         self.num_lines = 5
         self.line_width = 3
+        self.time = 0
     
     def render(self, painter: QPainter, waveform: np.ndarray, fft_data: np.ndarray):
         """Render audio lines."""
@@ -45,7 +46,9 @@ class AudioLines(BaseVisualizer):
                 magnitude = np.mean(fft_data[start_idx:end_idx]) if end_idx <= len(fft_data) else 0
                 
                 x = (i / (num_points - 1)) * self.width
-                y = base_y + math.sin(i * 0.5 + layer) * 50 + magnitude * 150
+                # Added self.time * 0.05 for constant flow, magnitude * 150 for audio reaction
+                phase = i * 0.5 + layer + self.time * 0.05
+                y = base_y + math.sin(phase) * 50 + magnitude * 150
                 
                 points.append(QPointF(x, y))
             
@@ -83,3 +86,6 @@ class AudioLines(BaseVisualizer):
             pen.setWidth(self.line_width + 4)
             painter.setPen(pen)
             painter.drawPath(path)
+            
+        # Increment time for next frame
+        self.time += 1
