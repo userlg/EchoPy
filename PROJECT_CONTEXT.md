@@ -18,14 +18,17 @@ EchoPy is a real-time music visualizer built with Python, PySide6, and NumPy. It
 - **AudioProcessor**: Decoupled from UI, supports dependency injection for smoothing buffers.
 - **Resource Management**: Externalized QSS and image resources.
 
-## Persistent Issues (Solved 2026-01-27)
+- **Hardware Driver Conflict**: NVIDIA SyncMaster (HDMI/DP).
+  - **Status**: ✅ SOLVED (2026-01-28)
+  - **Solution**: Integrated native WASAPI Loopback via `PyAudioWPatch`. The engine now automatically detects and utilizes the correct loopback device even on graphics card outputs.
+- **NumPy 2.0 Compatibility**: The system uses NumPy 2.4.1.
+  - **Optimization**: `AudioProcessor` callback has been refactored for vectorized Boolean masking to avoid performance bottlenecks (Input Overflow).
 
-- **Audio Capture Mismatch**: Bypassed using "Stereo Mix" + Windows "Listen" feature.
-- **Silent Signal**: Fixed by correct Windows routing and hardware Hz synchronization.
-- **Responsiveness**: Increased gain from 20x to 50x and reduced smoothing to 0.6 for more "aggressive" animations.
-- **Dynamic Range Restoration**: Removed experimental AGC and Log-scaling that were causing visual saturation. Reverted to a robust linear gain (x40) with stable normalization.
+## Current State (Updated 2026-01-28)
 
-## Current State
-
-- **Audio Status**: ACTIVE and capturing system sound via AGC.
-- **Visuals**: Maximum energy mode (Smoothing 0.5, Log-scaling active).
+- **Logic**: Fully optimized for NumPy 2.0.
+- **Audio Capture**: IMPROVED.
+  - Integrated **Weighted Multichannel Downmixing** (inspired by CAVA) to preserve surround audio fidelity on NVIDIA SyncMaster/HDMI drivers.
+  - Enhanced **WASAPI Loopback Discovery** with name-matching and "SyncMaster" prioritization.
+- **Visuals**: Superior 'liquid' movement achieved via **CavaFilter** (Integral + Fall-off filters), replacing simple EMA smoothing.
+- **Calibration**: `NOISE_FLOOR = 0.00020` and `GAIN = 15000` maintained for clean response.

@@ -2240,3 +2240,276 @@ sounddevice.PortAudioError: Error opening InputStream: Invalid sample rate [PaEr
 2026-01-27 19:40:30,688 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 2ch
 2026-01-27 19:40:30,740 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
 2026-01-27 19:40:45,833 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:43:25,837 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:43:25,846 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:43:25,847 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:43:25,849 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:43:25,849 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:43:25,849 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 2ch
+2026-01-27 19:43:25,902 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:44:12,175 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:44:12,186 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:44:12,187 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:44:12,189 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:44:12,189 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:44:12,189 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 2ch
+2026-01-27 19:44:12,210 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:44:49,394 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:44:53,092 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:46:02,711 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:46:02,720 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:46:02,721 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:46:02,723 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:46:02,723 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:46:02,724 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 2ch
+2026-01-27 19:46:02,779 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:46:28,129 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:46:32,129 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:46:32,138 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:46:32,140 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:46:32,142 - EchoPy - INFO - Using High Quality WASAPI Stereo Mix: Stereo Mix (3- Realtek High Definition Audio) (index 14)
+2026-01-27 19:46:32,143 - EchoPy - INFO - Using loopback device for system audio capture: 14
+2026-01-27 19:46:32,143 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 2ch
+2026-01-27 19:46:32,198 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 14)
+2026-01-27 19:46:41,769 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:49:54,779 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:49:54,788 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:49:54,789 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:49:54,791 - EchoPy - INFO - Using Hardware Stereo Mix: Stereo Mix (3- Realtek High Def (index 2)
+2026-01-27 19:49:54,792 - EchoPy - INFO - Using loopback device for system audio capture: 2
+2026-01-27 19:49:54,792 - EchoPy - INFO - Attempting capture: MME | 44100Hz | 2ch
+2026-01-27 19:49:54,841 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 2)
+2026-01-27 19:49:55,398 - EchoPy - WARNING - Audio callback status: input overflow
+2026-01-27 19:50:08,743 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:50:13,261 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:50:13,271 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:50:13,272 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:50:13,274 - EchoPy - INFO - Using Hardware Stereo Mix: Stereo Mix (3- Realtek High Def (index 2)
+2026-01-27 19:50:13,274 - EchoPy - INFO - Using loopback device for system audio capture: 2
+2026-01-27 19:50:13,274 - EchoPy - INFO - Attempting capture: MME | 44100Hz | 2ch
+2026-01-27 19:50:13,319 - EchoPy - INFO - Audio capture SUCCESSFUL (device: 2)
+2026-01-27 19:50:13,939 - EchoPy - WARNING - Audio callback status: input overflow
+2026-01-27 19:50:25,703 - EchoPy - INFO - Audio capture stopped
+2026-01-27 19:50:42,379 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:50:42,388 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:50:42,389 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:50:42,391 - EchoPy - INFO - Using Native WASAPI Loopback on playback device: SyncMaster (NVIDIA High Definition Audio) (index 12)
+2026-01-27 19:50:42,391 - EchoPy - INFO - Using loopback device for system audio capture: 12
+2026-01-27 19:50:42,391 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 0ch
+2026-01-27 19:50:42,391 - EchoPy - WARNING - Could not enable WASAPI Loopback settings: WasapiSettings.__init__() got an unexpected keyword argument 'loopback'
+2026-01-27 19:50:42,392 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-27 19:50:42,392 - EchoPy - WARNING - Could not enable WASAPI Loopback settings: WasapiSettings.__init__() got an unexpected keyword argument 'loopback'
+2026-01-27 19:50:42,393 - EchoPy - INFO - Attempting capture: Windows WASAPI | 44100Hz | 0ch
+2026-01-27 19:50:42,393 - EchoPy - WARNING - Could not enable WASAPI Loopback settings: WasapiSettings.__init__() got an unexpected keyword argument 'loopback'
+2026-01-27 19:50:42,393 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 0ch
+2026-01-27 19:50:42,393 - EchoPy - WARNING - Could not enable WASAPI Loopback settings: WasapiSettings.__init__() got an unexpected keyword argument 'loopback'
+2026-01-27 19:50:42,393 - EchoPy - WARNING - WASAPI failed, searching for MME fallback...
+2026-01-27 19:50:42,393 - EchoPy - INFO - Found MME fallback device: SyncMaster (NVIDIA High Definit (index 4)
+2026-01-27 19:50:42,393 - EchoPy - INFO - Attempting capture: MME | 44100Hz | 0ch
+2026-01-27 19:50:42,393 - EchoPy - INFO - Attempting capture: MME | 44100Hz | 1ch
+2026-01-27 19:50:42,394 - EchoPy - INFO - Attempting capture: MME | 44100Hz | 0ch
+2026-01-27 19:50:42,394 - EchoPy - INFO - Attempting capture: MME | 48000Hz | 0ch
+2026-01-27 19:50:42,394 - EchoPy - ERROR - FATAL: All capture attempts failed for device 4: Error opening InputStream: Invalid number of channels [PaErrorCode -9998]
+2026-01-27 19:57:08,153 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 19:57:08,162 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 19:57:08,164 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 19:57:08,166 - EchoPy - INFO - Using Native WASAPI Loopback on playback device: SyncMaster (NVIDIA High Definition Audio) (index 12)
+2026-01-27 19:57:08,166 - EchoPy - INFO - Using loopback device for system audio capture: 12
+2026-01-27 19:57:08,167 - EchoPy - ERROR - FATAL: All capture attempts failed for device 12: cannot access local variable 'sd' where it is not associated with a value
+2026-01-27 20:44:01,770 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-27 20:44:01,781 - EchoPy - INFO - Changing theme to: deep space
+2026-01-27 20:44:01,783 - EchoPy - INFO - Changing style to: waveform
+2026-01-27 20:44:01,785 - EchoPy - INFO - Using Native WASAPI Loopback on playback device: SyncMaster (NVIDIA High Definition Audio) (index 12)
+2026-01-27 20:44:01,786 - EchoPy - INFO - Using loopback device for system audio capture: 12
+2026-01-27 20:44:01,786 - EchoPy - ERROR - FATAL: All capture attempts failed for device 12: cannot access local variable 'sd' where it is not associated with a value
+2026-01-28 08:32:23,861 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 08:32:23,888 - EchoPy - INFO - Changing theme to: deep space
+2026-01-28 08:32:23,889 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 08:32:23,893 - EchoPy - INFO - Using Native WASAPI Loopback on: SyncMaster (NVIDIA High Definition Audio) (index 12)
+2026-01-28 08:32:23,894 - EchoPy - INFO - Using loopback device for system audio capture: 12
+2026-01-28 08:32:23,894 - EchoPy - ERROR - FATAL: All capture attempts failed for device 12: cannot access local variable 'sd' where it is not associated with a value
+2026-01-28 08:34:09,385 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 08:34:09,394 - EchoPy - INFO - Changing theme to: deep space
+2026-01-28 08:34:09,395 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 08:34:09,398 - EchoPy - INFO - Using Native WASAPI Loopback on: SyncMaster (NVIDIA High Definition Audio) (index 12)
+2026-01-28 08:34:09,398 - EchoPy - INFO - Using loopback device for system audio capture: 12
+2026-01-28 08:34:09,399 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 0ch
+2026-01-28 08:34:09,419 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-28 08:34:09,421 - EchoPy - INFO - Attempting capture: Windows WASAPI | 44100Hz | 0ch
+2026-01-28 08:34:09,422 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 0ch
+2026-01-28 08:34:09,422 - EchoPy - WARNING - WASAPI failed, searching for MME fallback...
+2026-01-28 08:34:09,423 - EchoPy - INFO - Found MME fallback device: SyncMaster (NVIDIA High Definit (index 4)
+2026-01-28 08:34:09,423 - EchoPy - INFO - Attempting capture: MME | 44100Hz | 0ch
+2026-01-28 08:34:09,423 - EchoPy - INFO - Attempting capture: MME | 44100Hz | 1ch
+2026-01-28 08:34:09,424 - EchoPy - INFO - Attempting capture: MME | 44100Hz | 0ch
+2026-01-28 08:34:09,424 - EchoPy - INFO - Attempting capture: MME | 48000Hz | 0ch
+2026-01-28 08:34:09,425 - EchoPy - ERROR - FATAL: All capture attempts failed for device 4: Error opening InputStream: Invalid number of channels [PaErrorCode -9998]
+2026-01-28 08:37:31,422 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 08:37:31,431 - EchoPy - INFO - Changing theme to: deep space
+2026-01-28 08:37:31,433 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 08:37:31,435 - EchoPy - INFO - Using Native WASAPI Loopback on: SyncMaster (NVIDIA High Definition Audio) (index 12)
+2026-01-28 08:37:31,435 - EchoPy - INFO - Using loopback device for system audio capture: 12
+2026-01-28 08:37:31,436 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 2ch
+2026-01-28 08:37:31,437 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-28 08:37:31,437 - EchoPy - INFO - Attempting capture: Windows WASAPI | 44100Hz | 2ch
+2026-01-28 08:37:31,438 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 2ch
+2026-01-28 08:37:31,438 - EchoPy - WARNING - WASAPI failed, searching for MME fallback...
+2026-01-28 08:37:31,438 - EchoPy - INFO - Found MME fallback device: SyncMaster (NVIDIA High Definit (index 4)
+2026-01-28 08:37:31,439 - EchoPy - INFO - Attempting capture: MME | 44100Hz | 2ch
+2026-01-28 08:37:31,439 - EchoPy - INFO - Attempting capture: MME | 44100Hz | 1ch
+2026-01-28 08:37:31,440 - EchoPy - INFO - Attempting capture: MME | 44100Hz | 2ch
+2026-01-28 08:37:31,440 - EchoPy - INFO - Attempting capture: MME | 48000Hz | 2ch
+2026-01-28 08:37:31,440 - EchoPy - ERROR - FATAL: All capture attempts failed for device 4: Error opening InputStream: Invalid number of channels [PaErrorCode -9998]
+2026-01-28 08:42:14,105 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 08:42:14,114 - EchoPy - INFO - Changing theme to: deep space
+2026-01-28 08:42:14,115 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 08:42:14,120 - EchoPy - INFO - Using Native WASAPI Loopback on: SyncMaster (NVIDIA High Definition Audio) (index 12)
+2026-01-28 08:42:14,122 - EchoPy - INFO - Using loopback device for system audio capture: 12
+2026-01-28 08:42:14,123 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 2ch
+2026-01-28 08:42:14,125 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 1ch
+2026-01-28 08:42:14,125 - EchoPy - INFO - Attempting capture: Windows WASAPI | 44100Hz | 2ch
+2026-01-28 08:42:14,125 - EchoPy - INFO - Attempting capture: Windows WASAPI | 48000Hz | 2ch
+2026-01-28 08:42:14,126 - EchoPy - WARNING - WASAPI failed, searching for MME fallback...
+2026-01-28 08:42:14,126 - EchoPy - INFO - Found MME fallback device: SyncMaster (NVIDIA High Definit (index 4)
+2026-01-28 08:42:14,126 - EchoPy - INFO - Attempting capture: MME | 44100Hz | 2ch
+2026-01-28 08:42:14,126 - EchoPy - INFO - Attempting capture: MME | 44100Hz | 1ch
+2026-01-28 08:42:14,127 - EchoPy - INFO - Attempting capture: MME | 44100Hz | 2ch
+2026-01-28 08:42:14,127 - EchoPy - INFO - Attempting capture: MME | 48000Hz | 2ch
+2026-01-28 08:42:14,127 - EchoPy - ERROR - FATAL: All capture attempts failed for device 4: Error opening InputStream: Invalid number of channels [PaErrorCode -9998]
+2026-01-28 08:44:21,203 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 08:44:21,212 - EchoPy - INFO - Changing theme to: deep space
+2026-01-28 08:44:21,213 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 08:44:21,215 - EchoPy - INFO - Trying: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 48000Hz | 2ch
+2026-01-28 08:44:21,217 - EchoPy - INFO - Trying: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 48000Hz | 2ch
+2026-01-28 08:44:21,217 - EchoPy - INFO - Trying: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 44100Hz | 2ch
+2026-01-28 08:44:21,217 - EchoPy - INFO - Trying: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 48000Hz | 1ch
+2026-01-28 08:44:21,218 - EchoPy - INFO - Trying: Stereo Mix (3- Realtek High Def | MME | 44100Hz | 2ch
+2026-01-28 08:44:21,269 - EchoPy - INFO - Audio capture SUCCESS: Stereo Mix (3- Realtek High Def
+2026-01-28 08:44:21,813 - EchoPy - WARNING - Audio callback status: input overflow
+2026-01-28 08:44:28,797 - EchoPy - INFO - Audio capture stopped
+2026-01-28 08:52:45,018 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 08:52:45,028 - EchoPy - INFO - Changing theme to: deep space
+2026-01-28 08:52:45,029 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 08:52:45,033 - EchoPy - INFO - Trying: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 48000Hz | 2ch
+2026-01-28 08:52:45,034 - EchoPy - INFO - Trying: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 48000Hz | 2ch
+2026-01-28 08:52:45,035 - EchoPy - INFO - Trying: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 44100Hz | 2ch
+2026-01-28 08:52:45,036 - EchoPy - INFO - Trying: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 48000Hz | 1ch
+2026-01-28 08:52:45,036 - EchoPy - INFO - Trying: Stereo Mix (3- Realtek High Def | MME | 44100Hz | 2ch
+2026-01-28 08:52:45,094 - EchoPy - INFO - Audio capture SUCCESS: Stereo Mix (3- Realtek High Def
+2026-01-28 08:52:45,621 - EchoPy - WARNING - Audio callback status: input overflow
+2026-01-28 08:53:20,097 - EchoPy - INFO - Audio capture stopped
+2026-01-28 08:53:20,097 - EchoPy - INFO - Trying: Stereo Mix (3- Realtek High Definition Audio) | Windows DirectSound | 44100Hz | 2ch
+2026-01-28 08:53:20,136 - EchoPy - INFO - Audio capture SUCCESS: Stereo Mix (3- Realtek High Definition Audio)
+2026-01-28 08:53:20,137 - EchoPy - INFO - Gain set to: 60.0
+2026-01-28 08:53:23,562 - EchoPy - INFO - Audio capture stopped
+2026-01-28 08:53:23,563 - EchoPy - INFO - Trying: Stereo Mix (Realtek HD Audio Stereo input) | Windows WDM-KS | 44100Hz | 2ch
+2026-01-28 08:53:23,571 - EchoPy - INFO - Audio capture SUCCESS: Stereo Mix (Realtek HD Audio Stereo input)
+2026-01-28 08:53:23,572 - EchoPy - INFO - Gain set to: 60.0
+2026-01-28 08:53:30,562 - EchoPy - INFO - Audio capture stopped
+2026-01-28 09:05:32,267 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 09:05:32,275 - EchoPy - INFO - Changing theme to: deep space
+2026-01-28 09:05:32,277 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 09:05:32,281 - EchoPy - INFO - Trying: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 48000Hz | 2ch
+2026-01-28 09:05:32,283 - EchoPy - INFO - Trying: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 48000Hz | 2ch
+2026-01-28 09:05:32,283 - EchoPy - INFO - Trying: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 44100Hz | 2ch
+2026-01-28 09:05:32,284 - EchoPy - INFO - Trying: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 48000Hz | 1ch
+2026-01-28 09:05:32,284 - EchoPy - INFO - Trying: Stereo Mix (3- Realtek High Def | MME | 44100Hz | 2ch
+2026-01-28 09:05:32,331 - EchoPy - INFO - Audio capture SUCCESS: Stereo Mix (3- Realtek High Def
+2026-01-28 09:05:32,871 - EchoPy - WARNING - Audio callback status: input overflow
+2026-01-28 09:05:46,305 - EchoPy - INFO - Audio capture stopped
+2026-01-28 09:07:47,005 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 09:07:47,033 - EchoPy - INFO - Changing theme to: deep space
+2026-01-28 09:07:47,034 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 09:07:47,039 - EchoPy - INFO - Targeting: SyncMaster (NVIDIA High Definition Audio) | Channels: 2 | Rate: 48000
+2026-01-28 09:07:47,064 - EchoPy - INFO - Targeting: SyncMaster (NVIDIA High Definition Audio) | Channels: 2 | Rate: 48000
+2026-01-28 09:07:47,065 - EchoPy - INFO - Targeting: SyncMaster (NVIDIA High Definition Audio) | Channels: 2 | Rate: 44100
+2026-01-28 09:07:47,066 - EchoPy - INFO - Targeting: SyncMaster (NVIDIA High Definition Audio) | Channels: 2 | Rate: 48000
+2026-01-28 09:07:47,066 - EchoPy - INFO - Targeting: SyncMaster (NVIDIA High Definition Audio) | Channels: 2 | Rate: 44100
+2026-01-28 09:07:47,067 - EchoPy - INFO - Targeting: Stereo Mix (3- Realtek High Def | Channels: 2 | Rate: 44100
+2026-01-28 09:07:47,115 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 44100Hz)
+2026-01-28 09:07:47,746 - EchoPy - WARNING - Audio callback status: input overflow
+2026-01-28 09:11:33,832 - EchoPy - INFO - Audio capture stopped
+2026-01-28 09:13:29,435 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 09:13:29,446 - EchoPy - INFO - Changing theme to: deep space
+2026-01-28 09:13:29,446 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 09:13:29,449 - EchoPy - INFO - Trying: SyncMaster (NVIDIA High Definition Audio) | API: Windows WASAPI | 48000Hz | 2ch
+2026-01-28 09:13:29,450 - EchoPy - INFO - Trying: SyncMaster (NVIDIA High Definition Audio) | API: Windows WASAPI | 48000Hz | 2ch
+2026-01-28 09:13:29,451 - EchoPy - INFO - Trying: SyncMaster (NVIDIA High Definition Audio) | API: Windows WASAPI | 44100Hz | 2ch
+2026-01-28 09:13:29,452 - EchoPy - INFO - Trying: SyncMaster (NVIDIA High Definition Audio) | API: Windows WASAPI | 48000Hz | 1ch
+2026-01-28 09:13:29,452 - EchoPy - INFO - Trying: SyncMaster (NVIDIA High Definition Audio) | API: Windows WASAPI | 48000Hz | 1ch
+2026-01-28 09:13:29,452 - EchoPy - INFO - Trying: SyncMaster (NVIDIA High Definition Audio) | API: Windows WASAPI | 44100Hz | 1ch
+2026-01-28 09:13:29,453 - EchoPy - INFO - Trying: Stereo Mix (3- Realtek High Def | API: MME | 44100Hz | 2ch
+2026-01-28 09:13:29,501 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 44100Hz)
+2026-01-28 09:13:30,026 - EchoPy - WARNING - Audio callback status: input overflow
+2026-01-28 09:13:50,850 - EchoPy - INFO - Audio capture stopped
+2026-01-28 09:31:03,912 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 09:31:03,921 - EchoPy - INFO - Changing theme to: deep space
+2026-01-28 09:31:03,922 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 09:31:03,926 - EchoPy - INFO - Capture attempt: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 48000Hz | 2ch
+2026-01-28 09:31:03,927 - EchoPy - INFO - Capture attempt: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 44100Hz | 2ch
+2026-01-28 09:31:03,927 - EchoPy - INFO - Capture attempt: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 48000Hz | 1ch
+2026-01-28 09:31:03,928 - EchoPy - INFO - Capture attempt: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 44100Hz | 1ch
+2026-01-28 09:31:03,928 - EchoPy - INFO - Capture attempt: Stereo Mix (3- Realtek High Def | MME | 48000Hz | 2ch
+2026-01-28 09:31:03,978 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 48000Hz)
+2026-01-28 09:31:04,516 - EchoPy - WARNING - Audio callback status: input overflow
+2026-01-28 09:31:15,409 - EchoPy - INFO - Audio capture stopped
+2026-01-28 09:31:17,944 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 09:31:17,954 - EchoPy - INFO - Changing theme to: deep space
+2026-01-28 09:31:17,956 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 09:31:17,961 - EchoPy - INFO - Capture attempt: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 48000Hz | 2ch
+2026-01-28 09:31:17,962 - EchoPy - INFO - Capture attempt: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 44100Hz | 2ch
+2026-01-28 09:31:17,962 - EchoPy - INFO - Capture attempt: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 48000Hz | 1ch
+2026-01-28 09:31:17,963 - EchoPy - INFO - Capture attempt: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 44100Hz | 1ch
+2026-01-28 09:31:17,963 - EchoPy - INFO - Capture attempt: Stereo Mix (3- Realtek High Def | MME | 48000Hz | 2ch
+2026-01-28 09:31:18,037 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 48000Hz)
+2026-01-28 09:31:18,567 - EchoPy - WARNING - Audio callback status: input overflow
+2026-01-28 09:31:32,366 - EchoPy - INFO - Audio capture stopped
+2026-01-28 09:31:42,160 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 09:31:42,169 - EchoPy - INFO - Changing theme to: deep space
+2026-01-28 09:31:42,170 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 09:31:42,173 - EchoPy - INFO - Capture attempt: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 48000Hz | 2ch
+2026-01-28 09:31:42,175 - EchoPy - INFO - Capture attempt: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 44100Hz | 2ch
+2026-01-28 09:31:42,175 - EchoPy - INFO - Capture attempt: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 48000Hz | 1ch
+2026-01-28 09:31:42,176 - EchoPy - INFO - Capture attempt: SyncMaster (NVIDIA High Definition Audio) | Windows WASAPI | 44100Hz | 1ch
+2026-01-28 09:31:42,176 - EchoPy - INFO - Capture attempt: Stereo Mix (3- Realtek High Def | MME | 48000Hz | 2ch
+2026-01-28 09:31:42,223 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 48000Hz)
+2026-01-28 09:31:42,732 - EchoPy - WARNING - Audio callback status: input overflow
+2026-01-28 09:32:20,546 - EchoPy - INFO - Audio capture stopped
+2026-01-28 09:36:13,495 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 09:36:13,506 - EchoPy - INFO - Changing theme to: deep space
+2026-01-28 09:36:13,507 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 09:36:13,510 - EchoPy - INFO - Attempting: SyncMaster (NVIDIA High Definition Audio) | 48000Hz | 2ch
+2026-01-28 09:36:13,511 - EchoPy - INFO - Attempting: SyncMaster (NVIDIA High Definition Audio) | 44100Hz | 2ch
+2026-01-28 09:36:13,511 - EchoPy - INFO - Attempting: SyncMaster (NVIDIA High Definition Audio) | 48000Hz | 1ch
+2026-01-28 09:36:13,512 - EchoPy - INFO - Attempting: SyncMaster (NVIDIA High Definition Audio) | 44100Hz | 1ch
+2026-01-28 09:36:13,512 - EchoPy - INFO - Attempting: Stereo Mix (3- Realtek High Def | 48000Hz | 2ch
+2026-01-28 09:36:13,563 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 48000Hz)
+2026-01-28 09:36:21,571 - EchoPy - INFO - Audio capture stopped
+2026-01-28 09:37:17,672 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 09:37:17,682 - EchoPy - INFO - Changing theme to: deep space
+2026-01-28 09:37:17,683 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 09:37:17,737 - EchoPy - INFO - PyAudioWPatch found loopback: SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 09:37:17,738 - EchoPy - INFO - Attempting: SyncMaster (NVIDIA High Definition Audio) | 48000Hz | 2ch
+2026-01-28 09:37:17,740 - EchoPy - INFO - Attempting: SyncMaster (NVIDIA High Definition Audio) | 44100Hz | 2ch
+2026-01-28 09:37:17,740 - EchoPy - INFO - Attempting: SyncMaster (NVIDIA High Definition Audio) | 48000Hz | 1ch
+2026-01-28 09:37:17,740 - EchoPy - INFO - Attempting: SyncMaster (NVIDIA High Definition Audio) | 44100Hz | 1ch
+2026-01-28 09:37:17,741 - EchoPy - INFO - Attempting: Stereo Mix (3- Realtek High Def | 48000Hz | 2ch
+2026-01-28 09:37:17,788 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 48000Hz)
+2026-01-28 09:37:22,525 - EchoPy - INFO - Audio capture stopped
+2026-01-28 09:37:32,848 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 09:37:32,857 - EchoPy - INFO - Changing theme to: deep space
+2026-01-28 09:37:32,859 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 09:37:33,047 - EchoPy - INFO - PyAudioWPatch found loopback: SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 09:37:33,053 - EchoPy - INFO - Attempting: SyncMaster (NVIDIA High Definition Audio) | 48000Hz | 2ch
+2026-01-28 09:37:33,059 - EchoPy - INFO - Attempting: SyncMaster (NVIDIA High Definition Audio) | 44100Hz | 2ch
+2026-01-28 09:37:33,059 - EchoPy - INFO - Attempting: SyncMaster (NVIDIA High Definition Audio) | 48000Hz | 1ch
+2026-01-28 09:37:33,060 - EchoPy - INFO - Attempting: SyncMaster (NVIDIA High Definition Audio) | 44100Hz | 1ch
+2026-01-28 09:37:33,090 - EchoPy - INFO - Attempting: Stereo Mix (3- Realtek High Def | 48000Hz | 2ch
+2026-01-28 09:37:33,162 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 48000Hz)
+2026-01-28 09:37:38,023 - EchoPy - INFO - Audio capture stopped
+2026-01-28 10:12:36,330 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 10:12:36,340 - EchoPy - INFO - Changing theme to: deep space
+2026-01-28 10:12:36,342 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 10:12:36,405 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 10:12:36,420 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 10:12:59,066 - EchoPy - INFO - Audio capture stopped

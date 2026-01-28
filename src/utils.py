@@ -129,6 +129,60 @@ class SmoothingBuffer:
         self.buffer = np.zeros(self.size, dtype=np.float32)
 
 
+class CavaFilter:
+    """
+    Advanced filter inspired by CAVA (Integral Filter + Fall-off).
+    Provides smoother and more 'liquid' transitions than simple EMA.
+    """
+    
+    def __init__(self, size: int, integral_weight: float = 0.7, gravity: float = 0.03):
+        """
+        Initialize CavaFilter.
+        
+        Args:
+            size: Buffer size
+            integral_weight: Weight of previous values in the integral (0.0 to 1.0)
+            gravity: How fast the bars fall down (higher = faster)
+        """
+        self.size = size
+        self.integral_weight = integral_weight
+        self.gravity = gravity
+        self.prev_values = np.zeros(size, dtype=np.float32)
+        self.integral_buffer = np.zeros(size, dtype=np.float32)
+        
+    def update(self, values: np.ndarray) -> np.ndarray:
+        """
+        Apply CAVA-style filtering.
+        """
+        if len(values) != self.size:
+            self.size = len(values)
+            self.prev_values = np.zeros(self.size, dtype=np.float32)
+            self.integral_buffer = np.zeros(self.size, dtype=np.float32)
+
+        # 1. Integral filter (Smooths the 'ascent')
+        # integral = (current * (1-weight)) + (prev_integral * weight)
+        self.integral_buffer = (values * (1.0 - self.integral_weight)) + (self.integral_buffer * self.integral_weight)
+        
+        # 2. Fall-off filter (Smooths the 'descent')
+        # If new value is lower than old, apply gravity
+        mask = self.integral_buffer < (self.prev_values - self.gravity)
+        output = np.where(mask, self.prev_values - self.gravity, self.integral_buffer)
+        
+        # Clip to ensure no negative values
+        output = np.maximum(0.0, output)
+        
+        self.prev_values = output.copy()
+        return output
+
+    def set_smoothing(self, smoothing: float):
+        """Map generic smoothing (0-1) to integral weight."""
+        self.integral_weight = clamp(smoothing, 0.1, 0.95)
+    
+    def set_gravity(self, gravity: float):
+        """Set gravity factor."""
+        self.gravity = gravity
+
+
 def load_image(path: str, width: Optional[int] = None, height: Optional[int] = None) -> Optional[QPixmap]:
     """
     Load and optionally scale an image.

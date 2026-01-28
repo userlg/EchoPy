@@ -54,16 +54,16 @@ class VisualizerWidget(QWidget):
     """Widget that renders visualizations with dynamic behavior."""
     
     # --- Smart State Manager Configuration ---
-    # Calibrated for NOISE_FLOOR 0.00018
-    THRESHOLD_ON = 0.01     # 1% volume to wake up (Sensible for soft intros)
-    THRESHOLD_OFF = 0.005   # 0.5% volume to sleep
-    SILENCE_TIMEOUT = 10    # Frames of silence before sleeping
+    # Now using RMS Activity Level (post-noise floor) for absolute stability
+    # Sensitivity calibrated for low-volume system audio (e.g. YouTube at 30%)
+    RAW_THRESHOLD_ON = 0.0008  # RMS Wake up (8e-4) - CLEAN SIGNAL
+    RAW_THRESHOLD_OFF = 0.0004 # RMS Sleep floor
+    SILENCE_TIMEOUT = 45       # ~0.75s of silence before sleeping
     
     def __init__(self, parent=None):
         """Initialize visualizer widget."""
         super().__init__(parent)
         
-        # ... (keep existing init code, but add silence counter)
         # Set widget properties
         self.setMinimumSize(800, 600)
         self.setAttribute(Qt.WA_OpaquePaintEvent)
@@ -77,6 +77,7 @@ class VisualizerWidget(QWidget):
         
         # Audio analysis state
         self.current_max_peak = 0.0
+        self.activity_level = 0.0 # Smoothed activity level (post-RMS)
         self.is_silent = True
         self._silence_frame_counter = 0 # For hysteresis
         
@@ -95,12 +96,11 @@ class VisualizerWidget(QWidget):
         self.animation_timer.timeout.connect(self.update)
         self.animation_timer.start(16)  # 60 FPS
         
-    # ... (Keep setters as they are - no changes there)
-    
     def set_visualizer(self, visualizer: BaseVisualizer):
         """Set the active visualizer."""
         self.visualizer = visualizer
         if self.visualizer:
+            self.visualizer.set_theme(self.current_theme)
             self.visualizer.set_theme(self.current_theme)
             self.visualizer.set_size(self.width(), self.height())
             logger.debug(f"Visualizer configured: {self.visualizer.name}")
@@ -121,51 +121,62 @@ class VisualizerWidget(QWidget):
         self.debug_overlay.visible = show
         self.update()
     
-    def update_audio_data(self, waveform: np.ndarray, fft_data: np.ndarray):
+    def update_audio_data(self, waveform: np.ndarray, fft_data: np.ndarray, activity_signal: float):
         """
-        Update audio data with Smart State Detection (Hysteresis).
+        Update audio data with RMS Temporal Hysteresis.
+        activity_signal is the RMS of the 'cleaned' audio.
         """
-        # 1. Measure Peak
-        peak = 0.0
-        if len(waveform) > 0:
-            peak = np.max(np.abs(waveform))
-        self.current_max_peak = peak
-        
-        # 2. State Machine Logic
+        self._update_activity_metrics(activity_signal, waveform)
+        self._update_state_machine()
+        self._update_internal_buffers(waveform, fft_data)
+        self._handle_debug_logging(waveform)
+
+    def _update_activity_metrics(self, activity_signal: float, waveform: np.ndarray):
+        """Calculate and smooth activity metrics."""
+        alpha = 0.15 # Sensitivity factor
+        self.activity_level = ((1.0 - alpha) * self.activity_level) + (alpha * activity_signal)
+        self.current_max_peak = np.max(np.abs(waveform)) if len(waveform) > 0 else 0.0
+
+    def _update_state_machine(self):
+        """Update the visualizer's active/silent state."""
         if self.is_silent:
-            # WAKE UP LOGIC
-            if peak > self.THRESHOLD_ON:
+            if self.activity_level > self.RAW_THRESHOLD_ON:
                 self.is_silent = False
                 self._silence_frame_counter = 0
+                if not self.animation_timer.isActive():
+                    self.animation_timer.start(16)
+                    logger.debug(f"Visualizer WAKING UP (Activity: {self.activity_level:.6f})")
         else:
-            # SLEEP LOGIC
-            if peak < self.THRESHOLD_OFF:
+            if self.activity_level < self.RAW_THRESHOLD_OFF:
                 self._silence_frame_counter += 1
                 if self._silence_frame_counter > self.SILENCE_TIMEOUT:
                     self.is_silent = True
+                    self.animation_timer.stop()
+                    logger.debug("Visualizer SLEEPING (Dynamic Idling)")
+                    self.update() # Clear screen
             else:
-                self._silence_frame_counter = 0 # Reset if we see signal
-        
-        # 3. Data Processing
+                self._silence_frame_counter = 0
+
+    def _update_internal_buffers(self, waveform: np.ndarray, fft_data: np.ndarray):
+        """Update data buffers based on current state."""
         if not self.is_silent:
             self.waveform = waveform
             self.fft_data = fft_data
         else:
-            # Visual silence
-            self.waveform.fill(0)
-            self.fft_data.fill(0)
+            self.waveform.fill(0.0)
+            self.fft_data.fill(0.0)
 
-        # DEBUG: Print stats to console for analysis
+    def _handle_debug_logging(self, waveform: np.ndarray):
+        """Log diagnostic information periodically."""
         if not hasattr(self, '_debug_print_counter'):
             self._debug_print_counter = 0
-        
+            
         self._debug_print_counter += 1
-        # Print every ~60 updates (approx 1 sec if running at 60fps)
         if self._debug_print_counter >= 60:
             self._debug_print_counter = 0
-            mode_name = self.visualizer.name if self.visualizer else "None"
-            fps_count = self.debug_overlay.fps
-            print(f"STATS | FPS: {fps_count} | Mode: {mode_name} | Peak: {self.current_max_peak:.4f}", flush=True)
+            status = "SILENCE" if self.is_silent else "ACTIVE"
+            logger.debug(f"DIAG | Status: {status} | Peak: {self.current_max_peak:.3f} | Activity(RMS): {self.activity_level:.6f}")
+
         
     def paintEvent(self, event):
         """Paint event handler."""
