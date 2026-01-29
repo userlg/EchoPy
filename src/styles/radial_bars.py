@@ -14,7 +14,7 @@ class RadialBars(BaseVisualizer):
     def __init__(self):
         """Initialize radial bars visualizer."""
         super().__init__("Radial Bars")
-        self.num_rays = 36
+        self.num_rays = 88 # Doubled from 36
         self.rotation = 0
     
     def render(self, painter: QPainter, waveform: np.ndarray, fft_data: np.ndarray):
@@ -56,9 +56,9 @@ class RadialBars(BaseVisualizer):
                 magnitude = 0
             
             # Calculate bar dimensions
-            bar_length = magnitude * max_radius * 2.5 # Increased scaling for visibility
+            bar_length = magnitude * max_radius * 15.0 # Boosted from 2.5
             bar_length = min(bar_length, max_radius)
-            bar_width = 15
+            bar_width = 8 # Reduced from 15
             
             # Calculate angle with rotation
             angle = i * angle_step + self.rotation

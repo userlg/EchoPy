@@ -3,7 +3,7 @@
 from PySide6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QLabel,
                                 QComboBox, QSlider, QPushButton, QSpinBox,
                                 QGroupBox, QFormLayout)
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtCore import Qt, Signal, QTimer
 
 
 class SettingsDialog(QDialog):
@@ -16,6 +16,7 @@ class SettingsDialog(QDialog):
     smoothing_changed = Signal(float)
     gain_changed = Signal(float)
     sample_rate_changed = Signal(int)
+    opacity_changed = Signal(float)
     
     def __init__(self, parent=None):
         """Initialize settings dialog."""
@@ -23,6 +24,19 @@ class SettingsDialog(QDialog):
         self.setWindowTitle("EchoPy Settings")
         self.setModal(True)
         self.setMinimumWidth(400)
+        
+        self.setMinimumWidth(400)
+        
+        # State tracking (to prevent redundant apply calls)
+        self.current_state = {
+            "device": -1,
+            "sample_rate": 44100,
+            "fft_size": 2048,
+            "smoothing": 0.8,
+            "gain": 100.0,
+            "opacity": 0.3,
+            "fps_limit": 60
+        }
         
         self._setup_ui()
     
@@ -117,12 +131,16 @@ class SettingsDialog(QDialog):
         # Buttons
         button_layout = QHBoxLayout()
         
+        self.status_label = QLabel("")
+        self.status_label.setStyleSheet("color: #00ff00; font-weight: bold;")
+        
         self.apply_btn = QPushButton("Apply")
         self.apply_btn.clicked.connect(self._on_apply)
         
         self.close_btn = QPushButton("Close")
         self.close_btn.clicked.connect(self.accept)
         
+        button_layout.addWidget(self.status_label)
         button_layout.addStretch()
         button_layout.addWidget(self.apply_btn)
         button_layout.addWidget(self.close_btn)
@@ -140,10 +158,41 @@ class SettingsDialog(QDialog):
         """
         self.device_combo.clear()
         
+        self.device_combo.addItem("✨ Default System Audio (Auto)", -1)
+        
         for device in devices:
             name = f"{device['name']} ({device['channels']} ch)"
             self.device_combo.addItem(name, device['index'])
-    
+            
+    def load_current_settings(self, device_idx: int, sample_rate: int, fft_size: int, 
+                              smoothing: float, gain: float, opacity: float, fps: int):
+        """Load current settings into dialog state to prevent redundant updates."""
+        self.current_state = {
+            "device": device_idx,
+            "sample_rate": sample_rate,
+            "fft_size": fft_size,
+            "smoothing": smoothing,
+            "gain": gain,
+            "opacity": opacity,
+            "fps_limit": fps
+        }
+        
+        # Update UI to match
+        idx = self.device_combo.findData(device_idx)
+        if idx >= 0:
+            self.device_combo.setCurrentIndex(idx)
+        else:
+            # If current device not found (e.g. PyAudioWPatch loopback), select Auto
+            self.device_combo.setCurrentIndex(0) # Index 0 is now Auto (-1)
+        
+        self.sample_rate_combo.setCurrentText(str(sample_rate))
+        self.fft_combo.setCurrentText(str(fft_size))
+        
+        self.smoothing_slider.setValue(int(smoothing * 100))
+        self.gain_slider.setValue(int(gain))
+        self.opacity_slider.setValue(int(opacity * 100))
+        self.fps_spin.setValue(fps)
+
     def get_smoothing(self) -> float:
         """Get smoothing value."""
         return self.smoothing_slider.value() / 100.0
@@ -178,11 +227,39 @@ class SettingsDialog(QDialog):
     
     def _on_apply(self):
         """Handle apply button click."""
-        # Emit signals
-        device_idx = self.get_selected_device()
-        if device_idx is not None:
-            self.device_changed.emit(device_idx)
+        # Check and Emit signals ONLY if changed
         
-        self.smoothing_changed.emit(self.get_smoothing())
-        self.gain_changed.emit(self.get_gain())
-        self.sample_rate_changed.emit(self.get_sample_rate())
+        # 1. Device (Critical - causes restart)
+        new_device = self.get_selected_device()
+        if new_device != self.current_state["device"] and new_device is not None:
+            self.device_changed.emit(new_device)
+            self.current_state["device"] = new_device
+        
+        # 2. Smoothing
+        new_smoothing = self.get_smoothing()
+        if abs(new_smoothing - self.current_state["smoothing"]) > 0.01:
+            self.smoothing_changed.emit(new_smoothing)
+            self.current_state["smoothing"] = new_smoothing
+
+        # 3. Gain
+        new_gain = self.get_gain()
+        if abs(new_gain - self.current_state["gain"]) > 0.1:
+            self.gain_changed.emit(new_gain)
+            self.current_state["gain"] = new_gain
+            
+        # 4. Sample Rate (Also causes restart usually, but handled by device change often)
+        new_sr = self.get_sample_rate()
+        if new_sr != self.current_state["sample_rate"]:
+            self.sample_rate_changed.emit(new_sr)
+        if new_sr != self.current_state["sample_rate"]:
+            self.sample_rate_changed.emit(new_sr)
+            self.current_state["sample_rate"] = new_sr
+
+        # 5. Opacity
+        new_opacity = self.get_opacity()
+        if abs(new_opacity - self.current_state["opacity"]) > 0.01:
+            self.opacity_changed.emit(new_opacity)
+            self.current_state["opacity"] = new_opacity
+        
+        self.status_label.setText("Settings Applied!")
+        QTimer.singleShot(2000, lambda: self.status_label.setText(""))

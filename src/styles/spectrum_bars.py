@@ -47,7 +47,7 @@ class SpectrumBars(BaseVisualizer):
                 magnitude = 0
             
             # Scale to height with minimum baseline
-            bar_height = max(5, magnitude * self.height * 15.0)  # Increased scaling for visibility
+            bar_height = max(5, magnitude * self.height * 60.0)  # Aggressive scaling for visual impact
             bar_height = min(bar_height, self.height - 10)
             
             # Calculate position

@@ -48,9 +48,7 @@ class Waveform(BaseVisualizer):
         from PySide6.QtGui import QPolygonF
         polygon = QPolygonF(points)
         
-        # Create Polygon
-        from PySide6.QtGui import QPolygonF
-        polygon = QPolygonF(points)
+
         
         # 1. Optimized Glow (Single fast pass)
         color = self.theme.get_color(0)

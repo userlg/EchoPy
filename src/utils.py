@@ -52,7 +52,12 @@ class Config:
             "smoothing": 0.5,
             "background_image": None,
             "fullscreen": False,
-            "fps_limit": 60
+            "fps_limit": 60,
+            "sensitivity": {
+                "rms_threshold_on": 0.0008,
+                "rms_threshold_off": 0.0004,
+                "silence_timeout": 45
+            }
         }
     
     def save_config(self):

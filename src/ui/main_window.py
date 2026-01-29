@@ -56,8 +56,18 @@ class MainWindow(QMainWindow):
         # Load saved configuration (this sets the visualizer and theme)
         self._load_config()
         
-        # Start audio processing AFTER visualizer is set
-        self.audio_processor.start()
+        # Restore saved gain
+        saved_gain = self.config.get("gain", 100.0)
+        # Convert % to multiplier
+        initial_gain_mult = 60.0 * (saved_gain / 100.0)
+        self.audio_processor.set_gain(initial_gain_mult)
+        
+        # Start audio processing with saved device
+        saved_device = self.config.get("audio_device")
+        # Handle "Auto" (-1) or stored None
+        if saved_device == -1: saved_device = None
+            
+        self.audio_processor.start(device_index=saved_device)
         
         # Control panel is hidden by default, toggle with Ctrl+H
         # self.control_panel.show()
@@ -181,6 +191,8 @@ class MainWindow(QMainWindow):
         self.settings_dialog.device_changed.connect(self._change_device)
         self.settings_dialog.smoothing_changed.connect(self._change_smoothing)
         self.settings_dialog.gain_changed.connect(self._change_gain)
+        self.settings_dialog.sample_rate_changed.connect(self._change_sample_rate)
+        self.settings_dialog.opacity_changed.connect(self._change_opacity)
     
     def _load_config(self):
         """Load configuration from file."""
@@ -200,10 +212,23 @@ class MainWindow(QMainWindow):
         bg_path = self.config.get("background_image")
         if bg_path:
             self._load_background(bg_path)
+            
+        # Restore opacity
+        opacity = self.config.get("opacity", 0.3)
+        self.visualizer_widget.set_background_opacity(opacity)
         
         # Load audio devices into settings
         devices = self.audio_processor.get_devices()
         self.settings_dialog.set_devices(devices)
+        
+        # Load sensitivity settings
+        sensitivity = self.config.get("sensitivity", {})
+        if sensitivity:
+            self.visualizer_widget.set_sensitivity(
+                sensitivity.get("rms_threshold_on", 0.0008),
+                sensitivity.get("rms_threshold_off", 0.0004),
+                sensitivity.get("silence_timeout", 45)
+            )
     
     def _change_style(self, style_name: str):
         """Change visualization style."""
@@ -251,6 +276,7 @@ class MainWindow(QMainWindow):
     def _change_device(self, device_index: int):
         """Change audio input device."""
         self.audio_processor.set_device(device_index)
+        self.config.set("audio_device", device_index)
     
     def _change_smoothing(self, smoothing: float):
         """Change smoothing factor."""
@@ -264,7 +290,25 @@ class MainWindow(QMainWindow):
         base_gain = 60.0
         multiplier = gain / 100.0
         new_gain = base_gain * multiplier
+        new_gain = base_gain * multiplier
         self.audio_processor.set_gain(new_gain)
+        self.config.set("gain", gain)
+
+    def _change_sample_rate(self, rate: int):
+        """Change sample rate."""
+        # This usually requires restarting the stream, which set_device might handle if we force it,
+        # but for now we just save it and let the next restart or device switch pick it up if possible.
+        # Ideally, AudioProcessor should have a set_sample_rate method.
+        # For this task, we focus on persistence.
+        self.config.set("sample_rate", rate)
+        self.config.set("sample_rate", rate)
+        QMessageBox.information(self, "Restart Required", "Sample rate changes will apply on next restart or device switch.")
+
+    def _change_opacity(self, opacity: float):
+        """Change background opacity."""
+        self.visualizer_widget.set_background_opacity(opacity)
+        self.visualizer_widget.update() # Force redraw
+        self.config.set("opacity", opacity)
     
     def _toggle_fullscreen(self, checked: bool):
         """Toggle fullscreen mode."""
@@ -297,6 +341,20 @@ class MainWindow(QMainWindow):
     
     def _show_settings(self):
         """Show settings dialog."""
+        # Inject current state to prevent redundant updates
+        current_device = self.audio_processor.device_index
+        if current_device is None: current_device = -1
+        
+        self.settings_dialog.load_current_settings(
+            device_idx=current_device,
+            sample_rate=self.audio_processor.sample_rate,
+            fft_size=self.audio_processor.fft_size,
+            smoothing=self.config.get("smoothing", 0.8),
+            # Fix: Use stored percentage gain, not internal multiplier
+            gain=self.config.get("gain", 100.0), 
+            opacity=self.config.get("opacity", 0.3), # Note: Opacity isn't fully wired yet in main config but good to have
+            fps=self.config.get("fps_limit", 60)
+        )
         self.settings_dialog.exec()
     
     def _take_screenshot(self):

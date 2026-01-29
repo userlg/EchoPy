@@ -2513,3 +2513,507 @@ sounddevice.PortAudioError: Error opening InputStream: Invalid sample rate [PaEr
 2026-01-28 10:12:36,405 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
 2026-01-28 10:12:36,420 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
 2026-01-28 10:12:59,066 - EchoPy - INFO - Audio capture stopped
+2026-01-28 16:00:10,484 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 16:00:10,494 - EchoPy - INFO - Changing theme to: deep space
+2026-01-28 16:00:10,496 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 16:00:10,551 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 16:00:10,565 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 16:00:17,901 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 16:00:24,611 - EchoPy - INFO - Changing style to: circular
+2026-01-28 16:00:34,967 - EchoPy - INFO - Audio capture stopped
+2026-01-28 16:00:34,967 - EchoPy - INFO - Attempting: Stereo Mix (3- Realtek High Def | 48000Hz | 2ch
+2026-01-28 16:00:35,095 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 48000Hz)
+2026-01-28 16:00:35,097 - EchoPy - INFO - Gain set to: 121.79999999999998
+2026-01-28 16:00:47,403 - EchoPy - INFO - Audio capture stopped
+2026-01-28 16:00:47,404 - EchoPy - INFO - Attempting: Stereo Mix (3- Realtek High Def | 48000Hz | 2ch
+2026-01-28 16:00:47,442 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 48000Hz)
+2026-01-28 16:00:47,444 - EchoPy - INFO - Gain set to: 138.6
+2026-01-28 16:00:57,658 - EchoPy - INFO - Audio capture stopped
+2026-01-28 16:00:57,658 - EchoPy - INFO - Attempting: Stereo Mix (3- Realtek High Def | 48000Hz | 2ch
+2026-01-28 16:00:57,698 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 48000Hz)
+2026-01-28 16:00:57,699 - EchoPy - INFO - Gain set to: 68.39999999999999
+2026-01-28 16:01:16,235 - EchoPy - INFO - Audio capture stopped
+2026-01-28 16:01:16,236 - EchoPy - INFO - Attempting: Stereo Mix (3- Realtek High Def | 48000Hz | 2ch
+2026-01-28 16:01:16,276 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 48000Hz)
+2026-01-28 16:01:16,325 - EchoPy - INFO - Gain set to: 111.0
+2026-01-28 16:01:22,672 - EchoPy - INFO - Audio capture stopped
+2026-01-28 16:01:22,673 - EchoPy - INFO - Attempting: Stereo Mix (3- Realtek High Def | 48000Hz | 2ch
+2026-01-28 16:01:22,713 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 48000Hz)
+2026-01-28 16:01:22,714 - EchoPy - INFO - Gain set to: 52.2
+2026-01-28 16:01:29,429 - EchoPy - INFO - Audio capture stopped
+2026-01-28 16:01:29,429 - EchoPy - INFO - Attempting: Stereo Mix (3- Realtek High Def | 48000Hz | 2ch
+2026-01-28 16:01:29,469 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 48000Hz)
+2026-01-28 16:01:29,471 - EchoPy - INFO - Gain set to: 52.2
+2026-01-28 16:01:32,701 - EchoPy - INFO - Changing style to: fire_effect
+2026-01-28 16:01:39,454 - EchoPy - INFO - Changing theme to: modern
+2026-01-28 16:01:41,524 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 16:01:44,052 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 16:01:47,287 - EchoPy - INFO - Audio capture stopped
+2026-01-28 16:01:52,767 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 16:01:52,780 - EchoPy - INFO - Changing theme to: modern
+2026-01-28 16:01:52,781 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 16:01:52,847 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 16:01:52,863 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 16:02:04,293 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 16:02:08,418 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 16:02:10,627 - EchoPy - INFO - Changing style to: circular
+2026-01-28 16:02:16,495 - EchoPy - INFO - Changing style to: particles
+2026-01-28 16:02:21,962 - EchoPy - INFO - Changing style to: radial_bars
+2026-01-28 16:02:29,642 - EchoPy - INFO - Changing style to: fire_effect
+2026-01-28 16:02:32,525 - EchoPy - INFO - Changing style to: matrix_rain
+2026-01-28 16:02:37,662 - EchoPy - INFO - Changing style to: oscilloscope
+2026-01-28 16:02:44,361 - EchoPy - INFO - Changing style to: frequency_rings
+2026-01-28 16:02:49,600 - EchoPy - INFO - Changing style to: audio_lines
+2026-01-28 16:02:54,523 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 16:03:06,762 - EchoPy - INFO - Audio capture stopped
+2026-01-28 21:36:41,262 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 21:36:41,274 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 21:36:41,276 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 21:36:41,372 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 21:36:41,391 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 21:38:09,909 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 21:39:36,309 - EchoPy - INFO - Changing theme to: monochrome
+2026-01-28 21:39:37,339 - EchoPy - INFO - Changing theme to: sunset
+2026-01-28 21:39:39,352 - EchoPy - INFO - Changing style to: frequency_rings
+2026-01-28 21:39:46,687 - EchoPy - INFO - Changing style to: oscilloscope
+2026-01-28 21:40:06,387 - EchoPy - INFO - Changing theme to: modern
+2026-01-28 21:40:09,055 - EchoPy - INFO - Changing theme to: classic
+2026-01-28 21:40:10,388 - EchoPy - INFO - Changing theme to: neon
+2026-01-28 21:40:14,494 - EchoPy - INFO - Changing style to: particles
+2026-01-28 21:40:22,769 - EchoPy - INFO - Changing theme to: modern
+2026-01-28 21:40:25,613 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 21:40:39,355 - EchoPy - INFO - Audio capture stopped
+2026-01-28 21:42:04,287 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 21:42:04,296 - EchoPy - INFO - Changing theme to: sunset
+2026-01-28 21:42:04,297 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 21:42:04,300 - EchoPy - INFO - Sensitivity updated: On=0.0008, Off=0.0004, Timeout=45
+2026-01-28 21:42:04,365 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 21:42:04,384 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 21:42:11,528 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 21:42:15,609 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 21:42:17,161 - EchoPy - INFO - Changing style to: circular
+2026-01-28 21:42:28,842 - EchoPy - INFO - Audio capture stopped
+2026-01-28 21:42:28,843 - EchoPy - INFO - Attempting: Stereo Mix (3- Realtek High Def | 48000Hz | 2ch
+2026-01-28 21:42:28,899 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 48000Hz)
+2026-01-28 21:42:28,901 - EchoPy - INFO - Gain set to: 113.39999999999999
+2026-01-28 21:42:40,314 - EchoPy - INFO - Audio capture stopped
+2026-01-28 21:45:27,288 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 21:45:27,300 - EchoPy - INFO - Changing theme to: sunset
+2026-01-28 21:45:27,309 - EchoPy - INFO - Changing style to: circular
+2026-01-28 21:45:27,318 - EchoPy - INFO - Sensitivity updated: On=0.0008, Off=0.0004, Timeout=45
+2026-01-28 21:45:27,398 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 21:45:27,414 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 21:45:48,686 - EchoPy - INFO - Audio capture stopped
+2026-01-28 21:45:48,887 - EchoPy - INFO - Attempting: Stereo Mix (3- Realtek High Def | 48000Hz | 2ch
+2026-01-28 21:45:48,932 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 48000Hz)
+2026-01-28 21:45:48,933 - EchoPy - INFO - Gain set to: 111.60000000000001
+2026-01-28 21:45:56,077 - EchoPy - INFO - Audio capture stopped
+2026-01-28 21:45:56,279 - EchoPy - INFO - Attempting: Stereo Mix (3- Realtek High Def | 48000Hz | 2ch
+2026-01-28 21:45:56,317 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 48000Hz)
+2026-01-28 21:45:56,318 - EchoPy - INFO - Gain set to: 111.60000000000001
+2026-01-28 21:46:01,217 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 21:46:10,021 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 21:46:12,613 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 21:47:03,412 - EchoPy - INFO - Audio capture stopped
+2026-01-28 21:47:18,037 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 21:47:18,050 - EchoPy - INFO - Changing theme to: sunset
+2026-01-28 21:47:18,054 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 21:47:18,068 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 21:47:18,139 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 21:47:18,156 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 21:47:21,926 - EchoPy - INFO - Audio capture stopped
+2026-01-28 21:47:34,287 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 21:47:34,296 - EchoPy - INFO - Changing theme to: sunset
+2026-01-28 21:47:34,297 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 21:47:34,300 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 21:47:34,352 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 21:47:34,368 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 21:47:45,651 - EchoPy - INFO - Changing theme to: deep space
+2026-01-28 21:47:46,965 - EchoPy - INFO - Changing theme to: monochrome
+2026-01-28 21:47:48,549 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 21:47:50,885 - EchoPy - INFO - Changing theme to: modern
+2026-01-28 21:47:52,821 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 21:48:17,146 - EchoPy - INFO - Audio capture stopped
+2026-01-28 21:48:17,348 - EchoPy - INFO - Attempting: Stereo Mix (3- Realtek High Def | 48000Hz | 2ch
+2026-01-28 21:48:17,394 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 48000Hz)
+2026-01-28 21:48:17,395 - EchoPy - INFO - Gain set to: 83.39999999999999
+2026-01-28 21:48:22,240 - EchoPy - INFO - Audio capture stopped
+2026-01-28 21:48:22,442 - EchoPy - INFO - Attempting: Stereo Mix (3- Realtek High Def | 48000Hz | 2ch
+2026-01-28 21:48:22,482 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 48000Hz)
+2026-01-28 21:48:22,483 - EchoPy - INFO - Gain set to: 109.2
+2026-01-28 21:48:41,528 - EchoPy - INFO - Audio capture stopped
+2026-01-28 21:48:41,729 - EchoPy - INFO - Attempting: Stereo Mix (3- Realtek High Def | 48000Hz | 2ch
+2026-01-28 21:48:41,765 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 48000Hz)
+2026-01-28 21:48:41,767 - EchoPy - INFO - Gain set to: 119.4
+2026-01-28 21:49:10,291 - EchoPy - INFO - Audio capture stopped
+2026-01-28 21:51:15,720 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 21:51:15,729 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 21:51:15,731 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 21:51:15,734 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 21:51:15,789 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 21:51:15,803 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 21:51:24,699 - EchoPy - INFO - Audio capture stopped
+2026-01-28 21:51:24,900 - EchoPy - INFO - Attempting: Stereo Mix (3- Realtek High Def | 48000Hz | 2ch
+2026-01-28 21:51:24,946 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 48000Hz)
+2026-01-28 21:51:34,521 - EchoPy - INFO - Audio capture stopped
+2026-01-28 21:52:48,625 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 21:52:48,634 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 21:52:48,636 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 21:52:48,639 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 21:52:48,691 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 21:52:48,710 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 21:52:59,290 - EchoPy - INFO - Audio capture stopped
+2026-01-28 21:52:59,492 - EchoPy - INFO - Attempting: Stereo Mix (3- Realtek High Def | 48000Hz | 2ch
+2026-01-28 21:52:59,539 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 48000Hz)
+2026-01-28 21:52:59,540 - EchoPy - INFO - Gain set to: 96.0
+2026-01-28 21:53:07,105 - EchoPy - INFO - Gain set to: 74.4
+2026-01-28 21:53:48,665 - EchoPy - INFO - Audio capture stopped
+2026-01-28 21:54:24,309 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 21:54:24,318 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 21:54:24,320 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 21:54:24,322 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 21:54:24,384 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 21:54:24,400 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 21:54:37,174 - EchoPy - INFO - Audio capture stopped
+2026-01-28 21:54:37,376 - EchoPy - INFO - Attempting: Stereo Mix (3- Realtek High Def | 48000Hz | 2ch
+2026-01-28 21:54:37,423 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 48000Hz)
+2026-01-28 21:54:41,813 - EchoPy - INFO - Gain set to: 48.0
+2026-01-28 21:55:20,789 - EchoPy - INFO - Audio capture stopped
+2026-01-28 21:55:23,488 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 21:55:23,499 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 21:55:23,499 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 21:55:23,502 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 21:55:23,561 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 21:55:23,576 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 21:55:50,571 - EchoPy - INFO - Audio capture stopped
+2026-01-28 21:55:50,772 - EchoPy - INFO - Attempting: Stereo Mix (3- Realtek High Def | 48000Hz | 2ch
+2026-01-28 21:55:50,817 - EchoPy - INFO - AUDIO ENGINE ONLINE: Stereo Mix (3- Realtek High Def (2ch @ 48000Hz)
+2026-01-28 21:55:50,818 - EchoPy - INFO - Gain set to: 76.2
+2026-01-28 21:56:31,503 - EchoPy - INFO - Audio capture stopped
+2026-01-28 21:57:30,258 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 21:57:30,267 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 21:57:30,269 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 21:57:30,271 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 21:57:30,323 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 21:57:30,337 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 21:57:42,980 - EchoPy - INFO - Audio capture stopped
+2026-01-28 21:57:43,231 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 21:57:43,244 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 21:57:43,244 - EchoPy - INFO - Gain set to: 74.4
+2026-01-28 21:57:51,683 - EchoPy - INFO - Gain set to: 97.2
+2026-01-28 21:59:18,351 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:00:44,104 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:00:44,112 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 22:00:44,114 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 22:00:44,117 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:00:44,117 - EchoPy - INFO - Gain set to: 60.0
+2026-01-28 22:00:44,168 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:00:44,183 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:00:55,767 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:00:56,014 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:00:56,026 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:00:56,027 - EchoPy - INFO - Gain set to: 58.199999999999996
+2026-01-28 22:01:02,988 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:01:05,577 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:01:05,588 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 22:01:05,590 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 22:01:05,594 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:01:05,595 - EchoPy - INFO - Gain set to: 58.199999999999996
+2026-01-28 22:01:05,647 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:01:05,663 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:01:20,756 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:01:21,002 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:01:21,017 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:01:21,018 - EchoPy - INFO - Gain set to: 56.4
+2026-01-28 22:01:25,567 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:01:31,866 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:01:31,875 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 22:01:31,877 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 22:01:31,882 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:01:31,883 - EchoPy - INFO - Gain set to: 56.4
+2026-01-28 22:01:31,933 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:01:31,949 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:01:40,611 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:03:09,694 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:03:09,703 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 22:03:09,704 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 22:03:09,707 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:03:09,710 - EchoPy - INFO - Gain set to: 56.4
+2026-01-28 22:03:09,763 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:03:09,780 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:03:19,616 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:03:19,869 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:03:19,882 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:03:19,883 - EchoPy - INFO - Gain set to: 79.80000000000001
+2026-01-28 22:03:29,203 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:03:31,829 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:03:31,837 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 22:03:31,838 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 22:03:31,841 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:03:31,844 - EchoPy - INFO - Gain set to: 79.80000000000001
+2026-01-28 22:03:31,907 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:03:31,921 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:03:44,583 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:03:44,831 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:03:44,842 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:03:55,615 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:03:55,864 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:03:55,875 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:03:59,555 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:04:02,711 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:04:02,721 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 22:04:02,722 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 22:04:02,728 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:04:02,730 - EchoPy - INFO - Gain set to: 79.80000000000001
+2026-01-28 22:04:02,790 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:04:02,811 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:04:12,999 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:04:13,247 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:04:13,260 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:04:17,904 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:04:20,232 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:04:20,242 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 22:04:20,243 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 22:04:20,246 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:04:20,246 - EchoPy - INFO - Gain set to: 79.80000000000001
+2026-01-28 22:04:20,296 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:04:20,318 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:06:30,052 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:06:32,653 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:06:32,663 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 22:06:32,665 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 22:06:32,667 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:06:32,667 - EchoPy - INFO - Gain set to: 79.80000000000001
+2026-01-28 22:06:32,723 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:06:32,738 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:06:44,660 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:06:44,907 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:06:44,919 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:06:49,407 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:06:53,914 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:06:53,923 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 22:06:53,925 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 22:06:53,927 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:06:53,928 - EchoPy - INFO - Gain set to: 79.80000000000001
+2026-01-28 22:06:53,983 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:06:54,004 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:07:05,455 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:07:05,705 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:07:05,715 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:07:20,396 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:07:22,778 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:07:22,787 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 22:07:22,788 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 22:07:22,791 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:07:22,791 - EchoPy - INFO - Gain set to: 79.80000000000001
+2026-01-28 22:07:22,843 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:07:22,857 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:07:52,307 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:08:43,586 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:08:43,596 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 22:08:43,597 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 22:08:43,600 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:08:43,600 - EchoPy - INFO - Gain set to: 79.80000000000001
+2026-01-28 22:08:43,655 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:08:43,669 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:09:18,060 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:09:33,208 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:09:33,218 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 22:09:33,219 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 22:09:33,222 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:09:33,222 - EchoPy - INFO - Gain set to: 79.80000000000001
+2026-01-28 22:09:33,273 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:09:33,289 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:10:01,475 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:10:01,723 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:10:01,733 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:10:01,734 - EchoPy - INFO - Gain set to: 132.6
+2026-01-28 22:10:22,914 - EchoPy - INFO - Gain set to: 150.0
+2026-01-28 22:10:47,422 - EchoPy - INFO - Changing style to: waveform
+2026-01-28 22:10:52,003 - EchoPy - INFO - Changing theme to: modern
+2026-01-28 22:10:53,598 - EchoPy - INFO - Changing theme to: aesthetic
+2026-01-28 22:10:54,943 - EchoPy - INFO - Changing theme to: classic
+2026-01-28 22:10:57,146 - EchoPy - INFO - Changing style to: circular
+2026-01-28 22:11:03,604 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:11:03,855 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:11:03,867 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:11:43,688 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:12:12,361 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:12:12,370 - EchoPy - INFO - Changing theme to: classic
+2026-01-28 22:12:12,373 - EchoPy - INFO - Changing style to: circular
+2026-01-28 22:12:12,375 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:12:12,375 - EchoPy - INFO - Gain set to: 150.0
+2026-01-28 22:12:12,441 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:12:12,456 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:12:36,672 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:12:55,475 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:12:55,486 - EchoPy - INFO - Changing theme to: classic
+2026-01-28 22:12:55,488 - EchoPy - INFO - Changing style to: circular
+2026-01-28 22:12:55,490 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:12:55,491 - EchoPy - INFO - Gain set to: 150.0
+2026-01-28 22:12:55,544 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:12:55,560 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:13:22,992 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:13:25,233 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:13:25,243 - EchoPy - INFO - Changing theme to: classic
+2026-01-28 22:13:25,244 - EchoPy - INFO - Changing style to: circular
+2026-01-28 22:13:25,246 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:13:25,246 - EchoPy - INFO - Gain set to: 150.0
+2026-01-28 22:13:25,300 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:13:25,318 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:13:44,648 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:13:46,790 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:13:46,799 - EchoPy - INFO - Changing theme to: classic
+2026-01-28 22:13:46,801 - EchoPy - INFO - Changing style to: circular
+2026-01-28 22:13:46,803 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:13:46,803 - EchoPy - INFO - Gain set to: 150.0
+2026-01-28 22:13:46,871 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:13:46,883 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:13:58,655 - EchoPy - INFO - Changing style to: particles
+2026-01-28 22:14:18,039 - EchoPy - INFO - Changing theme to: fire
+2026-01-28 22:14:19,167 - EchoPy - INFO - Changing theme to: modern
+2026-01-28 22:14:20,632 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:14:51,224 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:14:51,234 - EchoPy - INFO - Changing theme to: modern
+2026-01-28 22:14:51,236 - EchoPy - INFO - Changing style to: particles
+2026-01-28 22:14:51,239 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:14:51,240 - EchoPy - INFO - Gain set to: 150.0
+2026-01-28 22:14:51,300 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:14:51,315 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:15:15,896 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:15:47,616 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:15:47,626 - EchoPy - INFO - Changing theme to: modern
+2026-01-28 22:15:47,629 - EchoPy - INFO - Changing style to: particles
+2026-01-28 22:15:47,632 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:15:47,632 - EchoPy - INFO - Gain set to: 150.0
+2026-01-28 22:15:47,698 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:15:47,712 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:16:05,344 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:16:07,879 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:16:07,887 - EchoPy - INFO - Changing theme to: modern
+2026-01-28 22:16:07,890 - EchoPy - INFO - Changing style to: particles
+2026-01-28 22:16:07,893 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:16:07,893 - EchoPy - INFO - Gain set to: 150.0
+2026-01-28 22:16:07,954 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:16:07,968 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:16:18,051 - EchoPy - INFO - Changing theme to: classic
+2026-01-28 22:16:19,207 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 22:16:33,752 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:16:36,044 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:16:36,054 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 22:16:36,055 - EchoPy - INFO - Changing style to: particles
+2026-01-28 22:16:36,059 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:16:36,060 - EchoPy - INFO - Gain set to: 150.0
+2026-01-28 22:16:36,119 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:16:36,137 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:17:00,521 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:17:08,117 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:17:08,127 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 22:17:08,128 - EchoPy - INFO - Changing style to: particles
+2026-01-28 22:17:08,130 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:17:08,131 - EchoPy - INFO - Gain set to: 150.0
+2026-01-28 22:17:08,193 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:17:08,206 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:18:07,052 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:18:42,200 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:18:42,210 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 22:18:42,211 - EchoPy - INFO - Changing style to: particles
+2026-01-28 22:18:42,214 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:18:42,214 - EchoPy - INFO - Gain set to: 150.0
+2026-01-28 22:18:42,266 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:18:42,281 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:19:28,241 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:19:31,180 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:19:31,189 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 22:19:31,191 - EchoPy - INFO - Changing style to: particles
+2026-01-28 22:19:31,194 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:19:31,196 - EchoPy - INFO - Gain set to: 150.0
+2026-01-28 22:19:31,254 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:19:31,268 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:20:32,316 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:21:07,382 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:21:07,392 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 22:21:07,398 - EchoPy - INFO - Changing style to: particles
+2026-01-28 22:21:07,404 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:21:07,404 - EchoPy - INFO - Gain set to: 150.0
+2026-01-28 22:21:07,459 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:21:07,473 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:21:19,859 - EchoPy - INFO - Changing style to: radial_bars
+2026-01-28 22:22:32,329 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:22:34,963 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:22:34,972 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 22:22:34,973 - EchoPy - INFO - Changing style to: radial_bars
+2026-01-28 22:22:34,976 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:22:34,976 - EchoPy - INFO - Gain set to: 150.0
+2026-01-28 22:22:35,032 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:22:35,047 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:22:48,644 - EchoPy - INFO - Changing style to: fire_effect
+2026-01-28 22:23:17,262 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:23:20,064 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:23:20,074 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 22:23:20,075 - EchoPy - INFO - Changing style to: fire_effect
+2026-01-28 22:23:20,078 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:23:20,078 - EchoPy - INFO - Gain set to: 150.0
+2026-01-28 22:23:20,138 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:23:20,152 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:23:26,102 - EchoPy - INFO - Changing style to: radial_bars
+2026-01-28 22:23:30,839 - EchoPy - INFO - Changing theme to: fire
+2026-01-28 22:23:31,803 - EchoPy - INFO - Changing theme to: ocean
+2026-01-28 22:23:32,808 - EchoPy - INFO - Changing theme to: neon
+2026-01-28 22:23:40,528 - EchoPy - INFO - Changing style to: fire_effect
+2026-01-28 22:23:56,298 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:24:35,827 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:24:35,838 - EchoPy - INFO - Changing theme to: neon
+2026-01-28 22:24:35,839 - EchoPy - INFO - Changing style to: fire_effect
+2026-01-28 22:24:35,842 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:24:35,842 - EchoPy - INFO - Gain set to: 150.0
+2026-01-28 22:24:35,900 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:24:35,914 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:25:14,853 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:28:08,498 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:28:08,508 - EchoPy - INFO - Changing theme to: neon
+2026-01-28 22:28:08,510 - EchoPy - INFO - Changing style to: fire_effect
+2026-01-28 22:28:08,512 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:28:08,514 - EchoPy - INFO - Gain set to: 150.0
+2026-01-28 22:28:08,593 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:28:08,613 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:29:03,450 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:30:03,788 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:30:03,801 - EchoPy - INFO - Changing theme to: neon
+2026-01-28 22:30:03,807 - EchoPy - INFO - Changing style to: fire_effect
+2026-01-28 22:30:03,811 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:30:03,814 - EchoPy - INFO - Gain set to: 150.0
+2026-01-28 22:30:03,882 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:30:03,900 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:30:24,217 - EchoPy - INFO - Changing theme to: sunset
+2026-01-28 22:30:25,634 - EchoPy - INFO - Changing theme to: fire
+2026-01-28 22:30:26,624 - EchoPy - INFO - Changing theme to: aesthetic
+2026-01-28 22:30:59,596 - EchoPy - INFO - Audio capture stopped
+2026-01-28 22:31:31,325 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 22:31:31,334 - EchoPy - INFO - Changing theme to: aesthetic
+2026-01-28 22:31:31,336 - EchoPy - INFO - Changing style to: fire_effect
+2026-01-28 22:31:31,345 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 22:31:31,349 - EchoPy - INFO - Gain set to: 150.0
+2026-01-28 22:31:31,407 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 22:31:31,423 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 22:31:37,141 - EchoPy - INFO - Changing theme to: fire
+2026-01-28 22:31:38,282 - EchoPy - INFO - Changing theme to: ocean
+2026-01-28 22:31:39,411 - EchoPy - INFO - Changing theme to: neon
+2026-01-28 22:31:40,296 - EchoPy - INFO - Changing theme to: rainbow
+2026-01-28 22:31:41,160 - EchoPy - INFO - Changing theme to: neon
+2026-01-28 22:31:41,769 - EchoPy - INFO - Changing theme to: rainbow
+2026-01-28 22:31:42,836 - EchoPy - INFO - Changing theme to: lava
+2026-01-28 22:31:44,153 - EchoPy - INFO - Changing theme to: deep space
+2026-01-28 22:31:45,450 - EchoPy - INFO - Changing theme to: monochrome
+2026-01-28 22:31:47,151 - EchoPy - INFO - Changing theme to: sunset
+2026-01-28 22:32:01,559 - EchoPy - INFO - Changing style to: matrix_rain
+2026-01-28 22:32:04,021 - EchoPy - INFO - Changing theme to: aesthetic
+2026-01-28 22:32:04,749 - EchoPy - INFO - Changing theme to: modern
+2026-01-28 22:32:05,604 - EchoPy - INFO - Changing theme to: cyberpunk
+2026-01-28 22:32:06,601 - EchoPy - INFO - Changing theme to: classic
+2026-01-28 22:32:09,709 - EchoPy - INFO - Changing style to: oscilloscope
+2026-01-28 22:32:13,730 - EchoPy - INFO - Changing theme to: neon
+2026-01-28 22:32:14,718 - EchoPy - INFO - Changing theme to: monochrome
+2026-01-28 22:32:15,629 - EchoPy - INFO - Changing theme to: rainbow
+2026-01-28 22:32:18,745 - EchoPy - INFO - Changing style to: frequency_rings
+2026-01-28 22:32:48,657 - EchoPy - INFO - Audio capture stopped

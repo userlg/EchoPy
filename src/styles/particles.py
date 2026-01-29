@@ -25,8 +25,8 @@ class Particle:
         """Update particle position and life."""
         self.x += self.vx * dt * 60
         self.y += self.vy * dt * 60
-        self.vy += 200 * dt  # Gravity
-        self.life -= dt * 0.5
+        self.vy += 30 * dt  # Reduced Gravity (was 200) - floatier
+        self.life -= dt * 0.3 # Extended life (was 0.5)
     
     def is_alive(self):
         """Check if particle is still alive."""
@@ -40,8 +40,8 @@ class Particles(BaseVisualizer):
         """Initialize particle visualizer."""
         super().__init__("Particles")
         self.particles = []
-        self.max_particles = 500
-        self.spawn_rate = 5
+        self.max_particles = 3000 # Increased from 500
+        self.spawn_rate = 100      # Increased from 5
     
     def render(self, painter: QPainter, waveform: np.ndarray, fft_data: np.ndarray):
         """Render particles."""
@@ -49,7 +49,8 @@ class Particles(BaseVisualizer):
             return
         
         # Update existing particles
-        self.particles = [p for p in self.particles if p.is_alive() and 0 <= p.y <= self.height]
+        # Fix: Allow particles reasonably below screen (processing entry) and above (processing exit)
+        self.particles = [p for p in self.particles if p.is_alive() and -500 <= p.y <= self.height + 200]
         for particle in self.particles:
             particle.update()
         
@@ -63,22 +64,29 @@ class Particles(BaseVisualizer):
             magnitude = np.mean(fft_data[start_idx:end_idx]) if end_idx <= len(fft_data) else 0
             
             # Spawn particles based on magnitude
-            num_spawn = int(magnitude * self.spawn_rate * 10)
+            # Use probabilistic spawning for low magnitudes
+            spawn_amount = magnitude * self.spawn_rate * 50
+            num_spawn = int(spawn_amount)
+            if random.random() < (spawn_amount - num_spawn):
+                num_spawn += 1
             
             for _ in range(num_spawn):
                 if len(self.particles) >= self.max_particles:
                     break
                 
                 # Spawn position
-                x = (band / num_bands) * self.width + random.uniform(0, self.width / num_bands)
-                y = self.height - 10
+                # Modernization: Spawn randomly across screen instead of tied to band index
+                x = random.uniform(0, self.width)
+                y = self.height + random.uniform(0, 50) # Start slightly below screen for smoother entry
                 
-                # Velocity
+                # Velocity (Add base minimal velocity so they always show up)
                 vx = random.uniform(-50, 50)
-                vy = -magnitude * random.uniform(200, 400)
+                base_upwards = random.uniform(600, 900) # Increased Base Jump (was 300-500)
+                mag_upwards = magnitude * random.uniform(2000, 4000) # Increased Mag Jump
+                vy = -(base_upwards + mag_upwards)
                 
                 # Size and color
-                size = random.uniform(2, 6) * (1 + magnitude)
+                size = random.uniform(4, 12) * (1 + magnitude)
                 color = self.theme.get_gradient_color(band / num_bands)
                 
                 self.particles.append(Particle(x, y, vx, vy, size, color))

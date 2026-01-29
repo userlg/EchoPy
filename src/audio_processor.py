@@ -1,4 +1,5 @@
 import numpy as np
+import time
 import sounddevice as sd
 try:
     import pyaudiowpatch as pyaudio
@@ -291,7 +292,10 @@ class AudioProcessor(QObject):
             
             # Apply Gain for visualizer (using the already cleaned data)
             # Scaling here avoids double-processing later
-            GAIN_MULTIPLIER = 15000.0
+            # Use user-configurable gain
+            # Base gain is 60.0, so we normalize relative to that
+            user_gain_factor = self.gain / 60.0 
+            GAIN_MULTIPLIER = 15000.0 * user_gain_factor
             self.audio_buffer = np.clip(audio_data * GAIN_MULTIPLIER, -1.0, 1.0)
             
             # 3. FFT Processing (Power-of-2 size is fast)
@@ -408,9 +412,28 @@ class AudioProcessor(QObject):
 
     
     def set_device(self, device_index: Optional[int]):
-        """Change audio input device."""
+        """Change audio input device safely."""
+        # Map -1 (Auto) to None
+        if device_index == -1:
+            device_index = None
+
+        # Safeguard: Don't restart if device is the same
+        if device_index == self.device_index and self.is_running:
+            logger.info(f"Device change ignored: Already on device index {device_index}")
+            return
+            
         was_running = self.is_running
         if was_running:
             self.stop()
+            # Allow driver resources to release (critical for WASAPI Loopback)
+            time.sleep(0.2)
+            
+        # Try to restart with new device
         if was_running:
             self.start(device_index)
+            
+            # Robustness check: If failed, try fallback to auto-detection
+            if not self.is_running:
+                logger.warning("Device switch failed, attempting fallback restart...")
+                time.sleep(0.2)
+                self.start() # Try default/auto strategy

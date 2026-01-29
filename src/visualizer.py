@@ -53,16 +53,15 @@ class BaseVisualizer(ABC):
 class VisualizerWidget(QWidget):
     """Widget that renders visualizations with dynamic behavior."""
     
-    # --- Smart State Manager Configuration ---
-    # Now using RMS Activity Level (post-noise floor) for absolute stability
-    # Sensitivity calibrated for low-volume system audio (e.g. YouTube at 30%)
-    RAW_THRESHOLD_ON = 0.0008  # RMS Wake up (8e-4) - CLEAN SIGNAL
-    RAW_THRESHOLD_OFF = 0.0004 # RMS Sleep floor
-    SILENCE_TIMEOUT = 45       # ~0.75s of silence before sleeping
     
     def __init__(self, parent=None):
         """Initialize visualizer widget."""
         super().__init__(parent)
+        
+        # Sensitivity Settings (Defaults - More Sensitive)
+        self.raw_threshold_on = 0.0002  # Lower wake threshold
+        self.raw_threshold_off = 0.0001 # Lower sleep threshold
+        self.silence_timeout = 60       # Longer timeout
         
         # Set widget properties
         self.setMinimumSize(800, 600)
@@ -120,6 +119,13 @@ class VisualizerWidget(QWidget):
     def set_show_fps(self, show: bool):
         self.debug_overlay.visible = show
         self.update()
+        
+    def set_sensitivity(self, threshold_on: float, threshold_off: float, timeout: int):
+        """Set sensitivity parameters."""
+        self.raw_threshold_on = threshold_on
+        self.raw_threshold_off = threshold_off
+        self.silence_timeout = timeout
+        logger.info(f"Sensitivity updated: On={threshold_on}, Off={threshold_off}, Timeout={timeout}")
     
     def update_audio_data(self, waveform: np.ndarray, fft_data: np.ndarray, activity_signal: float):
         """
@@ -140,16 +146,16 @@ class VisualizerWidget(QWidget):
     def _update_state_machine(self):
         """Update the visualizer's active/silent state."""
         if self.is_silent:
-            if self.activity_level > self.RAW_THRESHOLD_ON:
+            if self.activity_level > self.raw_threshold_on:
                 self.is_silent = False
                 self._silence_frame_counter = 0
                 if not self.animation_timer.isActive():
                     self.animation_timer.start(16)
                     logger.debug(f"Visualizer WAKING UP (Activity: {self.activity_level:.6f})")
         else:
-            if self.activity_level < self.RAW_THRESHOLD_OFF:
+            if self.activity_level < self.raw_threshold_off:
                 self._silence_frame_counter += 1
-                if self._silence_frame_counter > self.SILENCE_TIMEOUT:
+                if self._silence_frame_counter > self.silence_timeout:
                     self.is_silent = True
                     self.animation_timer.stop()
                     logger.debug("Visualizer SLEEPING (Dynamic Idling)")

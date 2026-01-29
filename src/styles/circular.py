@@ -54,7 +54,7 @@ class CircularSpectrum(BaseVisualizer):
                 magnitude = 0
             
             # Calculate bar length
-            bar_length = magnitude * (max_radius - self.min_radius) * 2.5
+            bar_length = magnitude * (max_radius - self.min_radius) * 80.0
             bar_length = min(bar_length, max_radius - self.min_radius)
             
             # Calculate angle

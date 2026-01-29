@@ -33,3 +33,7 @@ wheels/
 .DS_Store
 Thumbs.db
 .agent/
+dist/
+build/
+.venv/
+
