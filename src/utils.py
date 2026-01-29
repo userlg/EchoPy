@@ -2,11 +2,25 @@
 
 import json
 import os
+import sys
 import logging
 from typing import Any, Dict, Optional
 import numpy as np
 from PySide6.QtGui import QImage, QPixmap
 from PySide6.QtCore import Qt
+
+
+def get_resource_path(relative_path: str) -> str:
+    """Get absolute path to resource, works for dev and for PyInstaller bundle."""
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        # Not running in a bundle, use project root
+        # This assumes utils is in src/
+        base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    
+    return os.path.join(base_path, relative_path)
 
 
 # Configure logging
@@ -17,7 +31,7 @@ def setup_logging(level=logging.INFO):
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         handlers=[
             logging.StreamHandler(),
-            logging.FileHandler("echopy.log", encoding='utf-8')
+            logging.FileHandler(get_resource_path(os.path.join("logs", "echopy.log")), encoding='utf-8')
         ]
     )
 
@@ -32,6 +46,8 @@ class Config:
         """Initialize configuration manager."""
         self.config_file = config_file
         self.config: Dict[str, Any] = self._load_config()
+        # Ensure it's hidden if it exists
+        self._hide_file(self.config_file)
     
     def _load_config(self) -> Dict[str, Any]:
         """Load configuration from file."""
@@ -61,12 +77,28 @@ class Config:
         }
     
     def save_config(self):
-        """Save configuration to file."""
+        """Save configuration to file and ensure it is hidden on Windows."""
         try:
+            # Write JSON
             with open(self.config_file, 'w') as f:
                 json.dump(self.config, f, indent=2)
+            
+            # Hide file on Windows
+            self._hide_file(self.config_file)
         except Exception as e:
             logger.error(f"Error saving config: {e}")
+    
+    def _hide_file(self, path: str):
+        """Set hidden attribute on Windows."""
+        if os.name == 'nt' and os.path.exists(path):
+            try:
+                import ctypes
+                # FILE_ATTRIBUTE_HIDDEN = 0x02
+                ret = ctypes.windll.kernel32.SetFileAttributesW(path, 0x02)
+                if not ret:
+                    logger.warning(f"Failed to set hidden attribute on {path}")
+            except Exception as e:
+                logger.error(f"Error hiding file {path}: {e}")
     
     def get(self, key: str, default: Any = None) -> Any:
         """Get configuration value."""

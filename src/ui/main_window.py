@@ -10,7 +10,7 @@ from visualizer_factory import VisualizerFactory
 from ui.controls import ControlPanel
 from ui.settings_dialog import SettingsDialog
 from themes import get_theme
-from utils import Config, SmoothingBuffer, load_image, logger
+from utils import Config, SmoothingBuffer, load_image, logger, get_resource_path
 import os
 import sys
 
@@ -50,7 +50,7 @@ class MainWindow(QMainWindow):
         
         # Setup UI
         self._setup_ui()
-        self._setup_menu()
+        self._setup_shortcuts() # Re-enabled shortcuts even without menu bar
         self._connect_signals()
         
         # Load saved configuration (this sets the visualizer and theme)
@@ -68,6 +68,49 @@ class MainWindow(QMainWindow):
         if saved_device == -1: saved_device = None
             
         self.audio_processor.start(device_index=saved_device)
+
+    def contextMenuEvent(self, event):
+        """Show context menu on right click."""
+        menu = QMenu(self)
+        menu.setStyleSheet("""
+            QMenu {
+                background-color: #1a1a1a;
+                color: #ffffff;
+                border: 1px solid #333;
+            }
+            QMenu::item {
+                padding: 8px 20px;
+            }
+            QMenu::item:selected {
+                background-color: #00d2ff;
+                color: #000000;
+            }
+        """)
+        
+        # Add actions
+        settings_action = menu.addAction("Preferences")
+        settings_action.triggered.connect(self._show_settings)
+        
+        menu.addSeparator()
+        
+        toggle_controls = menu.addAction("Toggle Controls")
+        toggle_controls.triggered.connect(self._toggle_controls)
+        
+        fullscreen_action = menu.addAction("Toggle Fullscreen")
+        fullscreen_action.triggered.connect(lambda: self._toggle_fullscreen(not self.isFullScreen()))
+        
+        screenshot_action = menu.addAction("Take Screenshot")
+        screenshot_action.triggered.connect(self._take_screenshot)
+        
+        menu.addSeparator()
+        
+        about_action = menu.addAction("About")
+        about_action.triggered.connect(self._show_about)
+        
+        exit_action = menu.addAction("Exit")
+        exit_action.triggered.connect(self.close)
+        
+        menu.exec(event.globalPos())
         
         # Control panel is hidden by default, toggle with Ctrl+H
         # self.control_panel.show()
@@ -84,18 +127,17 @@ class MainWindow(QMainWindow):
         
         # Load and apply modern stylesheet
         self._apply_stylesheet()
+        
+        # Set window icon explicitly
+        from PySide6.QtGui import QIcon
+        icon_path = get_resource_path(os.path.join("resources", "favicon.png"))
+        if os.path.exists(icon_path):
+            self.setWindowIcon(QIcon(icon_path))
 
     def _apply_stylesheet(self):
         """Load and apply QSS stylesheet."""
-        # Get project root (parent of 'src')
-        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        qss_path = os.path.join(project_root, "resources", "modern.qss")
+        qss_path = get_resource_path(os.path.join("resources", "modern.qss"))
         
-        # Also check relative to executable (for bundled app)
-        if not os.path.exists(qss_path):
-            exe_dir = os.path.dirname(sys.executable)
-            qss_path = os.path.join(exe_dir, "resources", "modern.qss")
-
         if os.path.exists(qss_path):
             try:
                 with open(qss_path, "r") as f:
@@ -105,73 +147,40 @@ class MainWindow(QMainWindow):
                 logger.error(f"Failed to load stylesheet: {e}")
         else:
             logger.warning(f"Stylesheet not found at: {qss_path}")
-            # Improved fallback: Dark theme with visible text
-            self.setStyleSheet("""
-                QMainWindow, QDialog { background-color: #121212; color: #ffffff; }
-                QLabel { color: #ffffff; }
-                QPushButton { background-color: #333; color: white; border: 1px solid #555; }
-            """)
-    
-    def _setup_menu(self):
-        """Setup menu bar."""
-        menubar = self.menuBar()
+            # Fallback
+            self.setStyleSheet("QMainWindow { background-color: #121212; color: #ffffff; }")
+
+    def _setup_shortcuts(self):
+        """Initialize keyboard shortcuts without showing a menu bar."""
+        # Fullscreen
+        fs_act = QAction(self)
+        fs_act.setShortcut(QKeySequence("F11"))
+        fs_act.triggered.connect(lambda: self._toggle_fullscreen(not self.isFullScreen()))
+        self.addAction(fs_act)
         
-        # File menu
-        file_menu = menubar.addMenu("&File")
+        # Toggle Controls (Ctrl+H)
+        cntl_act = QAction(self)
+        cntl_act.setShortcut(QKeySequence("Ctrl+H"))
+        cntl_act.triggered.connect(self._toggle_controls)
+        self.addAction(cntl_act)
         
-        # Exit action
-        exit_action = QAction("E&xit", self)
-        exit_action.setShortcut(QKeySequence("Ctrl+Q"))
-        exit_action.triggered.connect(self.close)
-        file_menu.addAction(exit_action)
+        # Open Settings (Ctrl+,)
+        set_act = QAction(self)
+        set_act.setShortcut(QKeySequence("Ctrl+,"))
+        set_act.triggered.connect(self._show_settings)
+        self.addAction(set_act)
         
-        # View menu
-        view_menu = menubar.addMenu("&View")
+        # Screenshot (S)
+        sc_act = QAction(self)
+        sc_act.setShortcut(QKeySequence("S"))
+        sc_act.triggered.connect(self._take_screenshot)
+        self.addAction(sc_act)
         
-        # Fullscreen action
-        fullscreen_action = QAction("&Fullscreen", self)
-        fullscreen_action.setShortcut(QKeySequence("F11"))
-        fullscreen_action.setCheckable(True)
-        fullscreen_action.triggered.connect(self._toggle_fullscreen)
-        view_menu.addAction(fullscreen_action)
-        
-        # Show controls action
-        controls_action = QAction("&Toggle Controls", self)
-        controls_action.setShortcut(QKeySequence("Ctrl+H"))
-        controls_action.setShortcutContext(Qt.ApplicationShortcut)
-        controls_action.triggered.connect(self._toggle_controls)
-        view_menu.addAction(controls_action)
-        
-        # Screenshot action
-        screenshot_action = QAction("&Take Screenshot", self)
-        screenshot_action.setShortcut(QKeySequence("S"))
-        screenshot_action.triggered.connect(self._take_screenshot)
-        view_menu.addAction(screenshot_action)
-        
-        # FPS toggle action
-        fps_action = QAction("Show &FPS Info", self)
-        fps_action.setShortcut(QKeySequence("Ctrl+F"))
-        fps_action.setCheckable(True)
-        fps_action.setChecked(True)
-        fps_action.triggered.connect(self.visualizer_widget.set_show_fps)
-        view_menu.addAction(fps_action)
-        
-        # Settings menu
-        settings_menu = menubar.addMenu("&Settings")
-        
-        # Settings action
-        settings_action = QAction("&Preferences", self)
-        settings_action.setShortcut(QKeySequence("Ctrl+,"))
-        settings_action.triggered.connect(self._show_settings)
-        settings_menu.addAction(settings_action)
-        
-        # Help menu
-        help_menu = menubar.addMenu("&Help")
-        
-        # About action
-        about_action = QAction("&About", self)
-        about_action.triggered.connect(self._show_about)
-        help_menu.addAction(about_action)
+        # Exit (Ctrl+Q)
+        exit_act = QAction(self)
+        exit_act.setShortcut(QKeySequence("Ctrl+Q"))
+        exit_act.triggered.connect(self.close)
+        self.addAction(exit_act)
     
     def _connect_signals(self):
         """Connect signals and slots."""

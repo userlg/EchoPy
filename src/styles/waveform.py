@@ -21,6 +21,8 @@ class Waveform(BaseVisualizer):
         if self.theme is None or len(waveform) == 0:
             return
             
+        painter.setRenderHint(QPainter.Antialiasing, True)
+            
         # Optimization: Downsample aggressively. 
         # Drawing 2000 points is slow. Drawing 200 is fast.
         # We take 1 point every 4 samples or based on width.

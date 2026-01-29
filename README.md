@@ -99,10 +99,14 @@ python src/main.py
 ### Keyboard Shortcuts
 
 - `F11` - Toggle fullscreen
-- `Ctrl+H` - Show/hide controls
+- `Ctrl+H` - Show/hide control panel
 - `Ctrl+,` - Open settings
 - `Ctrl+Q` - Quit application
 - `ESC` - Exit fullscreen
+
+### �️ Mouse Controls
+
+- **Right-Click** anywhere to open the **Main Menu** (Settings, Toggle Controls, Fullscreen, Exit).
 
 ## 📦 Building Executables
 
@@ -136,16 +140,15 @@ The generated executable will be approximately 100-150MB due to bundled dependen
 
 ### Control Panel
 
-Access via `Ctrl+H` or from the View menu:
+Access via `Ctrl+H` or `Right-Click > Toggle Controls`.
 
 - **Visualization Style** - Dropdown to select visualization mode
 - **Color Theme** - Grid of theme buttons for quick switching
 - **Background** - Load custom images or clear background
-- **Settings** - Advanced audio and performance options
 
 ### Settings Dialog
 
-Access via `Ctrl+,` or Settings menu:
+Access via `Ctrl+,` or `Right-Click > Preferences`.
 
 - **Input Device** - Select audio source
 - **Sample Rate** - 22050, 44100, or 48000 Hz

@@ -23,6 +23,8 @@ class CircularSpectrum(BaseVisualizer):
         if self.theme is None:
             return
         
+        painter.setRenderHint(QPainter.Antialiasing, True)
+        
         # Center of the circle
         center_x = self.width / 2
         center_y = self.height / 2

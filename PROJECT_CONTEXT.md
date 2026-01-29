@@ -32,3 +32,10 @@ EchoPy is a real-time music visualizer built with Python, PySide6, and NumPy. It
   - Enhanced **WASAPI Loopback Discovery** with name-matching and "SyncMaster" prioritization.
 - **Visuals**: Superior 'liquid' movement achieved via **CavaFilter** (Integral + Fall-off filters), replacing simple EMA smoothing.
 - **Calibration**: `NOISE_FLOOR = 0.00020` and `GAIN = 15000` maintained for clean response.
+
+## Advanced Deployment (Frozen App Strategy)
+
+- **Resource Pathing**: Use `sys._MEIPASS` path resolution (implemented in `utils.get_resource_path`) to ensure themes, icons, and QSS are found inside the temporary PyInstaller directory.
+- **Windows Identity**: Use `ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID` to detach the app from the generic `python.exe` process, allowing custom taskbar icons.
+- **Icon Header**: Windows executables require native `.ico` headers (PNG data wrapped in ICO structure) for explorer-level visibility.
+- **Modern UI Patterns**: Right-click context menus replace legacy menu bars for immersive "frameless" designs. Shortcuts must be registered as window actions (`addAction`) to remain active when menus are hidden.

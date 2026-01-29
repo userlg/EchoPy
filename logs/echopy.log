@@ -1,0 +1,19 @@
+2026-01-28 23:02:09,195 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 23:02:09,197 - EchoPy - INFO - Changing theme to: modern
+2026-01-28 23:02:09,199 - EchoPy - ERROR - Error saving config: [Errno 13] Permission denied: 'config.json'
+2026-01-28 23:02:09,199 - EchoPy - INFO - Changing style to: radial_bars
+2026-01-28 23:02:09,199 - EchoPy - ERROR - Error saving config: [Errno 13] Permission denied: 'config.json'
+2026-01-28 23:02:09,201 - EchoPy - INFO - Sensitivity updated: On=0.0002, Off=0.0001, Timeout=60
+2026-01-28 23:02:09,201 - EchoPy - INFO - Gain set to: 150.0
+2026-01-28 23:02:09,276 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 23:02:09,294 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 23:02:29,398 - EchoPy - INFO - Audio capture stopped
+2026-01-28 23:02:35,818 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-28 23:02:35,821 - EchoPy - INFO - Changing theme to: modern
+2026-01-28 23:02:35,826 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-28 23:02:35,829 - EchoPy - ERROR - Error saving config: [Errno 13] Permission denied: 'config.json'
+2026-01-28 23:02:35,831 - EchoPy - INFO - Sensitivity updated: On=0.0008, Off=0.0004, Timeout=45
+2026-01-28 23:02:35,833 - EchoPy - INFO - Gain set to: 60.0
+2026-01-28 23:02:35,884 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-28 23:02:35,900 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-28 23:02:52,834 - EchoPy - INFO - Audio capture stopped

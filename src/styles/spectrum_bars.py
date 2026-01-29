@@ -21,6 +21,8 @@ class SpectrumBars(BaseVisualizer):
         if self.theme is None:
             return
         
+        painter.setRenderHint(QPainter.Antialiasing, True)
+        
         # Calculate bar width
         total_width = self.width - (self.num_bars - 1) * self.bar_spacing
         bar_width = total_width / self.num_bars
