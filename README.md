@@ -72,7 +72,7 @@ graph TD
     MW --> VF
     MW --> AP
     VF --> BaseV
-    BaseV <|-- Styles
+    BaseV -.-> Styles
     AP --> SB
     AP -- Audio Data --> VW
     VW -- delegate render --> BaseV
