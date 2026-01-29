@@ -17,3 +17,13 @@
 2026-01-28 23:02:35,884 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
 2026-01-28 23:02:35,900 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
 2026-01-28 23:02:52,834 - EchoPy - INFO - Audio capture stopped
+2026-01-29 08:18:40,906 - EchoPy - INFO - Modern stylesheet applied from: C:\Users\Kike\Desktop\EchoPy\resources\modern.qss
+2026-01-29 08:18:40,907 - EchoPy - INFO - Changing theme to: modern
+2026-01-29 08:18:40,908 - EchoPy - ERROR - Error saving config: [Errno 13] Permission denied: 'config.json'
+2026-01-29 08:18:40,908 - EchoPy - INFO - Changing style to: spectrum_bars
+2026-01-29 08:18:40,908 - EchoPy - ERROR - Error saving config: [Errno 13] Permission denied: 'config.json'
+2026-01-29 08:18:40,909 - EchoPy - INFO - Sensitivity updated: On=0.0008, Off=0.0004, Timeout=45
+2026-01-29 08:18:40,910 - EchoPy - INFO - Gain set to: 60.0
+2026-01-29 08:18:41,006 - EchoPy - INFO - PyAudioWPatch: Initializing capture on SyncMaster (NVIDIA High Definition Audio) [Loopback]
+2026-01-29 08:18:41,081 - EchoPy - INFO - PYAUDIO ENGINE ONLINE: SyncMaster (NVIDIA High Definition Audio) [Loopback] (2ch @ 48000Hz)
+2026-01-29 08:18:56,175 - EchoPy - INFO - Audio capture stopped

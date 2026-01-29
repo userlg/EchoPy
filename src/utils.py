@@ -23,6 +23,19 @@ def get_resource_path(relative_path: str) -> str:
     return os.path.join(base_path, relative_path)
 
 
+def get_user_data_path() -> str:
+    """Get absolute path to user data directory for logs and config."""
+    app_name = "EchoPy"
+    if os.name == 'nt':
+        base_path = os.getenv('LOCALAPPDATA', os.path.expanduser('~'))
+    else:
+        base_path = os.path.join(os.path.expanduser('~'), '.local', 'share')
+    
+    data_path = os.path.join(base_path, app_name)
+    os.makedirs(data_path, exist_ok=True)
+    return data_path
+
+
 # Configure logging
 def setup_logging(level=logging.INFO):
     """Setup application logging."""
@@ -31,7 +44,7 @@ def setup_logging(level=logging.INFO):
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         handlers=[
             logging.StreamHandler(),
-            logging.FileHandler(get_resource_path(os.path.join("logs", "echopy.log")), encoding='utf-8')
+            logging.FileHandler(os.path.join(get_user_data_path(), "echopy.log"), encoding='utf-8')
         ]
     )
 
@@ -44,22 +57,20 @@ class Config:
     
     def __init__(self, config_file: str = "config.json"):
         """Initialize configuration manager."""
-        self.config_file = config_file
+        # Use user data path if just a filename is provided
+        if not os.path.isabs(config_file):
+            self.config_file = os.path.join(get_user_data_path(), config_file)
+        else:
+            self.config_file = config_file
+            
+        if not os.path.exists(self.config_file):
+             self._ensure_writable()
+        
         self.config: Dict[str, Any] = self._load_config()
-        # Ensure it's hidden if it exists
-        self._hide_file(self.config_file)
     
     def _load_config(self) -> Dict[str, Any]:
         """Load configuration from file."""
-        if os.path.exists(self.config_file):
-            try:
-                with open(self.config_file, 'r') as f:
-                    return json.load(f)
-            except Exception as e:
-                logger.error(f"Error loading config: {e}")
-        
-        # Default configuration
-        return {
+        defaults = {
             "theme": "modern",
             "style": "spectrum_bars",
             "audio_device": None,
@@ -69,37 +80,52 @@ class Config:
             "background_image": None,
             "fullscreen": False,
             "fps_limit": 60,
+            "gain": 100.0,
+            "opacity": 0.3,
             "sensitivity": {
                 "rms_threshold_on": 0.0008,
                 "rms_threshold_off": 0.0004,
                 "silence_timeout": 45
             }
         }
+
+        if os.path.exists(self.config_file):
+            try:
+                with open(self.config_file, 'r') as f:
+                    saved_config = json.load(f)
+                    # Merge saved config with defaults
+                    defaults.update(saved_config)
+                    return defaults
+            except Exception as e:
+                logger.error(f"Error loading config: {e}")
+        
+        # Default configuration
+        return defaults
     
     def save_config(self):
-        """Save configuration to file and ensure it is hidden on Windows."""
+        """Save configuration to file."""
         try:
+            # Ensure file is not hidden/read-only before writing
+            self._ensure_writable()
+            
             # Write JSON
             with open(self.config_file, 'w') as f:
                 json.dump(self.config, f, indent=2)
             
-            # Hide file on Windows
-            self._hide_file(self.config_file)
         except Exception as e:
             logger.error(f"Error saving config: {e}")
     
-    def _hide_file(self, path: str):
-        """Set hidden attribute on Windows."""
-        if os.name == 'nt' and os.path.exists(path):
+    def _ensure_writable(self):
+        """Ensure file is writable by removing Hidden attribute on Windows."""
+        if os.name == 'nt' and os.path.exists(self.config_file):
             try:
                 import ctypes
-                # FILE_ATTRIBUTE_HIDDEN = 0x02
-                ret = ctypes.windll.kernel32.SetFileAttributesW(path, 0x02)
-                if not ret:
-                    logger.warning(f"Failed to set hidden attribute on {path}")
+                # FILE_ATTRIBUTE_NORMAL = 0x80
+                # Set to normal to remove Hidden (0x02) or Read-only (0x01)
+                ctypes.windll.kernel32.SetFileAttributesW(self.config_file, 0x80)
             except Exception as e:
-                logger.error(f"Error hiding file {path}: {e}")
-    
+                logger.error(f"Error removing hidden attribute: {e}")
+
     def get(self, key: str, default: Any = None) -> Any:
         """Get configuration value."""
         return self.config.get(key, default)

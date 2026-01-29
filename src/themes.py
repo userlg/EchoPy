@@ -76,16 +76,23 @@ class ColorTheme:
 THEMES: Dict[str, ColorTheme] = {
     "modern": ColorTheme(
         name="Modern",
-        colors=["#00D9FF", "#7B2FFF", "#BD00FF"],
-        bg_color="#0A0A0A",
+        colors=["#6C5CE7", "#A29BFE", "#00CEC9", "#81ECEC"], # Indigo to Cyan
+        bg_color="#050505",
         text_color="#FFFFFF"
     ),
     
     "cyberpunk": ColorTheme(
         name="Cyberpunk",
-        colors=["#FF006E", "#FF1B8D", "#00F0FF", "#00D4FF"],
+        colors=["#F72585", "#7209B7", "#3A0CA3", "#4361EE", "#4CC9F0"], # Neon Palette
         bg_color="#0D0221",
-        text_color="#00F0FF"
+        text_color="#4CC9F0"
+    ),
+    
+    "aurora": ColorTheme(
+        name="Aurora",
+        colors=["#00ff87", "#60efff", "#0061ff", "#60efff"], # Green/Blue/Purple
+        bg_color="#000428",
+        text_color="#60efff"
     ),
     
     "aesthetic": ColorTheme(

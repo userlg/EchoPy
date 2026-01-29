@@ -219,9 +219,11 @@ class MainWindow(QMainWindow):
         
         # Load background image if saved
         bg_path = self.config.get("background_image")
-        if bg_path:
-            self._load_background(bg_path)
-            
+        if bg_path and os.path.exists(bg_path):
+            self._load_background(bg_path, save=False)
+        elif bg_path:
+             logger.warning(f"Saved background image not found: {bg_path}")
+             
         # Restore opacity
         opacity = self.config.get("opacity", 0.3)
         self.visualizer_widget.set_background_opacity(opacity)
@@ -264,18 +266,20 @@ class MainWindow(QMainWindow):
         self.visualizer_widget.set_theme(theme)
         self.config.set("theme", theme_name)
     
-    def _load_background(self, file_path: str):
+    def _load_background(self, file_path: str, save: bool = True):
         """Load background image."""
         pixmap = load_image(file_path)
         if pixmap:
             self.visualizer_widget.set_background_image(pixmap)
-            self.config.set("background_image", file_path)
+            if save:
+                self.config.set("background_image", file_path)
         else:
-            QMessageBox.warning(
-                self,
-                "Error",
-                f"Failed to load image: {file_path}"
-            )
+            if save: # Only show error if user manually triggered it
+                QMessageBox.warning(
+                    self,
+                    "Error",
+                    f"Failed to load image: {file_path}"
+                )
     
     def _clear_background(self):
         """Clear background image."""

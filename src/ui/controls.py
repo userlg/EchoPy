@@ -3,9 +3,11 @@
 from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
                                 QComboBox, QLabel, QFileDialog, QGridLayout, QFrame,
                                 QGraphicsDropShadowEffect)
-from PySide6.QtCore import Signal, Qt
-from PySide6.QtGui import QColor
+from PySide6.QtCore import Signal, Qt, QSize
+from PySide6.QtGui import QColor, QIcon
 from themes import get_theme_names
+from utils import get_resource_path
+import os
 
 
 class ControlPanel(QWidget):
@@ -36,68 +38,66 @@ class ControlPanel(QWidget):
         main_layout = QVBoxLayout()
         main_layout.setContentsMargins(10, 10, 10, 10)
         
-        # Container frame for styling
         self.container = QFrame()
         self.container.setObjectName("MainContainer")
-        self.container.setStyleSheet("""
-            QFrame#MainContainer {
+        
+        # Get absolute path for arrow icon and normalize slashes for CSS
+        arrow_icon = get_resource_path(os.path.join("resources", "icons", "arrow_down.svg")).replace("\\", "/")
+        
+        self.container.setStyleSheet(f"""
+            QFrame#MainContainer {{
                 background-color: #1a1a1a;
                 border: 1px solid rgba(255, 255, 255, 30);
                 border-radius: 16px;
-            }
-            QLabel {
+            }}
+            QLabel {{
                 color: #ffffff;
                 font-family: 'Segoe UI', sans-serif;
                 font-weight: 500;
-            }
-            QPushButton {
+            }}
+            QPushButton {{
                 background-color: #333333;
                 color: #ffffff;
                 border: 1px solid #555555;
                 border-radius: 6px;
                 padding: 5px;
-            }
-            QPushButton:hover {
+            }}
+            QPushButton:hover {{
                 background-color: #444444;
                 border-color: #00d2ff;
-            }
-            QPushButton:checked {
+            }}
+            QPushButton:checked {{
                 background-color: #00d2ff;
                 color: #000000;
-            }
-            QComboBox {
+            }}
+            QComboBox {{
                 background-color: #333333;
                 color: #ffffff;
                 border: 1px solid #555555;
                 border-radius: 6px;
                 padding: 5px;
                 min-height: 25px;
-            }
-            QComboBox:hover {
+            }}
+            QComboBox:hover {{
                 border-color: #00d2ff;
                 background-color: #404040;
-            }
-            QComboBox::drop-down {
+            }}
+            QComboBox::drop-down {{
                 subcontrol-origin: padding;
                 subcontrol-position: top right;
-                width: 20px;
+                width: 30px;
                 border-left-width: 0px;
                 border-top-right-radius: 6px;
                 border-bottom-right-radius: 6px;
                 background-color: transparent;
-            }
-            QComboBox::down-arrow {
-                image: none;
-                border: none;
-                width: 0; 
-                height: 0;
-                border-left: 5px solid transparent;
-                border-right: 5px solid transparent;
-                border-top: 5px solid #ffffff;
-                margin-top: 2px;
-                margin-right: 5px;
-            }
-            QComboBox QAbstractItemView {
+            }}
+            QComboBox::down-arrow {{
+                image: url({arrow_icon});
+                width: 16px;
+                height: 16px;
+                margin-right: 10px;
+            }}
+            QComboBox QAbstractItemView {{
                 background-color: #2b2b2b;
                 color: #ffffff;
                 selection-background-color: #00d2ff;
@@ -105,7 +105,7 @@ class ControlPanel(QWidget):
                 border: 1px solid #555555;
                 border-radius: 4px;
                 outline: none;
-            }
+            }}
         """)
         
         # Add drop shadow
@@ -189,13 +189,23 @@ class ControlPanel(QWidget):
         
         bg_buttons = QHBoxLayout()
         
-        self.load_bg_btn = QPushButton("Load Image")
+        self.load_bg_btn = QPushButton(" Load BG")
         self.load_bg_btn.clicked.connect(self._on_load_background)
         self.load_bg_btn.setCursor(Qt.PointingHandCursor)
+        # Set icon
+        icon_path = get_resource_path(os.path.join("resources", "icons", "upload.svg"))
+        if os.path.exists(icon_path):
+            self.load_bg_btn.setIcon(QIcon(icon_path))
+            self.load_bg_btn.setIconSize(QSize(18, 18))
         
-        self.clear_bg_btn = QPushButton("Clear")
+        self.clear_bg_btn = QPushButton(" Clear")
         self.clear_bg_btn.clicked.connect(self._on_clear_background)
         self.clear_bg_btn.setCursor(Qt.PointingHandCursor)
+        # Set icon
+        icon_path = get_resource_path(os.path.join("resources", "icons", "trash.svg"))
+        if os.path.exists(icon_path):
+             self.clear_bg_btn.setIcon(QIcon(icon_path))
+             self.clear_bg_btn.setIconSize(QSize(18, 18))
         
         bg_buttons.addWidget(self.load_bg_btn)
         bg_buttons.addWidget(self.clear_bg_btn)
@@ -212,15 +222,25 @@ class ControlPanel(QWidget):
         layout.addWidget(line)
         
         # Settings button
-        self.settings_btn = QPushButton("Preferences")
+        self.settings_btn = QPushButton(" Preferences")
         self.settings_btn.clicked.connect(self.settings_requested.emit)
         self.settings_btn.setCursor(Qt.PointingHandCursor)
+        # Set icon
+        icon_path = get_resource_path(os.path.join("resources", "icons", "settings.svg"))
+        if os.path.exists(icon_path):
+             self.settings_btn.setIcon(QIcon(icon_path))
+             self.settings_btn.setIconSize(QSize(18, 18))
         layout.addWidget(self.settings_btn)
         
         # Close button
-        close_btn = QPushButton("Hide Controls")
+        close_btn = QPushButton(" Hide Controls")
         close_btn.clicked.connect(self.hide)
         close_btn.setCursor(Qt.PointingHandCursor)
+        # Set icon
+        icon_path = get_resource_path(os.path.join("resources", "icons", "hide.svg"))
+        if os.path.exists(icon_path):
+             close_btn.setIcon(QIcon(icon_path))
+             close_btn.setIconSize(QSize(18, 18))
         close_btn.setStyleSheet("""
             QPushButton {
                 background-color: rgba(255, 50, 50, 50);

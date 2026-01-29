@@ -21,31 +21,34 @@
 - **Frequency Rings** - Expanding ripple patterns
 - **Audio Lines** - Flowing Bezier curves
 
-### 🌈 10 Color Themes
+### 🌈 Premium Color Themes
 
-1. **Modern** - Cyan to purple gradients
-2. **Cyberpunk** - Neon pink and electric blue
-3. **Aesthetic** - Soft pastel colors
-4. **Classic** - Retro green monochrome
-5. **Fire** - Red to yellow flame colors
-6. **Ocean** - Deep blue to cyan waves
-7. **Sunset** - Orange and pink hues
-8. **Neon** - Bright multi-color spectrum
-9. **Monochrome** - Black and white
+1. **Modern** - Indigo to Cyan gradients (Premium default)
+2. **Cyberpunk** - High-contrast Neon Pink & Blue
+3. **Aurora** - Northern Lights inspired (Green/Blue) [NEW]
+4. **Aesthetic** - Soft pastel colors
+5. **Classic** - Retro green monochrome
+6. **Fire** - intense Red to yellow flame colors
+7. **Ocean** - Deep blue to cyan waves
+8. **Sunset** - Warm Orange and Purple hues
+9. **Neon** - Bright multi-color spectrum
 10. **Rainbow** - Full ROYGBIV spectrum
 
 ### 🎛️ Advanced Features
 
-- 🖼️ **Custom backgrounds** - Set your own images
+- 🖼️ **Custom backgrounds** - Persistent background loading
 - 🎚️ **Audio device selection** - Choose input source
 - ⚙️ **Configurable settings** - Adjust smoothing, sample rate, FFT size
 - 🖥️ **Fullscreen mode** - Immersive experience (F11)
-- 💾 **Settings persistence** - Your preferences are saved
+- 💾 **Settings persistence** - Robust saving to AppData
 - 📊 **Real-time performance** - 60 FPS smooth rendering
+- 💎 **Premium UI** - Glassmorphism, SVG icons, and modern controls
 
 ## Architecture
 
 EchoPy follows a decoupled architecture inspired by Clean Architecture and SOLID principles.
+
+![EchoPy Architecture](resources/architecture.png)
 
 ```mermaid
 graph TD
@@ -159,7 +162,10 @@ Access via `Ctrl+,` or `Right-Click > Preferences`.
 
 ## 🔧 Configuration
 
-Settings are automatically saved to `config.json` in the application directory:
+Settings are automatically saved to `config.json` in the user's data directory (ensuring persistence even after updates):
+
+- **Windows**: `%LOCALAPPDATA%\EchoPy\config.json`
+- **Linux/Mac**: `~/.local/share/EchoPy/config.json`
 
 ```json
 {
