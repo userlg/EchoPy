@@ -52,19 +52,19 @@ EchoPy follows a decoupled architecture inspired by Clean Architecture and SOLID
 
 ```mermaid
 graph TD
-    subgraph "Presentation Layer"
+    subgraph Presentation_Layer [Presentation Layer]
         MW[MainWindow]
         VW[VisualizerWidget]
         CP[ControlPanel]
     end
 
-    subgraph "Core Logic"
+    subgraph Core_Logic [Core Logic]
         AP[AudioProcessor]
         VF[VisualizerFactory]
         SB[SmoothingBuffer]
     end
 
-    subgraph "Plugin Layer (Styles)"
+    subgraph Plugin_Layer [Plugin Layer - Styles]
         BaseV[BaseVisualizer]
         Styles[SpectrumBars, Waveform, etc.]
     end
@@ -74,8 +74,8 @@ graph TD
     VF --> BaseV
     BaseV <|-- Styles
     AP --> SB
-    AP -- "Audio Data" --> VW
-    VW -- "delegate render" --> BaseV
+    AP -- Audio Data --> VW
+    VW -- delegate render --> BaseV
 ```
 
 ## 📸 Gallery
