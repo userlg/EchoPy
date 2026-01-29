@@ -78,6 +78,14 @@ graph TD
     VW -- "delegate render" --> BaseV
 ```
 
+## 📸 Gallery
+
+<p float="left">
+  <img src="resources/screenshots/capture_1.png" width="260" />
+  <img src="resources/screenshots/capture_2.png" width="260" /> 
+  <img src="resources/screenshots/capture_3.png" width="260" />
+</p>
+
 ## 🚀 Installation
 
 ### Prerequisites
