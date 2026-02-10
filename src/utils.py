@@ -83,9 +83,9 @@ class Config:
             "gain": 100.0,
             "opacity": 0.3,
             "sensitivity": {
-                "rms_threshold_on": 0.0008,
-                "rms_threshold_off": 0.0004,
-                "silence_timeout": 45
+                "rms_threshold_on": 0.0002,
+                "rms_threshold_off": 0.0001,
+                "silence_timeout": 60
             }
         }
 

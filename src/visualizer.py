@@ -1,6 +1,7 @@
 from __future__ import annotations
 import numpy as np
 from typing import Optional, TYPE_CHECKING
+
 if TYPE_CHECKING:
     from numpy import ndarray
 from abc import ABC, abstractmethod
@@ -15,11 +16,11 @@ from ui.overlay import DebugOverlay
 
 class BaseVisualizer(ABC):
     """Abstract base class for all visualization styles."""
-    
+
     def __init__(self, name: str):
         """
         Initialize visualizer.
-        
+
         Args:
             name: Visualizer name
         """
@@ -27,21 +28,21 @@ class BaseVisualizer(ABC):
         self.theme: Optional[ColorTheme] = None
         self.width = 800
         self.height = 600
-    
+
     def set_theme(self, theme: ColorTheme):
         """Set color theme."""
         self.theme = theme
-    
+
     def set_size(self, width: int, height: int):
         """Set canvas size."""
         self.width = width
         self.height = height
-    
+
     @abstractmethod
     def render(self, painter: QPainter, waveform: np.ndarray, fft_data: np.ndarray):
         """
         Render visualization.
-        
+
         Args:
             painter: QPainter instance
             waveform: Time-domain waveform data
@@ -52,82 +53,84 @@ class BaseVisualizer(ABC):
 
 class VisualizerWidget(QWidget):
     """Widget that renders visualizations with dynamic behavior."""
-    
-    
+
     def __init__(self, parent=None):
         """Initialize visualizer widget."""
         super().__init__(parent)
-        
+
         # Sensitivity Settings (Defaults - More Sensitive)
         self.raw_threshold_on = 0.0002  # Lower wake threshold
-        self.raw_threshold_off = 0.0001 # Lower sleep threshold
-        self.silence_timeout = 60       # Longer timeout
-        
+        self.raw_threshold_off = 0.0001  # Lower sleep threshold
+        self.silence_timeout = 60  # Longer timeout
+
         # Set widget properties
         self.setMinimumSize(800, 600)
         self.setAttribute(Qt.WA_OpaquePaintEvent)
-        
+
         # Current visualizer
         self.visualizer: Optional[BaseVisualizer] = None
-        
+
         # Audio data
         self.waveform = np.zeros(2048, dtype=np.float32)
         self.fft_data = np.zeros(1024, dtype=np.float32)
-        
+
         # Audio analysis state
         self.current_max_peak = 0.0
-        self.activity_level = 0.0 # Smoothed activity level (post-RMS)
+        self.activity_level = 0.0  # Smoothed activity level (post-RMS)
         self.is_silent = True
-        self._silence_frame_counter = 0 # For hysteresis
-        
+        self._silence_frame_counter = 0  # For hysteresis
+
         # Theme
         self.current_theme = get_theme("modern")
-        
+
         # Background image
         self.background_image: Optional[QPixmap] = None
         self.background_opacity = 0.3
-        
+
         # Debug / Overlay
         self.debug_overlay = DebugOverlay(self)
-        
+
         # Animation timer
         self.animation_timer = QTimer()
         self.animation_timer.timeout.connect(self.update)
         self.animation_timer.start(16)  # 60 FPS
-        
+
     def set_visualizer(self, visualizer: BaseVisualizer):
         """Set the active visualizer."""
         self.visualizer = visualizer
         if self.visualizer:
             self.visualizer.set_theme(self.current_theme)
-            self.visualizer.set_theme(self.current_theme)
             self.visualizer.set_size(self.width(), self.height())
             logger.debug(f"Visualizer configured: {self.visualizer.name}")
         self.update()
-    
+
     def set_theme(self, theme: ColorTheme):
         self.current_theme = theme
         if self.visualizer:
             self.visualizer.set_theme(theme)
-    
+
     def set_background_image(self, pixmap: Optional[QPixmap]):
         self.background_image = pixmap
-    
+
     def set_background_opacity(self, opacity: float):
         self.background_opacity = max(0.0, min(1.0, opacity))
-    
+
     def set_show_fps(self, show: bool):
         self.debug_overlay.visible = show
         self.update()
-        
+
     def set_sensitivity(self, threshold_on: float, threshold_off: float, timeout: int):
         """Set sensitivity parameters."""
         self.raw_threshold_on = threshold_on
         self.raw_threshold_off = threshold_off
         self.silence_timeout = timeout
-        logger.info(f"Sensitivity updated: On={threshold_on}, Off={threshold_off}, Timeout={timeout}")
-    
-    def update_audio_data(self, waveform: np.ndarray, fft_data: np.ndarray, activity_signal: float):
+        logger.info(
+            f"Sensitivity updated: On={threshold_on}, Off={threshold_off}, Timeout={timeout}"
+        )
+
+    def update_audio_data(
+        self, waveform: np.ndarray, fft_data: np.ndarray, activity_signal: float
+    ):
         """
         Update audio data with RMS Temporal Hysteresis.
         activity_signal is the RMS of the 'cleaned' audio.
@@ -139,8 +142,24 @@ class VisualizerWidget(QWidget):
 
     def _update_activity_metrics(self, activity_signal: float, waveform: np.ndarray):
         """Calculate and smooth activity metrics."""
-        alpha = 0.15 # Sensitivity factor
-        self.activity_level = ((1.0 - alpha) * self.activity_level) + (alpha * activity_signal)
+        # Log first few activity values for debugging
+        if not hasattr(self, "_debug_activity_logged"):
+            logger.debug(
+                f"DEBUG: First activity_signal received: {activity_signal:.10f}"
+            )
+            self._debug_activity_logged = True
+            self._debug_count = 0
+
+        self._debug_count += 1
+        if self._debug_count < 5:
+            logger.debug(
+                f"DEBUG: activity_signal #{self._debug_count}: {activity_signal:.10f}"
+            )
+
+        alpha = 0.15  # Sensitivity factor
+        self.activity_level = ((1.0 - alpha) * self.activity_level) + (
+            alpha * activity_signal
+        )
         self.current_max_peak = np.max(np.abs(waveform)) if len(waveform) > 0 else 0.0
 
     def _update_state_machine(self):
@@ -151,7 +170,9 @@ class VisualizerWidget(QWidget):
                 self._silence_frame_counter = 0
                 if not self.animation_timer.isActive():
                     self.animation_timer.start(16)
-                    logger.debug(f"Visualizer WAKING UP (Activity: {self.activity_level:.6f})")
+                    logger.debug(
+                        f"Visualizer WAKING UP (Activity: {self.activity_level:.6f})"
+                    )
         else:
             if self.activity_level < self.raw_threshold_off:
                 self._silence_frame_counter += 1
@@ -159,7 +180,7 @@ class VisualizerWidget(QWidget):
                     self.is_silent = True
                     self.animation_timer.stop()
                     logger.debug("Visualizer SLEEPING (Dynamic Idling)")
-                    self.update() # Clear screen
+                    self.update()  # Clear screen
             else:
                 self._silence_frame_counter = 0
 
@@ -174,61 +195,63 @@ class VisualizerWidget(QWidget):
 
     def _handle_debug_logging(self, waveform: np.ndarray):
         """Log diagnostic information periodically."""
-        if not hasattr(self, '_debug_print_counter'):
+        if not hasattr(self, "_debug_print_counter"):
             self._debug_print_counter = 0
-            
+
         self._debug_print_counter += 1
         if self._debug_print_counter >= 60:
             self._debug_print_counter = 0
             status = "SILENCE" if self.is_silent else "ACTIVE"
-            logger.debug(f"DIAG | Status: {status} | Peak: {self.current_max_peak:.3f} | Activity(RMS): {self.activity_level:.6f}")
+            logger.debug(
+                f"DIAG | Status: {status} | Peak: {self.current_max_peak:.3f} | Activity(RMS): {self.activity_level:.6f}"
+            )
 
-        
     def paintEvent(self, event):
         """Paint event handler."""
         painter = QPainter(self)
-        # Disable Antialiasing for performance (Waveform line is too complex)
-        # painter.setRenderHint(QPainter.Antialiasing)
-        painter.setRenderHint(QPainter.SmoothPixmapTransform)
-        
-        # 1. Draw Background
-        self._draw_background(painter)
-        
-        # 2. Draw Visualization
-        if self.visualizer:
-            # If silent, we are passing zeroed arrays (set in update_audio_data)
-            # so the visualizer will naturally render "stopped" state.
-            self.visualizer.render(painter, self.waveform, self.fft_data)
-        else:
-            self._draw_no_visualizer_message(painter)
-        
-        # 3. Draw Overlays (via DebugOverlay class - Refactoring step)
-        self.debug_overlay.render(
-            painter, 
-            self.width(), 
-            self.height(), 
-            self.visualizer,
-            self.current_max_peak,
-            self.is_silent
-        )
-        
-        # Update frame count in overlay
-        self.debug_overlay.increment_frame()
-    
+        try:
+            # Disable Antialiasing for performance (Waveform line is too complex)
+            # painter.setRenderHint(QPainter.Antialiasing)
+            painter.setRenderHint(QPainter.SmoothPixmapTransform)
+
+            # 1. Draw Background
+            self._draw_background(painter)
+
+            # 2. Draw Visualization
+            if self.visualizer:
+                # If silent, we are passing zeroed arrays (set in update_audio_data)
+                # so the visualizer will naturally render "stopped" state.
+                self.visualizer.render(painter, self.waveform, self.fft_data)
+            else:
+                self._draw_no_visualizer_message(painter)
+
+            # 3. Draw Overlays (via DebugOverlay class - Refactoring step)
+            self.debug_overlay.render(
+                painter,
+                self.width(),
+                self.height(),
+                self.visualizer,
+                self.current_max_peak,
+                self.is_silent,
+            )
+
+            # Update frame count in overlay
+            self.debug_overlay.increment_frame()
+        finally:
+            painter.end()
+
     def _draw_background(self, painter: QPainter):
         """Draw widget background and image."""
         painter.fillRect(self.rect(), self.current_theme.bg_color)
-        
+
         if self.background_image:
             painter.save()
             painter.setOpacity(self.background_opacity)
-            
+
             scaled = self.background_image.scaled(
-                self.size(),
-                Qt.KeepAspectRatioByExpanding,
-                Qt.SmoothTransformation
+                self.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation
             )
-            
+
             x = (self.width() - scaled.width()) // 2
             y = (self.height() - scaled.height()) // 2
             painter.drawPixmap(x, y, scaled)
@@ -244,7 +267,7 @@ class VisualizerWidget(QWidget):
         super().resizeEvent(event)
         if self.visualizer:
             self.visualizer.set_size(self.width(), self.height())
-    
+
     def get_fps(self) -> int:
         """Get current FPS."""
         return self.debug_overlay.fps

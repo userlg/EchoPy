@@ -12,12 +12,13 @@ from styles.matrix_rain import MatrixRain
 from styles.oscilloscope import Oscilloscope
 from styles.frequency_rings import FrequencyRings
 from styles.audio_lines import AudioLines
+from styles.sound_wave import SoundWave
 from utils import logger
 
 
 class VisualizerFactory:
     """Manages registration and creation of visualizer styles."""
-    
+
     _styles: Dict[str, Type[BaseVisualizer]] = {
         "spectrum_bars": SpectrumBars,
         "waveform": Waveform,
@@ -28,25 +29,26 @@ class VisualizerFactory:
         "matrix_rain": MatrixRain,
         "oscilloscope": Oscilloscope,
         "frequency_rings": FrequencyRings,
-        "audio_lines": AudioLines
+        "audio_lines": AudioLines,
+        "sound_wave": SoundWave,
     }
-    
+
     _instances: Dict[str, BaseVisualizer] = {}
 
     @classmethod
     def get_visualizer(cls, name: str) -> Optional[BaseVisualizer]:
         """
         Get or create a visualizer instance by name.
-        
+
         Args:
             name: Style name
-            
+
         Returns:
             Visualizer instance or None if not found
         """
         if name in cls._instances:
             return cls._instances[name]
-        
+
         if name in cls._styles:
             try:
                 instance = cls._styles[name]()
@@ -55,7 +57,7 @@ class VisualizerFactory:
             except Exception as e:
                 logger.error(f"Error creating visualizer '{name}': {e}")
                 return None
-        
+
         logger.warning(f"Visualizer style '{name}' not found")
         return None
 

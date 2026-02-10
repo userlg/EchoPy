@@ -1,91 +1,108 @@
 from __future__ import annotations
-"""Audio lines visualization style."""
-
 import numpy as np
 import math
-from PySide6.QtGui import QPainter, QPen, QPainterPath, QColor
+from PySide6.QtGui import QPainter, QPen, QPainterPath, QColor, QLinearGradient, QBrush
 from PySide6.QtCore import Qt, QPointF
 from visualizer import BaseVisualizer
 
 
 class AudioLines(BaseVisualizer):
-    """Abstract line art with flowing Bezier curves."""
+    """Energy ribbons with high-impact flow and vocal-driven turbulence."""
     
     def __init__(self):
-        """Initialize audio lines visualizer."""
         super().__init__("Audio Lines")
-        self.num_lines = 5
-        self.line_width = 3
-        self.time = 0
+        self.num_layers = 8  # Más capas para mayor profundidad visual
+        self.line_width = 2
+        self.time = 0.0
+        self.smoothing = 0.2  # Suavizado para una fluidez cinematográfica
+        self.prev_magnitudes = None
     
     def render(self, painter: QPainter, waveform: np.ndarray, fft_data: np.ndarray):
-        """Render audio lines."""
-        if self.theme is None:
+        if self.theme is None or fft_data is None:
             return
         
-        # Number of control points
-        num_points = 8
-        samples_per_point = len(fft_data) // num_points
+        painter.setRenderHint(QPainter.Antialiasing, True)
         
-        # Draw multiple layers of lines
-        for layer in range(self.num_lines):
-            # Create path
+        # 1. Análisis de Poder Vocal (Foco en la autoridad de la voz)
+        n_fft = len(fft_data)
+        num_points = 12  # Puntos de control para la curva
+        samples_per_point = max(1, int(n_fft * 0.25) // num_points)
+        
+        current_mags = np.zeros(num_points)
+        for i in range(num_points):
+            start = i * samples_per_point
+            end = start + samples_per_point
+            current_mags[i] = np.mean(fft_data[start:end]) if start < n_fft else 0
+
+        # Suavizado temporal para evitar saltos nerviosos
+        if self.prev_magnitudes is None:
+            self.prev_magnitudes = current_mags
+        else:
+            self.prev_magnitudes = (current_mags * self.smoothing) + (self.prev_magnitudes * (1.0 - self.smoothing))
+
+        # 2. Renderizado de Capas de Energía (Ribbons)
+        for layer in range(self.num_layers):
             path = QPainterPath()
             
-            # Get color for this layer
-            color = self.theme.get_gradient_color(layer / self.num_lines)
+            # Color y degradado de la capa
+            color_pos = layer / self.num_layers
+            base_color = self.theme.get_gradient_color(color_pos)
             
-            # Vertical offset for this layer
-            base_y = (layer / self.num_lines) * self.height
+            # El listón se sitúa en el centro con un ligero offset por capa
+            center_y = self.height * 0.5
+            layer_offset = (layer - (self.num_layers / 2)) * 15
             
-            # Calculate control points based on FFT data
             points = []
             for i in range(num_points):
-                start_idx = i * samples_per_point
-                end_idx = start_idx + samples_per_point
-                magnitude = np.mean(fft_data[start_idx:end_idx]) if end_idx <= len(fft_data) else 0
-                
                 x = (i / (num_points - 1)) * self.width
-                # Added self.time * 0.05 for constant flow, magnitude * 150 for audio reaction
-                phase = i * 0.5 + layer + self.time * 0.05
-                y = base_y + math.sin(phase) * 50 + magnitude * 150
                 
+                # Dinámica de movimiento:
+                # - Sinusoidal constante para el "flow"
+                # - Reacción al audio multiplicada por el peso de la capa
+                phase = i * 0.8 + layer * 0.5 + self.time
+                wave = math.sin(phase) * (20 + layer * 5)
+                audio_react = self.prev_magnitudes[i] * (200 + layer * 50)
+                
+                y = center_y + layer_offset + wave + audio_react
                 points.append(QPointF(x, y))
+
+            # 3. Construcción de la Curva (Cubic Bezier para suavidad extrema)
+            path.moveTo(points[0])
+            for i in range(len(points) - 1):
+                p1 = points[i]
+                p2 = points[i+1]
+                # Puntos de control para suavizado
+                control_x = (p1.x() + p2.x()) / 2
+                path.cubicTo(QPointF(control_x, p1.y()), QPointF(control_x, p2.y()), p2)
+
+            # 4. Estética de Alto Impacto
+            # Relleno sutil entre la línea y el horizonte para dar volumen
+            fill_path = QPainterPath(path)
+            fill_path.lineTo(self.width, center_y)
+            fill_path.lineTo(0, center_y)
+            fill_path.closeSubpath()
             
-            # Create smooth curve through points using Bezier curves
-            if len(points) > 0:
-                path.moveTo(points[0])
-                
-                for i in range(1, len(points)):
-                    # Calculate control points for smooth curve
-                    if i < len(points) - 1:
-                        # Quadratic Bezier curve
-                        cp_x = (points[i].x() + points[i - 1].x()) / 2
-                        cp_y = points[i].y()
-                        path.quadTo(QPointF(cp_x, cp_y), points[i])
-                    else:
-                        path.lineTo(points[i])
+            fill_grad = QLinearGradient(0, center_y - 100, 0, center_y + 100)
+            c_fill = QColor(base_color)
+            c_fill.setAlpha(30)
+            fill_grad.setColorAt(0, Qt.transparent)
+            fill_grad.setColorAt(0.5, c_fill)
+            fill_grad.setColorAt(1, Qt.transparent)
             
-            # Draw with transparency
-            line_color = QColor(color)
-            line_color.setAlpha(150)
-            
-            pen = QPen(line_color)
-            pen.setWidth(self.line_width)
-            pen.setCapStyle(Qt.RoundCap)
-            pen.setJoinStyle(Qt.RoundJoin)
-            
-            painter.setPen(pen)
+            painter.setPen(Qt.NoPen)
+            painter.setBrush(QBrush(fill_grad))
+            painter.drawPath(fill_path)
+
+            # Dibujo de la línea principal con resplandor
+            glow_color = QColor(base_color)
+            glow_color.setAlpha(60)
+            painter.setPen(QPen(glow_color, self.line_width + 6, Qt.SolidLine, Qt.RoundCap))
             painter.setBrush(Qt.NoBrush)
             painter.drawPath(path)
-            
-            # Draw glow
-            glow_color = QColor(color)
-            glow_color.setAlpha(50)
-            pen.setColor(glow_color)
-            pen.setWidth(self.line_width + 4)
-            painter.setPen(pen)
+
+            core_pen = QPen(base_color, self.line_width)
+            if layer % 2 == 0: core_pen.setColor(base_color.lighter(150)) # Brillo extra en capas alternas
+            painter.setPen(core_pen)
             painter.drawPath(path)
-            
-        # Increment time for next frame
-        self.time += 1
+
+        self.time += 0.04 # Velocidad del flujo
