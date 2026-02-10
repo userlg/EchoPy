@@ -1,108 +1,108 @@
 from __future__ import annotations
 import numpy as np
-import random
 from PySide6.QtGui import QPainter, QPen, QPainterPath, QColor, QRadialGradient, QBrush
 from PySide6.QtCore import Qt, QPointF
 from visualizer import BaseVisualizer
 
 class Oscilloscope(BaseVisualizer):
-    """Oscilloscope with high-impact kinetic energy and cinematic glow."""
+    """Oscilloscope optimizado para máxima fluidez y rendimiento cinemático."""
     
     def __init__(self):
         super().__init__("Oscilloscope")
         self.line_width = 3
         self.flicker_intensity = 0.0
         self.glitch_timer = 0
-    
+        
+        # Variables de suavizado (Smoothing)
+        self.smooth_scale = 1.0
+        self.smooth_flicker = 0.0
+        self.interpolation_factor = 0.15 # Determina la inercia del movimiento
+
     def render(self, painter: QPainter, waveform: np.ndarray, fft_data: np.ndarray):
         if self.theme is None or len(waveform) < 2:
             return
             
         painter.setRenderHint(QPainter.Antialiasing, True)
         
-        # 1. Análisis de Impacto (Energía de la Voz)
+        # 1. Procesamiento de Energía con Suavizado
         avg_energy = np.mean(np.abs(waveform))
-        # Detectamos picos para generar un "parpadeo" de poder
-        if avg_energy > 0.4:
-            self.flicker_intensity = min(1.0, self.flicker_intensity + 0.2)
-        else:
-            self.flicker_intensity *= 0.8
-
+        
+        # Suavizado de la intensidad del parpadeo (flicker)
+        target_flicker = min(1.0, self.flicker_intensity + 0.2) if avg_energy > 0.4 else self.flicker_intensity * 0.8
+        self.smooth_flicker += (target_flicker - self.smooth_flicker) * self.interpolation_factor
+        
         center_x = self.width / 2
         center_y = self.height / 2
 
-        # 2. Retícula de Enfoque (Sutil y Cinematográfica)
-        # En lugar de una cuadrícula de laboratorio, usamos una cruz de precisión
+        # 2. Retícula de Enfoque
         grid_color = QColor(self.theme.get_color(0))
         grid_color.setAlpha(40)
         painter.setPen(QPen(grid_color, 1))
         
-        # Círculos de enfoque concéntricos
+        base_r = min(self.width, self.height)
         for r_factor in [0.2, 0.4, 0.6]:
-            r = min(self.width, self.height) * r_factor
+            r = base_r * r_factor
             painter.drawEllipse(QPointF(center_x, center_y), r, r)
 
         painter.drawLine(0, int(center_y), self.width, int(center_y))
         painter.drawLine(int(center_x), 0, int(center_x), self.height)
 
-        # 3. Construcción del Núcleo de Energía (Lissajous Dinámico)
-        num_points = 600 # Menos puntos pero más gruesos para impacto visual
-        step = max(1, len(waveform) // num_points)
+        # 3. Construcción del Núcleo (Optimización NumPy)
+        num_points = 500 # Un poco menos de puntos para mayor fluidez
         
-        path = QPainterPath()
-        
-        # El tamaño del trazado aumenta con la fuerza de la voz
-        dynamic_scale = (min(self.width, self.height) * 0.4) * (1.0 + avg_energy * 2.0)
-        
-        for i in range(num_points):
-            idx = i * step
-            if idx >= len(waveform): break
-            
-            # X: Forma de onda original
-            x_val = waveform[idx]
-            # Y: Desfase dinámico (crea esa forma de "nudo" o "energía sagrada")
-            y_idx = (idx + len(waveform) // 3) % len(waveform)
-            y_val = waveform[y_idx]
-            
-            # Añadir un ligero "jitter" o temblor si la energía es alta
-            jitter = (random.uniform(-5, 5) * self.flicker_intensity) if self.flicker_intensity > 0.5 else 0
-            
-            x = center_x + x_val * dynamic_scale + jitter
-            y = center_y + y_val * dynamic_scale + jitter
-            
-            if i == 0: path.moveTo(x, y)
-            else: path.lineTo(x, y)
+        # Suavizado de la escala dinámica para evitar saltos
+        target_scale = (base_r * 0.4) * (1.0 + avg_energy * 2.0)
+        self.smooth_scale += (target_scale - self.smooth_scale) * self.interpolation_factor
 
-        # 4. Renderizado de "Rastro de Gloria" (Glow y Trace)
+        # Vectorización: Calculamos todos los índices y posiciones de una vez con NumPy
+        indices = np.linspace(0, len(waveform) - 1, num_points).astype(int)
+        x_vals = waveform[indices]
+        
+        y_indices = (indices + len(waveform) // 3) % len(waveform)
+        y_vals = waveform[y_indices]
+        
+        # Generamos el Jitter (temblor) de forma masiva
+        jitter_amount = 5 * self.smooth_flicker
+        jitters = np.random.uniform(-jitter_amount, jitter_amount, (num_points, 2)) if jitter_amount > 0.1 else np.zeros((num_points, 2))
+
+        # Coordenadas finales calculadas por NumPy (mucho más rápido que un bucle for)
+        px = center_x + x_vals * self.smooth_scale + jitters[:, 0]
+        py = center_y + y_vals * self.smooth_scale + jitters[:, 1]
+
+        # Creación del Path (Aún requiere un bucle, pero sin cálculos matemáticos dentro)
+        path = QPainterPath()
+        path.moveTo(px[0], py[0])
+        for i in range(1, num_points):
+            path.lineTo(px[i], py[i])
+
+        # 4. Renderizado de "Rastro de Gloria"
         main_color = self.theme.get_color(0)
         
-        # Efecto de resplandor expansivo (Halo)
+        # Glow
         glow_color = QColor(main_color)
-        glow_color.setAlpha(int(60 * self.flicker_intensity + 20))
-        painter.setPen(QPen(glow_color, self.line_width + 12, Qt.SolidLine, Qt.RoundCap))
+        glow_color.setAlpha(int(60 * self.smooth_flicker + 20))
+        painter.setPen(QPen(glow_color, self.line_width + 10, Qt.SolidLine, Qt.RoundCap))
         painter.drawPath(path)
         
-        # Trazado principal (Núcleo sólido)
+        # Núcleo
         core_color = QColor(main_color)
-        if self.flicker_intensity > 0.7:
-            core_color = core_color.lighter(150) # El núcleo se vuelve blanco con la intensidad
+        if self.smooth_flicker > 0.6:
+            core_color = core_color.lighter(140)
             
         painter.setPen(QPen(core_color, self.line_width, Qt.SolidLine, Qt.RoundCap))
         painter.drawPath(path)
 
-        # 5. Efecto de Escaneo de "Sabiduría Antigua"
-        # Un barrido vertical sutil que recuerda a los monitores CRT clásicos
-        scanline_y = (self.glitch_timer % 100) / 100.0 * self.height
+        # 5. Efectos Finales (Scanline y Viñeta)
         self.glitch_timer += 2
+        scanline_y = (self.glitch_timer % 100) / 100.0 * self.height
         
-        scan_color = QColor(255, 255, 255, 30)
+        scan_color = QColor(255, 255, 255, 25)
         painter.setPen(QPen(scan_color, 2))
         painter.drawLine(0, int(scanline_y), self.width, int(scanline_y))
         
-        # Viñeta para centrar la atención
         vignette = QRadialGradient(QPointF(center_x, center_y), self.width * 0.7)
         vignette.setColorAt(0, Qt.transparent)
-        vignette.setColorAt(1, QColor(0, 0, 0, 150))
+        vignette.setColorAt(1, QColor(0, 0, 0, 160))
         painter.setBrush(QBrush(vignette))
         painter.setPen(Qt.NoPen)
         painter.drawRect(0, 0, self.width, self.height)

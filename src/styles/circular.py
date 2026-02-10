@@ -7,26 +7,38 @@ from visualizer import BaseVisualizer
 
 
 class CircularSpectrum(BaseVisualizer):
-    """Circular spectrum with mirrored bars, glow effects, and reactive center."""
+    """Espectro circular de alto impacto con barras superiores dinámicas."""
 
     def __init__(self):
-        """Initialize circular spectrum visualizer."""
+        """Inicializa el visualizador con inercia de movimiento."""
         super().__init__("Circular Spectrum")
-        self.num_bands = 64  # Half-circle bands (mirrored → 128 visual)
-        self.min_radius = 80  # Inner circle radius
-        self.bar_width = 3  # Base bar width in px
-        self.smoothed_bass = 0.0  # For center pulse smoothing
-
+        self.num_bands = 64
+        self.min_radius = 80
+        self.bar_width = 3
+        self.smoothed_bass = 0.0
+        
+        # Estado para la fluidez (Smoothing)
+        self.prev_bar_lengths = np.zeros(self.num_bands)
+        self.smoothing_factor = 0.2
+        
+        # --- NUEVO: Estado para la animación de reposo de las barras superiores ---
+        self.idle_phase = 0.0
+        # Definimos cuántas barras cerca de la cima (índice 0) se verán afectadas
+        self.top_bars_count = 10 
+        
         # Effects State
-        self.rotation_angle = 0.0
-        self.shockwaves = []  # List of (radius, opacity) tuples
+        self.shockwaves = []
 
     def render(self, painter: QPainter, waveform: np.ndarray, fft_data: np.ndarray):
-        """Render enhanced circular spectrum with optimized vocal sensitivity."""
+        """Renderizado con fluidez de acero y rotación eliminada."""
         if self.theme is None:
             return
 
         painter.setRenderHint(QPainter.Antialiasing, True)
+
+        # --- NUEVO: Actualizar fase de animación de reposo ---
+        # Esto crea un movimiento ondulatorio lento y constante
+        self.idle_phase += 0.04
 
         # Layout
         center_x = self.width / 2
@@ -34,16 +46,14 @@ class CircularSpectrum(BaseVisualizer):
         max_radius = min(self.width, self.height) / 2 - 20
         bar_zone = max_radius - self.min_radius
 
-        # ──────────────── Frequency Binning (Optimized for Voice) ────────────────
+        # ──────────────── Análisis de Frecuencias (Voz) ────────────────
         n_fft = len(fft_data)
-        # Focus analysis on the lower 25% of the spectrum where the voice carries power
         effective_n = int(n_fft * 0.25)
 
         log_indices = np.logspace(
             np.log10(2), np.log10(effective_n), self.num_bands + 1
         ).astype(int)
 
-        # Pre-compute magnitudes for each band
         magnitudes = np.empty(self.num_bands, dtype=np.float64)
         for i in range(self.num_bands):
             lo = log_indices[i]
@@ -53,24 +63,48 @@ class CircularSpectrum(BaseVisualizer):
             else:
                 magnitudes[i] = 0.0
 
-        # ──────────────── Aggressive Boost & Power Curve ────────────────
+        # ──────────────── Boost y Curva de Poder ────────────────
         bass_end = self.num_bands // 4
         mids_end = int(self.num_bands * 0.6)
 
         boost = np.ones(self.num_bands, dtype=np.float64)
-        boost[:bass_end] = 1.5  # Deep punch
-        boost[bass_end:mids_end] = 3.0  # Vocal core clarity
-        boost[mids_end:] = 5.5  # High-frequency presence (breathing/clarity)
+        # Aumentamos ligeramente el boost inicial de los graves
+        boost[:bass_end] = 1.8 
+        boost[bass_end:mids_end] = 3.5
+        boost[mids_end:] = 5.5
 
         magnitudes = magnitudes * boost
-        # Expanded power curve to make subtle sounds more visible
-        magnitudes = np.power(np.clip(magnitudes, 0.0, None), 0.5)
+        # Usamos una curva de potencia ligeramente más agresiva para los graves
+        magnitudes[:bass_end] = np.power(np.clip(magnitudes[:bass_end], 0.0, None), 0.45)
+        magnitudes[bass_end:] = np.power(np.clip(magnitudes[bass_end:], 0.0, None), 0.5)
 
-        # Scale to bar zone with high impact multiplier
-        bar_lengths = magnitudes * bar_zone * 45.0
-        bar_lengths = np.clip(bar_lengths, 3.0, bar_zone)
+        # ──────────────── NUEVO: Micro-Dinámica para Barras Superiores ────────────────
+        # Inyectamos vida artificial solo si el audio real es muy bajo en esa zona.
+        for i in range(self.top_bars_count):
+            # 1. Crear una oscilación suave basada en el tiempo y el índice (para que no se muevan igual)
+            # El seno genera un valor entre -1 y 1, lo ajustamos a 0.0 - 1.0
+            oscillation = (math.sin(self.idle_phase + i * 0.5) * 0.5) + 0.5
+            
+            # 2. Definir la "magnitud de reposo" que queremos añadir (aprox. 15% del tamaño máximo)
+            idle_magnitude = oscillation * 0.15
+            
+            # 3. Mezcla inteligente: Si la magnitud real es baja (< 0.25), aplicamos la oscilación.
+            # Si el audio real sube, la oscilación desaparece para no ensuciar la señal real.
+            threshold = 0.25
+            if magnitudes[i] < threshold:
+                # Factor de mezcla: 1.0 si magnitud es 0, disminuye a 0.0 si magnitud llega al umbral
+                blend_factor = 1.0 - (magnitudes[i] / threshold)
+                magnitudes[i] += idle_magnitude * blend_factor
 
-        # ──────────────── Bass energy → center pulse & shockwaves ────────────────
+        # ──────────────── Suavizado de Barras (Fluidity) ────────────────
+        target_lengths = magnitudes * bar_zone * 45.0
+        # El suavizado se aplica DESPUÉS de la micro-dinámica para que el movimiento sea elegante
+        current_bar_lengths = (target_lengths * self.smoothing_factor) + (self.prev_bar_lengths * (1.0 - self.smoothing_factor))
+        self.prev_bar_lengths = current_bar_lengths
+        
+        bar_lengths = np.clip(current_bar_lengths, 3.0, bar_zone)
+
+        # ──────────────── Energía de Impacto (Shockwaves) ────────────────
         bass_energy = float(np.mean(magnitudes[: max(1, bass_end)]))
 
         if bass_energy > 0.3 and (bass_energy - self.smoothed_bass) > 0.05:
@@ -79,14 +113,9 @@ class CircularSpectrum(BaseVisualizer):
 
         self.smoothed_bass += (bass_energy - self.smoothed_bass) * 0.25
         pulse_offset = min(self.smoothed_bass * 60.0, 25.0)
-
         current_inner_r = self.min_radius + pulse_offset
 
-        # Update Rotation
-        rotation_speed = 0.2 + (self.smoothed_bass * 1.5)
-        self.rotation_angle = (self.rotation_angle + rotation_speed) % 360.0
-
-        # ──────────────── Render Shockwaves ────────────────
+        # ──────────────── Renderizado de Ondas de Choque ────────────────
         painter.setBrush(Qt.NoBrush)
         new_shockwaves = []
         for r, opacity in self.shockwaves:
@@ -102,17 +131,11 @@ class CircularSpectrum(BaseVisualizer):
                 painter.setPen(pen)
                 painter.drawEllipse(QPointF(center_x, center_y), r, r)
                 new_shockwaves.append([r, opacity])
-
         self.shockwaves = new_shockwaves
 
-        # ──────────────── Render bars (mirrored + rotated) ────────────────
+        # ──────────────── Renderizado de Barras (Estáticas) ────────────────
         half_sweep = 180.0
         angle_step = half_sweep / self.num_bands
-
-        painter.save()
-        painter.translate(center_x, center_y)
-        painter.rotate(self.rotation_angle)
-        painter.translate(-center_x, -center_y)
 
         for i in range(self.num_bands):
             mag = bar_lengths[i]
@@ -125,7 +148,7 @@ class CircularSpectrum(BaseVisualizer):
             angle_left = 360.0 - angle_right
 
             for angle_deg in (angle_right, angle_left):
-                angle_rad = math.radians(angle_deg - 90)
+                angle_rad = math.radians(angle_deg - 90) # 0° es la parte superior
                 cos_a = math.cos(angle_rad)
                 sin_a = math.sin(angle_rad)
 
@@ -153,9 +176,7 @@ class CircularSpectrum(BaseVisualizer):
                 painter.setPen(pen)
                 painter.drawLine(start_pt, end_pt)
 
-        painter.restore()
-
-        # ──────────────── Reactive center core ────────────────
+        # ──────────────── Centro Reactivo ────────────────
         center_r = current_inner_r - 8
         core_color = self.theme.get_color(0)
 
