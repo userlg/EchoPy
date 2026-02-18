@@ -30,7 +30,7 @@ class Waveform(BaseVisualizer):
         num_points = 250  # Suficiente para que se vea fluido pero no pesado
         step = max(1, len(waveform) // num_points)
         center_y = self.height / 2
-        amplitude = self.height * 0.4  # Usar el 40% de la altura para cada lado
+        amplitude = self.height * 0.46  # Mayor ocupación vertical
         
         # Creamos los paths para la parte superior e inferior (Efecto Espejo)
         path_top = QPainterPath()
@@ -40,7 +40,7 @@ class Waveform(BaseVisualizer):
         for i in range(0, len(waveform), step):
             sample = waveform[i]
             # Limitador y ganancia dinámica
-            val = np.clip(sample * 0.4, -1.0, 1.0)
+            val = np.clip(sample * 0.55, -1.0, 1.0)
             
             x = (i / len(waveform)) * self.width
             y_offset = val * amplitude

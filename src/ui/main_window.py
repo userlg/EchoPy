@@ -4,7 +4,7 @@ from PySide6.QtWidgets import (
     QMainWindow,
     QMessageBox,
 )
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QEvent
 from PySide6.QtGui import QAction, QKeySequence
 from visualizer import VisualizerWidget
 from audio_processor import AudioProcessor
@@ -42,7 +42,8 @@ class MainWindow(QMainWindow):
         self.visualizer_widget = VisualizerWidget()
 
         # Create control panel
-        self.control_panel = ControlPanel()
+        self.control_panel = ControlPanel(self)
+        self._restore_controls_on_normalize = False
 
         # Create settings dialog
         self.settings_dialog = SettingsDialog(self)
@@ -315,12 +316,42 @@ class MainWindow(QMainWindow):
 
     def _position_control_panel(self):
         """Position control panel on screen."""
-        # Position in top-right corner
-        screen_geom = self.screen().geometry()
-        x = screen_geom.width() - self.control_panel.width() - 20
-        y = 20
+        # Position in top-right corner of the main window so it tracks minimize/restore
+        window_geo = self.frameGeometry()
+        x = window_geo.right() - self.control_panel.width() - 16
+        y = window_geo.top() + 40
 
         self.control_panel.move(x, y)
+
+    def changeEvent(self, event):
+        """Track minimize/restore state to keep auxiliary windows in sync."""
+        if event.type() == QEvent.WindowStateChange:
+            if self.isMinimized():
+                # If controls were visible, hide them while app is minimized.
+                self._restore_controls_on_normalize = self.control_panel.isVisible()
+                if self.control_panel.isVisible():
+                    self.control_panel.hide()
+
+                # Keep settings dialog from lingering on top when minimizing.
+                if self.settings_dialog.isVisible():
+                    self.settings_dialog.hide()
+            elif self._restore_controls_on_normalize:
+                self._restore_controls_on_normalize = False
+                self._show_controls()
+
+        super().changeEvent(event)
+
+    def moveEvent(self, event):
+        """Keep control panel aligned with the main window when moving."""
+        super().moveEvent(event)
+        if self.control_panel.isVisible():
+            self._position_control_panel()
+
+    def resizeEvent(self, event):
+        """Keep control panel anchored while resizing the main window."""
+        super().resizeEvent(event)
+        if self.control_panel.isVisible():
+            self._position_control_panel()
 
     def _show_settings(self):
         """Show settings dialog."""

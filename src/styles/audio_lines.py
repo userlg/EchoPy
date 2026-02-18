@@ -16,6 +16,7 @@ class AudioLines(BaseVisualizer):
         self.time = 0.0
         self.smoothing = 0.2  # Suavizado para una fluidez cinematográfica
         self.prev_magnitudes = None
+        self.idle_energy_floor = 0.002
     
     def render(self, painter: QPainter, waveform: np.ndarray, fft_data: np.ndarray):
         if self.theme is None or fft_data is None:
@@ -40,6 +41,9 @@ class AudioLines(BaseVisualizer):
         else:
             self.prev_magnitudes = (current_mags * self.smoothing) + (self.prev_magnitudes * (1.0 - self.smoothing))
 
+        signal_energy = float(np.mean(np.abs(waveform))) if len(waveform) else 0.0
+        is_active = signal_energy > self.idle_energy_floor
+
         # 2. Renderizado de Capas de Energía (Ribbons)
         for layer in range(self.num_layers):
             path = QPainterPath()
@@ -50,7 +54,7 @@ class AudioLines(BaseVisualizer):
             
             # El listón se sitúa en el centro con un ligero offset por capa
             center_y = self.height * 0.5
-            layer_offset = (layer - (self.num_layers / 2)) * 15
+            layer_offset = (layer - (self.num_layers / 2)) * 19
             
             points = []
             for i in range(num_points):
@@ -60,8 +64,9 @@ class AudioLines(BaseVisualizer):
                 # - Sinusoidal constante para el "flow"
                 # - Reacción al audio multiplicada por el peso de la capa
                 phase = i * 0.8 + layer * 0.5 + self.time
-                wave = math.sin(phase) * (20 + layer * 5)
-                audio_react = self.prev_magnitudes[i] * (200 + layer * 50)
+                wave_strength = (20 + layer * 5) if is_active else 0.0
+                wave = math.sin(phase) * wave_strength
+                audio_react = self.prev_magnitudes[i] * (260 + layer * 60)
                 
                 y = center_y + layer_offset + wave + audio_react
                 points.append(QPointF(x, y))
@@ -105,4 +110,5 @@ class AudioLines(BaseVisualizer):
             painter.setPen(core_pen)
             painter.drawPath(path)
 
-        self.time += 0.04 # Velocidad del flujo
+        if is_active:
+            self.time += 0.04 # Velocidad del flujo

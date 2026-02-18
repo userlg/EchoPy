@@ -9,8 +9,8 @@ class SpectrumBars(BaseVisualizer):
 
     def __init__(self):
         super().__init__("Spectrum Bars")
-        self.num_bars = 64
-        self.bar_spacing = 3
+        self.num_bars = 72
+        self.bar_spacing = 2
         self.corner_radius = 4  # Estética moderna: bordes redondeados
         
         # Estado para suavizado (Smoothing)
@@ -31,7 +31,7 @@ class SpectrumBars(BaseVisualizer):
         # Layout
         total_width = self.width - (self.num_bars * self.bar_spacing)
         bar_width = total_width / self.num_bars
-        baseline_y = self.height * 0.82  # Elevamos un poco para la reflexión
+        baseline_y = self.height * 0.9  # Más presencia vertical para barras grandes
 
         n_fft = len(fft_data)
 
@@ -80,12 +80,12 @@ class SpectrumBars(BaseVisualizer):
             mag = magnitudes[i]
             peak = self.peaks[i]
 
-            # Altura con piso estético (mínimo 5px)
-            bar_height = max(5, mag * self.height * 0.9)
-            bar_height = min(bar_height, self.height * 0.75)
-            
-            peak_height = max(bar_height, peak * self.height * 0.9)
-            peak_height = min(peak_height, self.height * 0.75)
+            # Altura más amplia para ocupar mayor parte del lienzo
+            bar_height = max(8, mag * self.height * 1.1)
+            bar_height = min(bar_height, self.height * 0.86)
+
+            peak_height = max(bar_height, peak * self.height * 1.15)
+            peak_height = min(peak_height, self.height * 0.9)
 
             x = i * (bar_width + self.bar_spacing)
             y_bar = baseline_y - bar_height
