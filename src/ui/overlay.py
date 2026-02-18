@@ -37,7 +37,9 @@ class DebugOverlay:
         
     def render(self, painter: QPainter, width: int, height: int, 
                visualizer: Optional['BaseVisualizer'], 
-               audio_peak: float, is_silent: bool = False):
+               audio_peak: float, is_silent: bool = False,
+               frame_time_ms: float = 0.0,
+               callback_time_ms: float = 0.0):
         """Render the debug overlay."""
         if not self.visible:
             return
@@ -47,7 +49,7 @@ class DebugOverlay:
         painter.setPen(QPen(QColor(255, 255, 255, 180)))  # Semi-transparent white
         
         # Draw background for text to ensure readability
-        bg_height = 80 if visualizer else 60
+        bg_height = 120 if visualizer else 100
         painter.fillRect(5, 5, 200, bg_height, QColor(0, 0, 0, 100))
         
         y_offset = 25
@@ -60,5 +62,11 @@ class DebugOverlay:
         y_offset += 20
         status = "SILENCE" if is_silent else "ACTIVE"
         painter.drawText(15, y_offset, f"Peak: {audio_peak:.4f} [{status}]")
+
+        y_offset += 20
+        painter.drawText(15, y_offset, f"Frame: {frame_time_ms:.2f} ms")
+
+        y_offset += 20
+        painter.drawText(15, y_offset, f"Audio CB: {callback_time_ms:.2f} ms")
         
         painter.restore()

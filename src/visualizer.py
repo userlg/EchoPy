@@ -1,5 +1,6 @@
 from __future__ import annotations
 import numpy as np
+import time
 from typing import Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -86,6 +87,12 @@ class VisualizerWidget(QWidget):
         # Background image
         self.background_image: Optional[QPixmap] = None
         self.background_opacity = 0.3
+        self._cached_background: Optional[QPixmap] = None
+        self._cached_bg_size = None
+
+        # Performance diagnostics
+        self.last_frame_time_ms = 0.0
+        self.last_audio_callback_ms = 0.0
 
         # Debug / Overlay
         self.debug_overlay = DebugOverlay(self)
@@ -111,9 +118,14 @@ class VisualizerWidget(QWidget):
 
     def set_background_image(self, pixmap: Optional[QPixmap]):
         self.background_image = pixmap
+        self._invalidate_background_cache()
 
     def set_background_opacity(self, opacity: float):
         self.background_opacity = max(0.0, min(1.0, opacity))
+
+    def _invalidate_background_cache(self):
+        self._cached_background = None
+        self._cached_bg_size = None
 
     def set_show_fps(self, show: bool):
         self.debug_overlay.visible = show
@@ -129,13 +141,18 @@ class VisualizerWidget(QWidget):
         )
 
     def update_audio_data(
-        self, waveform: np.ndarray, fft_data: np.ndarray, activity_signal: float
+        self,
+        waveform: np.ndarray,
+        fft_data: np.ndarray,
+        activity_signal: float,
+        callback_time_ms: float = 0.0,
     ):
         """
         Update audio data with RMS Temporal Hysteresis.
         activity_signal is the RMS of the 'cleaned' audio.
         """
         self._update_activity_metrics(activity_signal, waveform)
+        self.last_audio_callback_ms = max(0.0, callback_time_ms)
         self._update_state_machine()
         self._update_internal_buffers(waveform, fft_data)
         self._handle_debug_logging(waveform)
@@ -208,6 +225,7 @@ class VisualizerWidget(QWidget):
 
     def paintEvent(self, event):
         """Paint event handler."""
+        frame_start = time.perf_counter()
         painter = QPainter(self)
         try:
             # Disable Antialiasing for performance (Waveform line is too complex)
@@ -233,12 +251,15 @@ class VisualizerWidget(QWidget):
                 self.visualizer,
                 self.current_max_peak,
                 self.is_silent,
+                frame_time_ms=self.last_frame_time_ms,
+                callback_time_ms=self.last_audio_callback_ms,
             )
 
             # Update frame count in overlay
             self.debug_overlay.increment_frame()
         finally:
             painter.end()
+            self.last_frame_time_ms = (time.perf_counter() - frame_start) * 1000.0
 
     def _draw_background(self, painter: QPainter):
         """Draw widget background and image."""
@@ -248,9 +269,13 @@ class VisualizerWidget(QWidget):
             painter.save()
             painter.setOpacity(self.background_opacity)
 
-            scaled = self.background_image.scaled(
-                self.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation
-            )
+            if self._cached_background is None or self._cached_bg_size != self.size():
+                self._cached_background = self.background_image.scaled(
+                    self.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation
+                )
+                self._cached_bg_size = self.size()
+
+            scaled = self._cached_background
 
             x = (self.width() - scaled.width()) // 2
             y = (self.height() - scaled.height()) // 2
@@ -265,6 +290,7 @@ class VisualizerWidget(QWidget):
     def resizeEvent(self, event):
         """Handle resize events."""
         super().resizeEvent(event)
+        self._invalidate_background_cache()
         if self.visualizer:
             self.visualizer.set_size(self.width(), self.height())
 

@@ -1,5 +1,5 @@
 import numpy as np
-import time
+import time as time_module
 import sounddevice as sd
 
 try:
@@ -19,8 +19,8 @@ class AudioProcessor(QObject):
 
     # Signal emitted when new audio data is available
     audio_data_ready = Signal(
-        object, object, float
-    )  # (waveform, fft_data, activity_level)
+        object, object, float, float
+    )  # (waveform, fft_data, activity_level, callback_time_ms)
 
     def __init__(
         self,
@@ -53,6 +53,7 @@ class AudioProcessor(QObject):
 
         # AGC State
         self.running_peak = 0.01
+        self.last_callback_ms = 0.0
 
     def start(self, device_index: Optional[int] = None, use_loopback: bool = True):
         """
@@ -281,7 +282,7 @@ class AudioProcessor(QObject):
                 ):
                     logger.info(f"Found MME fallback device: {d['name']} (index {i})")
                     return i
-        except:
+        except Exception:
             pass
         return None
 
@@ -296,14 +297,14 @@ class AudioProcessor(QObject):
                     self.stream.stop()
                 if hasattr(self.stream, "close"):
                     self.stream.close()
-            except:
+            except Exception:
                 pass
             self.stream = None
 
         if self.pa_instance:
             try:
                 self.pa_instance.terminate()
-            except:
+            except Exception:
                 pass
             self.pa_instance = None
 
@@ -312,6 +313,7 @@ class AudioProcessor(QObject):
 
     def _audio_callback(self, indata, frames, time, status):
         """Optimized audio stream callback."""
+        callback_start = time_module.perf_counter()
         try:
             if status:
                 # Log status but don't stop processing unless fatal
@@ -385,7 +387,13 @@ class AudioProcessor(QObject):
 
             # 4. Smoothing and Delivery
             self.fft_data = self.smoother.update(fft_magnitude)
-            self.audio_data_ready.emit(self.audio_buffer, self.fft_data, activity_level)
+            self.last_callback_ms = (time_module.perf_counter() - callback_start) * 1000.0
+            self.audio_data_ready.emit(
+                self.audio_buffer,
+                self.fft_data,
+                activity_level,
+                self.last_callback_ms,
+            )
 
         except Exception as e:
             logger.error(f"CALLBACK FATAL ERROR: {e}")
@@ -533,7 +541,7 @@ class AudioProcessor(QObject):
         if was_running:
             self.stop()
             # Allow driver resources to release (critical for WASAPI Loopback)
-            time.sleep(0.2)
+            time_module.sleep(0.2)
 
         # Try to restart with new device
         if was_running:
@@ -542,5 +550,5 @@ class AudioProcessor(QObject):
             # Robustness check: If failed, try fallback to auto-detection
             if not self.is_running:
                 logger.warning("Device switch failed, attempting fallback restart...")
-                time.sleep(0.2)
+                time_module.sleep(0.2)
                 self.start()  # Try default/auto strategy
