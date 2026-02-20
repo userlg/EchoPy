@@ -123,7 +123,7 @@ class CircularSpectrum(BaseVisualizer):
             opacity -= 0.015
 
             if opacity > 0.0 and r < max_radius:
-                color = self.theme.get_color(0.2)
+                color = self.theme.get_gradient_color(0.2)
                 wave_color = QColor(color)
                 wave_color.setAlphaF(opacity * 0.4)
                 pen = QPen(wave_color)
