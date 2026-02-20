@@ -360,10 +360,10 @@ class AudioProcessor(QObject):
                 )
                 self._audio_debug_logged = True
 
-            # Apply Gain for visualizer (using the already cleaned data)
-            # Much more aggressive gain multiplier for better visualization
+            # Apply Gain for visualizer
             user_gain_factor = self.gain / 100.0
-            GAIN_MULTIPLIER = 15000.0 * user_gain_factor
+            # Reducimos de 15000.0 a un valor natural (2.0) dado que audio_data viene en float32 [-1, 1]
+            GAIN_MULTIPLIER = 2.0 * user_gain_factor
             self.audio_buffer = np.clip(audio_data * GAIN_MULTIPLIER, -1.0, 1.0)
 
             # Also apply gain to activity_level so thresholds make sense
