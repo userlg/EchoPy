@@ -59,13 +59,13 @@ class SpectrumBars(BaseVisualizer):
             magnitudes[i] = raw_magnitudes[dist_from_center]
 
         # ──────────── Procesamiento Estético ────────────
-        # Boost dinámico: Agudos (ahora en los bordes) necesitan más ganancia visual
-        edge_boost = np.linspace(2.5, 1.0, half)
+        # Boost dinámico: Agudos (ahora en los bordes) necesitan un empuje suave
+        edge_boost = np.linspace(1.5, 1.0, half)
         boost = np.concatenate([edge_boost, edge_boost[::-1]])
 
         magnitudes *= boost
-        # Curva de potencia agresiva para que "floten"
-        magnitudes = np.power(np.clip(magnitudes, 0.0, None), 0.5)
+        # Curva de potencia (0.7 en lugar de 0.5) para dar más rango dinámico a la música
+        magnitudes = np.power(np.clip(magnitudes, 0.0, None), 0.7)
 
         # El FFT ya viene suavizado desde el AudioProcessor en función de la UI.
         # Quitamos el suavizado interno para evitar latencia artificial y pérdida de control.
@@ -80,8 +80,8 @@ class SpectrumBars(BaseVisualizer):
             mag = magnitudes[i]
             peak = self.peaks[i]
 
-            # Altura con piso estético (mínimo 5px)
-            bar_height = max(5, mag * self.height * 0.9)
+            # Altura con piso estético (mínimo 5px) y tope holgado
+            bar_height = max(5, mag * self.height * 0.70)
             bar_height = min(bar_height, self.height * 0.75)
 
             peak_height = max(bar_height, peak * self.height * 0.9)

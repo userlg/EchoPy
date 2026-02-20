@@ -98,7 +98,7 @@ class CircularSpectrum(BaseVisualizer):
                 magnitudes[i] += idle_magnitude * blend_factor
 
         # ──────────────── Suavizado Delegado a AudioProcessor ────────────────
-        target_lengths = magnitudes * bar_zone * 45.0
+        target_lengths = magnitudes * bar_zone * 25.0
         # El suavizado se aplica desde el AudioProcessor globalmente.
         current_bar_lengths = target_lengths
 

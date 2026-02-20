@@ -55,21 +55,19 @@ class SoundWave2(BaseVisualizer):
 
         # El FFT ya viene suavizado desde el AudioProcessor según la configuración del usuario.
 
-        # Multiplicador de escala global masivo para dominar la pantalla
-        scale_factor = self.height * 1.5
+        # Multiplicador de escala global equilibrado
+        scale_factor = self.height * 0.9
 
         # Atenuación gaussiana forzosa desde el centro hacia los bordes
         x_lin = np.linspace(0, 1, half_bars)
-        # Forma de campana muy ancha, cayendo levemente en las puntas extremas
         envelope = np.exp(-1.2 * (x_lin) ** 2)
 
-        # Aplicar el multiplicador global con una potencia mucho más contenida.
-        # Esto permite que los ajustes de "Gain" en la UI sí reflejen cambios visuales grandes.
+        # Aplicar el multiplicador global
         magnitudes = raw_magnitudes * envelope
 
-        # Subir los bajos sutilmente sin aplastar la ganancia (potencia = 0.85 en lugar de 0.65)
+        # Curva de atenuación menos limitante
         magnitudes = np.clip(
-            np.power(magnitudes, 0.85) * scale_factor, 8.0, self.height * 0.95
+            np.power(magnitudes, 0.8) * scale_factor, 8.0, self.height * 0.95
         )
 
         # Construcción de la onda espejo completa

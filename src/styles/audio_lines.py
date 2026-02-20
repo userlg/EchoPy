@@ -54,10 +54,11 @@ class AudioLines(BaseVisualizer):
 
                 # Dinámica de movimiento:
                 # - Sinusoidal constante para el "flow"
-                # - Reacción al audio multiplicada por el peso de la capa
+                # Reacción al audio
                 phase = i * 0.8 + layer * 0.5 + self.time
                 wave = math.sin(phase) * (20 + layer * 5)
-                audio_react = self.prev_magnitudes[i] * (200 + layer * 50)
+                # Multiplicador interno rebajado ya que el FFT base es fuerte
+                audio_react = self.prev_magnitudes[i] * (80 + layer * 20)
 
                 y = center_y + layer_offset + wave + audio_react
                 points.append(QPointF(x, y))
