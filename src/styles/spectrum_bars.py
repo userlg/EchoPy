@@ -14,10 +14,6 @@ class SpectrumBars(BaseVisualizer):
         self.bar_spacing = 3
         self.corner_radius = 4  # Estética moderna: bordes redondeados
 
-        # Estado para suavizado (Smoothing)
-        self.prev_magnitudes = np.zeros(self.num_bars)
-        self.smoothing_factor = 0.18  # Menos valor = más fluido, menos "jitter"
-
         # Peak hold state
         self.peaks = np.zeros(self.num_bars, dtype=np.float64)
         self.peak_decay = 0.94  # Caída más suave y controlada
@@ -71,11 +67,8 @@ class SpectrumBars(BaseVisualizer):
         # Curva de potencia agresiva para que "floten"
         magnitudes = np.power(np.clip(magnitudes, 0.0, None), 0.5)
 
-        # Suavizado temporal (Interpolación)
-        magnitudes = (magnitudes * self.smoothing_factor) + (
-            self.prev_magnitudes * (1.0 - self.smoothing_factor)
-        )
-        self.prev_magnitudes = magnitudes
+        # El FFT ya viene suavizado desde el AudioProcessor en función de la UI.
+        # Quitamos el suavizado interno para evitar latencia artificial y pérdida de control.
 
         # Actualizar Picos
         self.peaks = np.maximum(

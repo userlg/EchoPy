@@ -16,9 +16,7 @@ class CircularSpectrum(BaseVisualizer):
         self.min_radius = 80
         self.bar_width = 3
         self.smoothed_bass = 0.0
-        # Estado para la fluidez (Smoothing)
-        self.prev_bar_lengths = np.zeros(self.num_bands)
-        self.smoothing_factor = 0.12  # Más bajo = movimiento más líquido y conectado
+        # La interpolación la controla CavaFilter, quitamos smoothing_factor manual.
 
         # --- NUEVO: Estado para la animación de reposo de las barras superiores ---
         self.idle_phase = 0.0
@@ -99,13 +97,10 @@ class CircularSpectrum(BaseVisualizer):
                 blend_factor = 1.0 - (magnitudes[i] / threshold)
                 magnitudes[i] += idle_magnitude * blend_factor
 
-        # ──────────────── Suavizado de Barras (Fluidity) ────────────────
+        # ──────────────── Suavizado Delegado a AudioProcessor ────────────────
         target_lengths = magnitudes * bar_zone * 45.0
-        # El suavizado se aplica DESPUÉS de la micro-dinámica para que el movimiento sea elegante
-        current_bar_lengths = (target_lengths * self.smoothing_factor) + (
-            self.prev_bar_lengths * (1.0 - self.smoothing_factor)
-        )
-        self.prev_bar_lengths = current_bar_lengths
+        # El suavizado se aplica desde el AudioProcessor globalmente.
+        current_bar_lengths = target_lengths
 
         bar_lengths = np.clip(current_bar_lengths, 3.0, bar_zone)
 

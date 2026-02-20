@@ -18,7 +18,6 @@ class SoundWave2(BaseVisualizer):
         self.bar_gap_ratio = (
             0.4  # Proporción del ancho que toma el espacio respecto a la barra
         )
-        self.smoothed_magnitudes = np.zeros(self.bar_count // 2, dtype=np.float64)
 
     def render(self, painter: QPainter, waveform: np.ndarray, fft_data: np.ndarray):
         if self.theme is None or fft_data is None:
@@ -43,10 +42,6 @@ class SoundWave2(BaseVisualizer):
 
         half_bars = self.bar_count // 2
 
-        # Mantenemos el array suavizado en sincronía con el tamaño si eventualmente cambia
-        if len(self.smoothed_magnitudes) != half_bars:
-            self.smoothed_magnitudes = np.zeros(half_bars, dtype=np.float64)
-
         # Creamos posiciones de lectura logarítmicas para extraer graves al principio y medios-agudos al final
         log_indices = np.logspace(
             np.log10(1), np.log10(max(1, effective_fft - 1)), half_bars
@@ -58,33 +53,24 @@ class SoundWave2(BaseVisualizer):
             hi = max(lo + 1, min(effective_fft, log_indices[i] + 2))
             raw_magnitudes[i] = np.mean(fft_data[lo:hi]) if lo < effective_fft else 0.0
 
-        # Suavizado asimétrico por bin (Sube rápido, baja líquido y lento)
-        for i in range(half_bars):
-            target = raw_magnitudes[i]
-            current = self.smoothed_magnitudes[i]
-            if target > current:
-                self.smoothed_magnitudes[i] += (
-                    target - current
-                ) * 0.85  # Ataque casi instantáneo
-            else:
-                self.smoothed_magnitudes[i] += (
-                    target - current
-                ) * 0.08  # Caída muy sedosa y líquida
+        # El FFT ya viene suavizado desde el AudioProcessor según la configuración del usuario.
 
         # Multiplicador de escala global masivo para dominar la pantalla
         scale_factor = self.height * 1.5
 
         # Atenuación gaussiana forzosa desde el centro hacia los bordes
         x_lin = np.linspace(0, 1, half_bars)
-        # Forma de campana muy ancha, cayendo solo levemente en las puntas extremas
+        # Forma de campana muy ancha, cayendo levemente en las puntas extremas
         envelope = np.exp(-1.2 * (x_lin) ** 2)
 
-        # Aplicar el multiplicador global
-        magnitudes = self.smoothed_magnitudes * scale_factor * envelope
+        # Aplicar el multiplicador global con una potencia mucho más contenida.
+        # Esto permite que los ajustes de "Gain" en la UI sí reflejen cambios visuales grandes.
+        magnitudes = raw_magnitudes * envelope
 
-        # Super boost a las magnitudes, elevación a la potencia de 0.65 hace que las frecuencias
-        # débiles resalten mucho más, dándole armonía constante al espectro vacío.
-        magnitudes = np.clip(np.power(magnitudes, 0.65) * 45.0, 8.0, self.height * 0.95)
+        # Subir los bajos sutilmente sin aplastar la ganancia (potencia = 0.85 en lugar de 0.65)
+        magnitudes = np.clip(
+            np.power(magnitudes, 0.85) * scale_factor, 8.0, self.height * 0.95
+        )
 
         # Construcción de la onda espejo completa
         # Lado izquierdo (frecuencias altas cayendo en el borde -> graves al medio)
