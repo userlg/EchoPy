@@ -57,8 +57,9 @@ class ColorTheme:
         r = int(c1.red() + (c2.red() - c1.red()) * t)
         g = int(c1.green() + (c2.green() - c1.green()) * t)
         b = int(c1.blue() + (c2.blue() - c1.blue()) * t)
+        a = int(c1.alpha() + (c2.alpha() - c1.alpha()) * t)
         
-        return QColor(r, g, b)
+        return QColor(r, g, b, a)
     
     def create_gradient(self, start: QPointF, end: QPointF) -> QLinearGradient:
         """Create a QLinearGradient from this theme."""
@@ -72,97 +73,97 @@ class ColorTheme:
         return gradient
 
 
-# Define 10 predefined themes
+# Define 10 predefined themes (Modernized & Vibrantly adjusted)
 THEMES: Dict[str, ColorTheme] = {
     "modern": ColorTheme(
         name="Modern",
-        colors=["#6C5CE7", "#A29BFE", "#00CEC9", "#81ECEC"], # Indigo to Cyan
-        bg_color="#050505",
-        text_color="#FFFFFF"
+        colors=["#7A5FFF", "#00E5FF", "#00FFC2"], # Deep Purple to Bright Neon Cyan/Mint
+        bg_color="#05050A",
+        text_color="#F0F8FF"
     ),
     
     "cyberpunk": ColorTheme(
         name="Cyberpunk",
-        colors=["#F72585", "#7209B7", "#3A0CA3", "#4361EE", "#4CC9F0"], # Neon Palette
-        bg_color="#0D0221",
-        text_color="#4CC9F0"
+        colors=["#FF007F", "#B900FF", "#00F0FF", "#00FF66"], # Vibrant Pink, Violet, Bright Cyan, Neon Green
+        bg_color="#0A0214",
+        text_color="#00F0FF"
     ),
     
     "aurora": ColorTheme(
         name="Aurora",
-        colors=["#00ff87", "#60efff", "#0061ff", "#60efff"], # Green/Blue/Purple
-        bg_color="#000428",
-        text_color="#60efff"
+        colors=["#00FF87", "#00FFFF", "#0055FF", "#7B2CBF"], # Sharp Green to Deep Royal Blue-Purple
+        bg_color="#020815",
+        text_color="#00FFFF"
     ),
     
     "aesthetic": ColorTheme(
         name="Aesthetic",
-        colors=["#FFB3D9", "#C9A0DC", "#B19CD9", "#A8E6CF"],
-        bg_color="#FFF5F7",
-        text_color="#5A5A5A"
+        colors=["#FF99C8", "#D9A8FF", "#A9C1FF", "#9EEBCB"], # Richer pastels
+        bg_color="#FAF5F8",
+        text_color="#333333"
     ),
     
     "classic": ColorTheme(
         name="Classic",
-        colors=["#00FF00", "#00DD00", "#00BB00", "#009900"],
+        colors=["#1EFF00", "#18CC00", "#109900"], 
         bg_color="#000000",
-        text_color="#00FF00"
+        text_color="#1EFF00"
     ),
     
     "fire": ColorTheme(
         name="Fire",
-        colors=["#FF0000", "#FF4400", "#FF8800", "#FFAA00", "#FFFF00"],
-        bg_color="#1A0000",
-        text_color="#FFAA00"
+        colors=["#FF1100", "#FF4500", "#FF8C00", "#FFD700", "#FFFF33"], # More dynamic fire curve
+        bg_color="#0F0000",
+        text_color="#FF8C00"
     ),
     
     "ocean": ColorTheme(
         name="Ocean",
-        colors=["#003366", "#005588", "#0099CC", "#00BBEE", "#00FFCC"],
-        bg_color="#001122",
-        text_color="#00FFCC"
+        colors=["#001F54", "#034078", "#0A1128", "#1282A2", "#00E5FF"], # Deeper abyss to bright surface
+        bg_color="#010A15",
+        text_color="#00E5FF"
     ),
     
     "sunset": ColorTheme(
         name="Sunset",
-        colors=["#FF6B35", "#FF8C42", "#F4A261", "#FF006E", "#8338EC"],
-        bg_color="#1A0A14",
-        text_color="#FFB4A2"
+        colors=["#FF3366", "#FF6B35", "#F4A261", "#E9C46A", "#9B5DE5"], # Warmer midtones mixing with purple night
+        bg_color="#12050C",
+        text_color="#F4A261"
     ),
     
     "neon": ColorTheme(
         name="Neon",
-        colors=["#FF00FF", "#FF0080", "#FF0000", "#FF8000", "#FFFF00", "#00FF00", "#00FFFF"],
+        colors=["#FF00FF", "#FF0055", "#FF3300", "#FFFF00", "#33FF00", "#00FFFF"],
         bg_color="#000000",
-        text_color="#FFFFFF"
+        text_color="#FAFAFA"
     ),
     
     "monochrome": ColorTheme(
         name="Monochrome",
-        colors=["#FFFFFF", "#CCCCCC", "#999999", "#666666"],
-        bg_color="#000000",
+        colors=["#FFFFFF", "#D4D4D4", "#A3A3A3", "#737373"],
+        bg_color="#050505",
         text_color="#FFFFFF"
     ),
     
     "rainbow": ColorTheme(
         name="Rainbow",
-        colors=["#FF0000", "#FF7F00", "#FFFF00", "#00FF00", "#0000FF", "#4B0082", "#9400D3"],
+        colors=["#FF0040", "#FF8000", "#FFEE00", "#00FF00", "#0040FF", "#8A2BE2"],
         bg_color="#000000",
         text_color="#FFFFFF"
     ),
     
     "deep_space": ColorTheme(
         name="Deep Space",
-        colors=["#000033", "#000066", "#330099", "#6600CC", "#9900FF"],
-        bg_color="#000011",
-        text_color="#99CCFF"
+        colors=["#05001A", "#1A004D", "#4B0099", "#8C1AFF", "#D966FF"], # Vibrant nebula purples
+        bg_color="#02000A",
+        text_color="#D966FF"
     ),
     
     "lava": ColorTheme(
         name="Lava",
-        colors=["#330000", "#660000", "#990000", "#CC3300", "#FF6600"],
-        bg_color="#110000",
-        text_color="#FFCC33"
+        colors=["#2A0000", "#5E0000", "#A30000", "#E63900", "#FF7F00"],
+        bg_color="#0A0000",
+        text_color="#FFB366"
     )
 }
 

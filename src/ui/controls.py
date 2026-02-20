@@ -158,6 +158,7 @@ class ControlPanel(QWidget):
                 "Frequency Rings",
                 "Audio Lines",
                 "Sound Wave",
+                "Sound Wave 2",
             ]
         )
         self.style_combo.currentTextChanged.connect(self._on_style_changed)
@@ -294,6 +295,7 @@ class ControlPanel(QWidget):
             "Frequency Rings": "frequency_rings",
             "Audio Lines": "audio_lines",
             "Sound Wave": "sound_wave",
+            "Sound Wave 2": "sound_wave_2",
         }
 
         internal_name = style_map.get(style_name, "spectrum_bars")
@@ -339,6 +341,7 @@ class ControlPanel(QWidget):
             "frequency_rings": "Frequency Rings",
             "audio_lines": "Audio Lines",
             "sound_wave": "Sound Wave",
+            "sound_wave_2": "Sound Wave 2",
         }
         display_name = style_map.get(style_name)
         if display_name:
@@ -349,11 +352,9 @@ class ControlPanel(QWidget):
     def set_current_theme_name(self, theme_name: str):
         """Set the current theme button programmatically."""
         self.blockSignals(True)
-        found = False
         for btn in self.theme_buttons:
             if btn.text().lower() == theme_name.lower():
                 btn.setChecked(True)
-                found = True
             else:
                 btn.setChecked(False)
         self.blockSignals(False)

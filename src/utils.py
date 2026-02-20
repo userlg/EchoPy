@@ -19,18 +19,18 @@ def get_resource_path(relative_path: str) -> str:
         # Not running in a bundle, use project root
         # This assumes utils is in src/
         base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    
+
     return os.path.join(base_path, relative_path)
 
 
 def get_user_data_path() -> str:
     """Get absolute path to user data directory for logs and config."""
     app_name = "EchoPy"
-    if os.name == 'nt':
-        base_path = os.getenv('LOCALAPPDATA', os.path.expanduser('~'))
+    if os.name == "nt":
+        base_path = os.getenv("LOCALAPPDATA", os.path.expanduser("~"))
     else:
-        base_path = os.path.join(os.path.expanduser('~'), '.local', 'share')
-    
+        base_path = os.path.join(os.path.expanduser("~"), ".local", "share")
+
     data_path = os.path.join(base_path, app_name)
     os.makedirs(data_path, exist_ok=True)
     return data_path
@@ -41,11 +41,13 @@ def setup_logging(level=logging.INFO):
     """Setup application logging."""
     logging.basicConfig(
         level=level,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         handlers=[
             logging.StreamHandler(),
-            logging.FileHandler(os.path.join(get_user_data_path(), "echopy.log"), encoding='utf-8')
-        ]
+            logging.FileHandler(
+                os.path.join(get_user_data_path(), "echopy.log"), encoding="utf-8"
+            ),
+        ],
     )
 
 
@@ -54,7 +56,7 @@ logger = logging.getLogger("EchoPy")
 
 class Config:
     """Configuration manager for persistence."""
-    
+
     def __init__(self, config_file: str = "config.json"):
         """Initialize configuration manager."""
         # Use user data path if just a filename is provided
@@ -62,12 +64,12 @@ class Config:
             self.config_file = os.path.join(get_user_data_path(), config_file)
         else:
             self.config_file = config_file
-            
+
         if not os.path.exists(self.config_file):
-             self._ensure_writable()
-        
+            self._ensure_writable()
+
         self.config: Dict[str, Any] = self._load_config()
-    
+
     def _load_config(self) -> Dict[str, Any]:
         """Load configuration from file."""
         defaults = {
@@ -85,41 +87,42 @@ class Config:
             "sensitivity": {
                 "rms_threshold_on": 0.0002,
                 "rms_threshold_off": 0.0001,
-                "silence_timeout": 60
-            }
+                "silence_timeout": 60,
+            },
         }
 
         if os.path.exists(self.config_file):
             try:
-                with open(self.config_file, 'r') as f:
+                with open(self.config_file, "r") as f:
                     saved_config = json.load(f)
                     # Merge saved config with defaults
                     defaults.update(saved_config)
                     return defaults
             except Exception as e:
                 logger.error(f"Error loading config: {e}")
-        
+
         # Default configuration
         return defaults
-    
+
     def save_config(self):
         """Save configuration to file."""
         try:
             # Ensure file is not hidden/read-only before writing
             self._ensure_writable()
-            
+
             # Write JSON
-            with open(self.config_file, 'w') as f:
+            with open(self.config_file, "w") as f:
                 json.dump(self.config, f, indent=2)
-            
+
         except Exception as e:
             logger.error(f"Error saving config: {e}")
-    
+
     def _ensure_writable(self):
         """Ensure file is writable by removing Hidden attribute on Windows."""
-        if os.name == 'nt' and os.path.exists(self.config_file):
+        if os.name == "nt" and os.path.exists(self.config_file):
             try:
                 import ctypes
+
                 # FILE_ATTRIBUTE_NORMAL = 0x80
                 # Set to normal to remove Hidden (0x02) or Read-only (0x01)
                 ctypes.windll.kernel32.SetFileAttributesW(self.config_file, 0x80)
@@ -129,7 +132,7 @@ class Config:
     def get(self, key: str, default: Any = None) -> Any:
         """Get configuration value."""
         return self.config.get(key, default)
-    
+
     def set(self, key: str, value: Any):
         """Set configuration value and save."""
         self.config[key] = value
@@ -138,11 +141,11 @@ class Config:
 
 class SmoothingBuffer:
     """Exponential moving average smoother for audio data (Vectorized)."""
-    
+
     def __init__(self, size: int, smoothing: float = 0.8):
         """
         Initialize smoothing buffer.
-        
+
         Args:
             size: Buffer size
             smoothing: Smoothing factor (0.0 to 1.0, higher = smoother)
@@ -150,14 +153,14 @@ class SmoothingBuffer:
         self.size = size
         self.smoothing = max(0.0, min(1.0, smoothing))
         self.buffer = np.zeros(size, dtype=np.float32)
-    
+
     def update(self, values: Any) -> np.ndarray:
         """
         Update buffer with new values and return smoothed values.
-        
+
         Args:
             values: New values to smooth (list or np.ndarray)
-            
+
         Returns:
             Smoothed values as np.ndarray
         """
@@ -166,27 +169,27 @@ class SmoothingBuffer:
             new_values = values.astype(np.float32)
         else:
             new_values = np.array(values, dtype=np.float32)
-        
+
         if len(new_values) != self.size:
             # Resize buffer if needed (resetting history)
             self.size = len(new_values)
             self.buffer = np.zeros(self.size, dtype=np.float32)
-        
+
         # Vectorized calculation:
         # buffer = buffer * smoothing + new * (1 - smoothing)
         self.buffer = self.buffer * self.smoothing + new_values * (1.0 - self.smoothing)
-        
+
         return self.buffer.copy()
-    
+
     def set_smoothing(self, smoothing: float):
         """Set smoothing factor."""
         # Ensure input is float
         try:
-           s = float(smoothing)
+            s = float(smoothing)
         except:
-           s = 0.5
+            s = 0.5
         self.smoothing = max(0.0, min(1.0, s))
-    
+
     def reset(self):
         """Reset buffer to zeros."""
         self.buffer = np.zeros(self.size, dtype=np.float32)
@@ -197,11 +200,13 @@ class CavaFilter:
     Advanced filter inspired by CAVA (Integral Filter + Fall-off).
     Provides smoother and more 'liquid' transitions than simple EMA.
     """
-    
-    def __init__(self, size: int, integral_weight: float = 0.7, gravity: float = 0.03):
+
+    def __init__(
+        self, size: int, integral_weight: float = 0.75, gravity: float = 0.015
+    ):
         """
         Initialize CavaFilter.
-        
+
         Args:
             size: Buffer size
             integral_weight: Weight of previous values in the integral (0.0 to 1.0)
@@ -212,7 +217,7 @@ class CavaFilter:
         self.gravity = gravity
         self.prev_values = np.zeros(size, dtype=np.float32)
         self.integral_buffer = np.zeros(size, dtype=np.float32)
-        
+
     def update(self, values: np.ndarray) -> np.ndarray:
         """
         Apply CAVA-style filtering.
@@ -224,69 +229,77 @@ class CavaFilter:
 
         # 1. Integral filter (Smooths the 'ascent')
         # integral = (current * (1-weight)) + (prev_integral * weight)
-        self.integral_buffer = (values * (1.0 - self.integral_weight)) + (self.integral_buffer * self.integral_weight)
-        
-        # 2. Fall-off filter (Smooths the 'descent')
-        # If new value is lower than old, apply gravity
+        self.integral_buffer = (values * (1.0 - self.integral_weight)) + (
+            self.integral_buffer * self.integral_weight
+        )
+
+        # 2. Fall-off filter (Smooths the 'descent' with dynamic gravity)
+        # La gravedad se acelera sutilmente mientras más cae, pero empieza muy lenta (movimiento elástico)
         mask = self.integral_buffer < (self.prev_values - self.gravity)
-        output = np.where(mask, self.prev_values - self.gravity, self.integral_buffer)
-        
+        output = np.where(
+            mask, self.prev_values - self.gravity * 0.8, self.integral_buffer
+        )
+
         # Clip to ensure no negative values
         output = np.maximum(0.0, output)
-        
+
         self.prev_values = output.copy()
         return output
 
     def set_smoothing(self, smoothing: float):
         """Map generic smoothing (0-1) to integral weight."""
         self.integral_weight = clamp(smoothing, 0.1, 0.95)
-    
+
     def set_gravity(self, gravity: float):
         """Set gravity factor."""
         self.gravity = gravity
 
 
-def load_image(path: str, width: Optional[int] = None, height: Optional[int] = None) -> Optional[QPixmap]:
+def load_image(
+    path: str, width: Optional[int] = None, height: Optional[int] = None
+) -> Optional[QPixmap]:
     """
     Load and optionally scale an image.
-    
+
     Args:
         path: Path to image file
         width: Target width (None to keep aspect ratio)
         height: Target height (None to keep aspect ratio)
-        
+
     Returns:
         QPixmap or None if loading failed
     """
     if not os.path.exists(path):
         return None
-    
+
     image = QImage(path)
     if image.isNull():
         return None
-    
+
     pixmap = QPixmap.fromImage(image)
-    
+
     if width or height:
         if width and height:
-            pixmap = pixmap.scaled(width, height, Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
+            pixmap = pixmap.scaled(
+                width, height, Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation
+            )
         elif width:
             pixmap = pixmap.scaledToWidth(width, Qt.SmoothTransformation)
         elif height:
             pixmap = pixmap.scaledToHeight(height, Qt.SmoothTransformation)
-    
+
     return pixmap
 
 
 def frequency_to_bin(frequency: float, sample_rate: int, fft_size: int) -> int:
     """
     Convert frequency in Hz to FFT bin index.
-    
+
     Args:
         frequency: Frequency in Hz
         sample_rate: Sample rate in Hz
         fft_size: FFT size
-        
+
     Returns:
         Bin index
     """
@@ -296,29 +309,31 @@ def frequency_to_bin(frequency: float, sample_rate: int, fft_size: int) -> int:
 def bin_to_frequency(bin_index: int, sample_rate: int, fft_size: int) -> float:
     """
     Convert FFT bin index to frequency in Hz.
-    
+
     Args:
         bin_index: Bin index
         sample_rate: Sample rate in Hz
         fft_size: FFT size
-        
+
     Returns:
         Frequency in Hz
     """
     return bin_index * sample_rate / fft_size
 
 
-def map_range(value: float, in_min: float, in_max: float, out_min: float, out_max: float) -> float:
+def map_range(
+    value: float, in_min: float, in_max: float, out_min: float, out_max: float
+) -> float:
     """
     Map a value from one range to another.
-    
+
     Args:
         value: Input value
         in_min: Input range minimum
         in_max: Input range maximum
         out_min: Output range minimum
         out_max: Output range maximum
-        
+
     Returns:
         Mapped value
     """

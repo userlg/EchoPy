@@ -13,6 +13,7 @@ from styles.oscilloscope import Oscilloscope
 from styles.frequency_rings import FrequencyRings
 from styles.audio_lines import AudioLines
 from styles.sound_wave import SoundWave
+from styles.sound_wave_2 import SoundWave2
 from utils import logger
 
 
@@ -31,6 +32,7 @@ class VisualizerFactory:
         "frequency_rings": FrequencyRings,
         "audio_lines": AudioLines,
         "sound_wave": SoundWave,
+        "sound_wave_2": SoundWave2,
     }
 
     _instances: Dict[str, BaseVisualizer] = {}

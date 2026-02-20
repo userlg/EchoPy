@@ -1,8 +1,9 @@
 from __future__ import annotations
 import numpy as np
-from PySide6.QtGui import QPainter, QPen, QBrush, QColor, QLinearGradient
+from PySide6.QtGui import QPainter, QBrush, QColor, QLinearGradient
 from PySide6.QtCore import Qt, QPointF, QRectF
 from visualizer import BaseVisualizer
+
 
 class SpectrumBars(BaseVisualizer):
     """Spectrum analyzer with centered-out harmonious bars for high-impact visuals."""
@@ -12,15 +13,15 @@ class SpectrumBars(BaseVisualizer):
         self.num_bars = 64
         self.bar_spacing = 3
         self.corner_radius = 4  # Estética moderna: bordes redondeados
-        
+
         # Estado para suavizado (Smoothing)
         self.prev_magnitudes = np.zeros(self.num_bars)
-        self.smoothing_factor = 0.25  # Menos es más fluido, más es más reactivo
+        self.smoothing_factor = 0.18  # Menos valor = más fluido, menos "jitter"
 
         # Peak hold state
         self.peaks = np.zeros(self.num_bars, dtype=np.float64)
-        self.peak_decay = 0.92
-        self.peak_gravity = 0.005
+        self.peak_decay = 0.94  # Caída más suave y controlada
+        self.peak_gravity = 0.003
 
     def render(self, painter: QPainter, waveform: np.ndarray, fft_data: np.ndarray):
         if self.theme is None:
@@ -37,7 +38,7 @@ class SpectrumBars(BaseVisualizer):
 
         # ──────────── Frequency Binning (Vocal Focus) ────────────
         # Nos enfocamos en el rango de 20Hz a ~5000Hz para máxima respuesta
-        useful_bins = int(n_fft * 0.20) 
+        useful_bins = int(n_fft * 0.20)
         log_indices = np.logspace(
             np.log10(2), np.log10(useful_bins), self.num_bars + 1
         ).astype(int)
@@ -46,13 +47,15 @@ class SpectrumBars(BaseVisualizer):
         for i in range(self.num_bars):
             lo = log_indices[i]
             hi = max(lo + 1, log_indices[i + 1])
-            raw_magnitudes[i] = np.mean(fft_data[lo : min(hi, n_fft)]) if lo < n_fft else 0.0
+            raw_magnitudes[i] = (
+                np.mean(fft_data[lo : min(hi, n_fft)]) if lo < n_fft else 0.0
+            )
 
         # ──────────── Distribución Simétrica (Center-Out) ────────────
         # Mapeamos los graves al centro y los agudos a los extremos
         magnitudes = np.empty(self.num_bars)
         half = self.num_bars // 2
-        
+
         for i in range(self.num_bars):
             # Calcula la distancia al centro para traer los graves al medio
             dist_from_center = abs(i - half)
@@ -63,17 +66,21 @@ class SpectrumBars(BaseVisualizer):
         # Boost dinámico: Agudos (ahora en los bordes) necesitan más ganancia visual
         edge_boost = np.linspace(2.5, 1.0, half)
         boost = np.concatenate([edge_boost, edge_boost[::-1]])
-        
+
         magnitudes *= boost
         # Curva de potencia agresiva para que "floten"
         magnitudes = np.power(np.clip(magnitudes, 0.0, None), 0.5)
-        
+
         # Suavizado temporal (Interpolación)
-        magnitudes = (magnitudes * self.smoothing_factor) + (self.prev_magnitudes * (1.0 - self.smoothing_factor))
+        magnitudes = (magnitudes * self.smoothing_factor) + (
+            self.prev_magnitudes * (1.0 - self.smoothing_factor)
+        )
         self.prev_magnitudes = magnitudes
 
         # Actualizar Picos
-        self.peaks = np.maximum(self.peaks * self.peak_decay - self.peak_gravity, magnitudes)
+        self.peaks = np.maximum(
+            self.peaks * self.peak_decay - self.peak_gravity, magnitudes
+        )
 
         # ──────────── Renderizado de Barras ────────────
         for i in range(self.num_bars):
@@ -83,7 +90,7 @@ class SpectrumBars(BaseVisualizer):
             # Altura con piso estético (mínimo 5px)
             bar_height = max(5, mag * self.height * 0.9)
             bar_height = min(bar_height, self.height * 0.75)
-            
+
             peak_height = max(bar_height, peak * self.height * 0.9)
             peak_height = min(peak_height, self.height * 0.75)
 
@@ -92,40 +99,85 @@ class SpectrumBars(BaseVisualizer):
             y_peak = baseline_y - peak_height
 
             # Color dinámico basado en la posición (Armonía visual)
-            color_pos = abs(i - half) / half # 0 en el centro, 1 en los bordes
+            color_pos = abs(i - half) / half  # 0 en el centro, 1 en los bordes
             color = self.theme.get_gradient_color(color_pos)
 
-            # 1. Reflexión Elegante
-            reflection_h = bar_height * 0.35
-            ref_grad = QLinearGradient(QPointF(x, baseline_y), QPointF(x, baseline_y + reflection_h))
+            # 1. Glow Base Trasero (Luminiscencia suave)
+            if mag > 0.05:
+                base_glow = QColor(color)
+                base_glow.setAlpha(35)
+                painter.setBrush(QBrush(base_glow))
+                painter.drawRoundedRect(
+                    QRectF(x - 2, y_bar - 2, bar_width + 4, bar_height + 4),
+                    self.corner_radius + 2,
+                    self.corner_radius + 2,
+                )
+
+            # 2. Reflexión Elegante
+            reflection_h = bar_height * 0.4
+            ref_grad = QLinearGradient(
+                QPointF(x, baseline_y), QPointF(x, baseline_y + reflection_h)
+            )
             ref_col = QColor(color)
-            ref_col.setAlpha(60)
+            ref_col.setAlpha(80)  # Reflexión más notoria en la base
             ref_grad.setColorAt(0.0, ref_col)
             ref_grad.setColorAt(1.0, Qt.transparent)
-            
+
             painter.setPen(Qt.NoPen)
             painter.setBrush(QBrush(ref_grad))
-            painter.drawRoundedRect(QRectF(x, baseline_y + 2, bar_width, reflection_h), self.corner_radius, self.corner_radius)
+            painter.drawRoundedRect(
+                QRectF(x, baseline_y + 2, bar_width, reflection_h),
+                self.corner_radius,
+                self.corner_radius,
+            )
 
-            # 2. Barra Principal con Degradado de Potencia
+            # 3. Barra Principal con Degradado de Potencia
             bar_grad = QLinearGradient(QPointF(x, baseline_y), QPointF(x, y_bar))
-            bar_grad.setColorAt(0.0, color.darker(150))
-            bar_grad.setColorAt(0.4, color)
-            bar_grad.setColorAt(1.0, color.lighter(140))
+            # Oscura en la base, brillante en la cima
+            base_color = color.darker(180)
+            base_color.setAlpha(200)
+            bar_grad.setColorAt(0.0, base_color)
+            bar_grad.setColorAt(0.5, color)
+            bar_grad.setColorAt(1.0, color.lighter(130))
 
             painter.setBrush(QBrush(bar_grad))
-            painter.drawRoundedRect(QRectF(x, y_bar, bar_width, bar_height), self.corner_radius, self.corner_radius)
+            painter.drawRoundedRect(
+                QRectF(x, y_bar, bar_width, bar_height),
+                self.corner_radius,
+                self.corner_radius,
+            )
 
-            # 3. Glow Cap (Brillo en la punta)
-            if mag > 0.1:
+            # 4. Glow Cap (Brillo Intenso en la punta)
+            if mag > 0.05:
+                cap_intensity = int(100 + (mag * 155))
                 glow_col = QColor(color.lighter(160))
-                glow_col.setAlpha(120)
+                glow_col.setAlpha(min(255, cap_intensity))
                 painter.setBrush(QBrush(glow_col))
-                painter.drawRoundedRect(QRectF(x, y_bar, bar_width, 6), self.corner_radius, self.corner_radius)
+                # Hacemos que la "tapa" ocluya sutilmente la barra final para un highlight vibrante
+                painter.drawRoundedRect(
+                    QRectF(x, y_bar - 1, bar_width, 6 + (mag * 4)),
+                    self.corner_radius,
+                    self.corner_radius,
+                )
 
-            # 4. Peak Dot (Puntos flotantes)
+            # 5. Peak Dot (Puntos flotantes estilo chispa)
             if peak_height > bar_height + 4:
-                p_col = QColor(color.lighter(180))
-                p_col.setAlpha(int(255 * (peak_height / self.height)))
+                # Color del pico más incandescente
+                p_col = (
+                    QColor(255, 255, 255) if peak > 0.85 else QColor(color.lighter(200))
+                )
+                alpha_val = int(
+                    min(255, max(50, 255 * (peak_height / self.height * 1.5)))
+                )
+                p_col.setAlpha(alpha_val)
+                painter.setBrush(QBrush(p_col))
+                # Dibujar un pequeño "halo" al pico simulando que emite luz
+                halo_col = QColor(color)
+                halo_col.setAlpha(int(alpha_val * 0.4))
+                painter.drawRoundedRect(
+                    QRectF(x - 1, y_peak - 4, bar_width + 2, 5), 2, 2
+                )
+
+                # Pico central puro
                 painter.setBrush(QBrush(p_col))
                 painter.drawRoundedRect(QRectF(x, y_peak - 3, bar_width, 3), 1, 1)

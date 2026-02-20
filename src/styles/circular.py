@@ -16,18 +16,18 @@ class CircularSpectrum(BaseVisualizer):
         self.min_radius = 80
         self.bar_width = 3
         self.smoothed_bass = 0.0
-        
         # Estado para la fluidez (Smoothing)
         self.prev_bar_lengths = np.zeros(self.num_bands)
-        self.smoothing_factor = 0.2
-        
+        self.smoothing_factor = 0.12  # Más bajo = movimiento más líquido y conectado
+
         # --- NUEVO: Estado para la animación de reposo de las barras superiores ---
         self.idle_phase = 0.0
         # Definimos cuántas barras cerca de la cima (índice 0) se verán afectadas
-        self.top_bars_count = 10 
-        
+        self.top_bars_count = 10
+
         # Effects State
         self.shockwaves = []
+        self.rotation_angle = 0.0  # Ligera rotación ambiental
 
     def render(self, painter: QPainter, waveform: np.ndarray, fft_data: np.ndarray):
         """Renderizado con fluidez de acero y rotación eliminada."""
@@ -39,6 +39,7 @@ class CircularSpectrum(BaseVisualizer):
         # --- NUEVO: Actualizar fase de animación de reposo ---
         # Esto crea un movimiento ondulatorio lento y constante
         self.idle_phase += 0.04
+        self.rotation_angle += 0.05  # Rotación ambiental muy lenta
 
         # Layout
         center_x = self.width / 2
@@ -69,13 +70,15 @@ class CircularSpectrum(BaseVisualizer):
 
         boost = np.ones(self.num_bands, dtype=np.float64)
         # Aumentamos ligeramente el boost inicial de los graves
-        boost[:bass_end] = 1.8 
+        boost[:bass_end] = 1.8
         boost[bass_end:mids_end] = 3.5
         boost[mids_end:] = 5.5
 
         magnitudes = magnitudes * boost
         # Usamos una curva de potencia ligeramente más agresiva para los graves
-        magnitudes[:bass_end] = np.power(np.clip(magnitudes[:bass_end], 0.0, None), 0.45)
+        magnitudes[:bass_end] = np.power(
+            np.clip(magnitudes[:bass_end], 0.0, None), 0.45
+        )
         magnitudes[bass_end:] = np.power(np.clip(magnitudes[bass_end:], 0.0, None), 0.5)
 
         # ──────────────── NUEVO: Micro-Dinámica para Barras Superiores ────────────────
@@ -84,10 +87,10 @@ class CircularSpectrum(BaseVisualizer):
             # 1. Crear una oscilación suave basada en el tiempo y el índice (para que no se muevan igual)
             # El seno genera un valor entre -1 y 1, lo ajustamos a 0.0 - 1.0
             oscillation = (math.sin(self.idle_phase + i * 0.5) * 0.5) + 0.5
-            
+
             # 2. Definir la "magnitud de reposo" que queremos añadir (aprox. 15% del tamaño máximo)
             idle_magnitude = oscillation * 0.15
-            
+
             # 3. Mezcla inteligente: Si la magnitud real es baja (< 0.25), aplicamos la oscilación.
             # Si el audio real sube, la oscilación desaparece para no ensuciar la señal real.
             threshold = 0.25
@@ -99,9 +102,11 @@ class CircularSpectrum(BaseVisualizer):
         # ──────────────── Suavizado de Barras (Fluidity) ────────────────
         target_lengths = magnitudes * bar_zone * 45.0
         # El suavizado se aplica DESPUÉS de la micro-dinámica para que el movimiento sea elegante
-        current_bar_lengths = (target_lengths * self.smoothing_factor) + (self.prev_bar_lengths * (1.0 - self.smoothing_factor))
+        current_bar_lengths = (target_lengths * self.smoothing_factor) + (
+            self.prev_bar_lengths * (1.0 - self.smoothing_factor)
+        )
         self.prev_bar_lengths = current_bar_lengths
-        
+
         bar_lengths = np.clip(current_bar_lengths, 3.0, bar_zone)
 
         # ──────────────── Energía de Impacto (Shockwaves) ────────────────
@@ -133,7 +138,7 @@ class CircularSpectrum(BaseVisualizer):
                 new_shockwaves.append([r, opacity])
         self.shockwaves = new_shockwaves
 
-        # ──────────────── Renderizado de Barras (Estáticas) ────────────────
+        # ──────────────── Renderizado de Barras (Dinámicas) ────────────────
         half_sweep = 180.0
         angle_step = half_sweep / self.num_bands
 
@@ -148,7 +153,9 @@ class CircularSpectrum(BaseVisualizer):
             angle_left = 360.0 - angle_right
 
             for angle_deg in (angle_right, angle_left):
-                angle_rad = math.radians(angle_deg - 90) # 0° es la parte superior
+                angle_rad = math.radians(
+                    angle_deg - 90 + self.rotation_angle
+                )  # Aplicando rotación suave
                 cos_a = math.cos(angle_rad)
                 sin_a = math.sin(angle_rad)
 
@@ -160,21 +167,31 @@ class CircularSpectrum(BaseVisualizer):
                 start_pt = QPointF(sx, sy)
                 end_pt = QPointF(ex, ey)
 
-                # Glow halo
+                # Glow halo interno e intenso
                 glow_color = QColor(color)
-                glow_color.setAlpha(50)
+                glow_intensity = min(255, max(30, int(mag * 2.5)))
+                glow_color.setAlpha(glow_intensity)
                 glow_pen = QPen(glow_color)
-                glow_pen.setWidthF(w * 3.0)
+                glow_pen.setWidthF(w * 4.0)
                 glow_pen.setCapStyle(Qt.RoundCap)
                 painter.setPen(glow_pen)
                 painter.drawLine(start_pt, end_pt)
 
-                # Core bar
-                pen = QPen(color)
+                # Core bar brillante
+                core_color = color.lighter(130) if mag > 15 else color
+                pen = QPen(core_color)
                 pen.setWidthF(w)
                 pen.setCapStyle(Qt.RoundCap)
                 painter.setPen(pen)
                 painter.drawLine(start_pt, end_pt)
+
+                # Punta iluminada (Dot) al final de la barra
+                if mag > 10:
+                    dot_color = color.lighter(200)
+                    dot_color.setAlpha(200)
+                    painter.setPen(Qt.NoPen)
+                    painter.setBrush(QBrush(dot_color))
+                    painter.drawEllipse(end_pt, w * 0.8, w * 0.8)
 
         # ──────────────── Centro Reactivo ────────────────
         center_r = current_inner_r - 8
