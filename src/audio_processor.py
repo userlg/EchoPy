@@ -379,15 +379,18 @@ class AudioProcessor(QObject):
             )
             fft_magnitude[:2] = 0.0  # Remove DC
 
-            # Log-perception scaling
-            fft_magnitude = np.log1p(fft_magnitude) * 0.33
+            # Scale raw fft slightly before log perception to grab sub-harmonics
+            fft_magnitude = np.log1p(fft_magnitude * 15.0) * 0.35
 
-            # Apply User Gain and Clip
-            fft_magnitude = np.clip(fft_magnitude * (self.gain / 60.0), 0.0, 1.0)
+            # Apply User Gain with a solid base multiplier (x3.5) and Clip
+            # This ensures that even at 100% gain, average audio takes a good chunk of the screen
+            fft_magnitude = np.clip(fft_magnitude * (self.gain / 60.0) * 3.5, 0.0, 1.0)
 
             # 4. Smoothing and Delivery
             self.fft_data = self.smoother.update(fft_magnitude)
-            self.last_callback_ms = (time_module.perf_counter() - callback_start) * 1000.0
+            self.last_callback_ms = (
+                time_module.perf_counter() - callback_start
+            ) * 1000.0
             self.audio_data_ready.emit(
                 self.audio_buffer,
                 self.fft_data,
