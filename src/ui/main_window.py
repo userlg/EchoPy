@@ -57,9 +57,7 @@ class MainWindow(QMainWindow):
 
         # Restore saved gain
         saved_gain = self.config.get("gain", 100.0)
-        # Convert % to multiplier
-        initial_gain_mult = 60.0 * (saved_gain / 100.0)
-        self.audio_processor.set_gain(initial_gain_mult)
+        self.audio_processor.set_gain(saved_gain)
 
         # Start audio processing with saved device
         saved_device = self.config.get("audio_device")
@@ -260,12 +258,7 @@ class MainWindow(QMainWindow):
 
     def _change_gain(self, gain: float):
         """Change gain multiplier."""
-        # Convert percentage (e.g. 100.0) to multiplier (e.g. 60.0 default base)
-        # Base gain is 60.0, so 100% = 60.0
-        base_gain = 60.0
-        multiplier = gain / 100.0
-        new_gain = base_gain * multiplier
-        self.audio_processor.set_gain(new_gain)
+        self.audio_processor.set_gain(gain)
         self.config.set("gain", gain)
 
     def _change_sample_rate(self, rate: int):

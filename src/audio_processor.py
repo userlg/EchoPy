@@ -41,7 +41,7 @@ class AudioProcessor(QObject):
         self.fft_data = np.zeros(fft_size // 2, dtype=np.float32)
 
         # Signal processing state
-        self.gain = 60.0
+        self.gain = 100.0
         self.smoother = smoother or CavaFilter(fft_size // 2, 0.7, 0.03)
 
         # Audio stream state
@@ -362,7 +362,7 @@ class AudioProcessor(QObject):
 
             # Apply Gain for visualizer (using the already cleaned data)
             # Much more aggressive gain multiplier for better visualization
-            user_gain_factor = self.gain / 60.0
+            user_gain_factor = self.gain / 100.0
             GAIN_MULTIPLIER = 15000.0 * user_gain_factor
             self.audio_buffer = np.clip(audio_data * GAIN_MULTIPLIER, -1.0, 1.0)
 
@@ -384,7 +384,7 @@ class AudioProcessor(QObject):
 
             # Apply User Gain with a solid base multiplier (x3.5) and Clip
             # This ensures that even at 100% gain, average audio takes a good chunk of the screen
-            fft_magnitude = np.clip(fft_magnitude * (self.gain / 60.0) * 3.5, 0.0, 1.0)
+            fft_magnitude = np.clip(fft_magnitude * (self.gain / 100.0) * 3.5, 0.0, 1.0)
 
             # 4. Smoothing and Delivery
             self.fft_data = self.smoother.update(fft_magnitude)
