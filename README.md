@@ -26,19 +26,21 @@
 1. **Modern** - Indigo to Cyan gradients (Premium default)
 2. **Cyberpunk** - High-contrast Neon Pink & Blue
 3. **Aurora** - Northern Lights inspired (Green/Blue) [NEW]
-4. **Aesthetic** - Soft pastel colors
-5. **Classic** - Retro green monochrome
-6. **Fire** - intense Red to yellow flame colors
-7. **Ocean** - Deep blue to cyan waves
-8. **Sunset** - Warm Orange and Purple hues
-9. **Neon** - Bright multi-color spectrum
-10. **Rainbow** - Full ROYGBIV spectrum
+4. **Spectre** - Ultra-violet to Cyan neon [NEW]
+5. **Aesthetic** - Soft pastel colors
+6. **Classic** - Retro green monochrome
+7. **Fire** - intense Red to yellow flame colors
+8. **Ocean** - Deep blue to cyan waves
+9. **Sunset** - Warm Orange and Purple hues
+10. **Neon** - Bright multi-color spectrum
+11. **Rainbow** - Full ROYGBIV spectrum
 
 ### 🎛️ Advanced Features
 
+- 🪟 **Frameless & Translucent** - True "Glass" transparent backgrounds overlapping your desktop
 - 🖼️ **Custom backgrounds** - Persistent background loading
 - 🎚️ **Audio device selection** - Choose input source
-- ⚙️ **Configurable settings** - Adjust smoothing, sample rate, FFT size
+- ⚙️ **Configurable settings** - Adjust smoothing, sample rate, FFT size, and Gain in real-time
 - 🖥️ **Fullscreen mode** - Immersive experience (F11)
 - 💾 **Settings persistence** - Robust saving to AppData
 - 📊 **Real-time performance** - 60 FPS smooth rendering
