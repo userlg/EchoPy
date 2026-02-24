@@ -4,7 +4,7 @@ from PySide6.QtWidgets import (
     QMainWindow,
     QMessageBox,
 )
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QEvent
 from PySide6.QtGui import QAction, QKeySequence
 from visualizer import VisualizerWidget
 from audio_processor import AudioProcessor
@@ -22,6 +22,13 @@ class MainWindow(QMainWindow):
     def __init__(self):
         """Initialize main window."""
         super().__init__()
+
+        # Drag tracking
+        self._drag_pos = None
+
+        # Resizing tracking
+        self._resize_mode = None
+        self._resize_margin = 8  # px distance from edge to resize
 
         # Configuration
         self.config = Config()
@@ -75,8 +82,17 @@ class MainWindow(QMainWindow):
         self.setMinimumSize(800, 600)
         self.resize(1200, 800)
 
+        # Frameless and translucent
+        self.setWindowFlags(self.windowFlags() | Qt.FramelessWindowHint)
+        self.setAttribute(Qt.WA_TranslucentBackground, True)
+
+        # Essential to receive mouse events for resize cursor updates
+        self.setMouseTracking(True)
+
         # Set central widget
         self.setCentralWidget(self.visualizer_widget)
+        # Visualizer also needs mouse tracking to pass through to main window
+        self.visualizer_widget.setMouseTracking(True)
 
         # Load and apply modern stylesheet
         self._apply_stylesheet()
@@ -127,6 +143,18 @@ class MainWindow(QMainWindow):
         set_act.setShortcut(QKeySequence("Ctrl+,"))
         set_act.triggered.connect(self._show_settings)
         self.addAction(set_act)
+
+        # Cycle Style (Ctrl+V)
+        cycle_style_act = QAction(self)
+        cycle_style_act.setShortcut(QKeySequence("Ctrl+V"))
+        cycle_style_act.triggered.connect(self._cycle_style)
+        self.addAction(cycle_style_act)
+
+        # Cycle Theme (Ctrl+T)
+        cycle_theme_act = QAction(self)
+        cycle_theme_act.setShortcut(QKeySequence("Ctrl+T"))
+        cycle_theme_act.triggered.connect(self._cycle_theme)
+        self.addAction(cycle_theme_act)
 
         # Screenshot (S)
         sc_act = QAction(self)
@@ -230,6 +258,47 @@ class MainWindow(QMainWindow):
         self.visualizer_widget.set_theme(theme)
         self.config.set("theme", theme_name)
 
+    def _cycle_style(self):
+        """Cycle to the next visualization style."""
+        from visualizer_factory import VisualizerFactory
+
+        styles = VisualizerFactory.get_available_styles()
+        if not styles:
+            return
+
+        current_style = self.config.get("style", "spectrum_bars")
+        try:
+            current_index = styles.index(current_style)
+            next_index = (current_index + 1) % len(styles)
+        except ValueError:
+            next_index = 0
+
+        next_style = styles[next_index]
+        self._change_style(next_style)
+        self.control_panel.set_current_style(next_style)
+
+    def _cycle_theme(self):
+        """Cycle to the next color theme."""
+        from themes import get_theme_names
+
+        theme_names = get_theme_names()
+        if not theme_names:
+            return
+
+        current_theme = self.config.get("theme", "modern")
+
+        current_index = 0
+        for i, name in enumerate(theme_names):
+            if name.lower() == current_theme.lower():
+                current_index = i
+                break
+
+        next_index = (current_index + 1) % len(theme_names)
+        next_theme = theme_names[next_index].lower()
+
+        self._change_theme(next_theme)
+        self.control_panel.set_current_theme_name(next_theme)
+
     def _load_background(self, file_path: str, save: bool = True):
         """Load background image."""
         pixmap = load_image(file_path)
@@ -253,6 +322,7 @@ class MainWindow(QMainWindow):
 
     def _change_smoothing(self, smoothing: float):
         """Change smoothing factor."""
+        logger.info(f"Smoothing set to: {smoothing:.2f}")
         self.audio_processor.set_smoothing(smoothing)
         self.config.set("smoothing", smoothing)
 
@@ -276,6 +346,7 @@ class MainWindow(QMainWindow):
 
     def _change_opacity(self, opacity: float):
         """Change background opacity."""
+        logger.info(f"Background opacity set to: {opacity:.2f}")
         self.visualizer_widget.set_background_opacity(opacity)
         self.visualizer_widget.update()  # Force redraw
         self.config.set("opacity", opacity)
@@ -392,6 +463,94 @@ class MainWindow(QMainWindow):
             self.showNormal()
         else:
             super().keyPressEvent(event)
+
+    def _edges_at(self, pos):
+        """Determine which edge(s) the mouse is over."""
+        edges = Qt.Edge(0)
+        rect = self.rect()
+        x, y = pos.x(), pos.y()
+
+        if x < self._resize_margin:
+            edges |= Qt.LeftEdge
+        elif x > rect.width() - self._resize_margin:
+            edges |= Qt.RightEdge
+
+        if y < self._resize_margin:
+            edges |= Qt.TopEdge
+        elif y > rect.height() - self._resize_margin:
+            edges |= Qt.BottomEdge
+
+        return edges
+
+    def _update_cursor(self, edges):
+        """Update cursor based on mouse position near edges."""
+        if edges == (Qt.LeftEdge | Qt.TopEdge) or edges == (
+            Qt.RightEdge | Qt.BottomEdge
+        ):
+            self.setCursor(Qt.SizeFDiagCursor)
+        elif edges == (Qt.RightEdge | Qt.TopEdge) or edges == (
+            Qt.LeftEdge | Qt.BottomEdge
+        ):
+            self.setCursor(Qt.SizeBDiagCursor)
+        elif edges & Qt.LeftEdge or edges & Qt.RightEdge:
+            self.setCursor(
+                Qt.SizeVerCursor
+                if edges & Qt.TopEdge or edges & Qt.BottomEdge
+                else Qt.SizeHorCursor
+            )
+        elif edges & Qt.TopEdge or edges & Qt.BottomEdge:
+            self.setCursor(Qt.SizeVerCursor)
+        else:
+            self.setCursor(Qt.ArrowCursor)
+
+    def mousePressEvent(self, event):
+        """Handle mouse click for dragging and resizing."""
+        if event.button() == Qt.LeftButton:
+            edges = self._edges_at(event.position().toPoint())
+            if edges and not self.isFullScreen():
+                self._resize_mode = edges
+                # Native startSystemResize provides native OS window resizing instead of manual calculation
+                self.windowHandle().startSystemResize(edges)
+            else:
+                self._drag_pos = (
+                    event.globalPosition().toPoint() - self.frameGeometry().topLeft()
+                )
+        super().mousePressEvent(event)
+
+    def mouseMoveEvent(self, event):
+        """Handle mouse move for dragging window."""
+        edges = self._edges_at(event.position().toPoint())
+        self._update_cursor(edges)
+
+        if (
+            event.buttons() == Qt.LeftButton
+            and self._drag_pos is not None
+            and not self._resize_mode
+        ):
+            # If not resizing, we are dragging
+            if not self.isFullScreen():
+                self.windowHandle().startSystemMove()
+                self._drag_pos = None  # Reset so it doesn't conflict
+        super().mouseMoveEvent(event)
+
+    def mouseReleaseEvent(self, event):
+        """Handle mouse release."""
+        self._drag_pos = None
+        self._resize_mode = None
+        super().mouseReleaseEvent(event)
+
+    def changeEvent(self, event):
+        """Handle window state changes."""
+        if event.type() == QEvent.WindowStateChange:
+            if self.isMinimized():
+                if self.control_panel.isVisible():
+                    self._control_panel_was_visible = True
+                    self.control_panel.hide()
+                else:
+                    self._control_panel_was_visible = False
+            elif getattr(self, "_control_panel_was_visible", False):
+                self.control_panel.show()
+        super().changeEvent(event)
 
     def closeEvent(self, event):
         """Handle window close event."""

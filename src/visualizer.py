@@ -7,9 +7,8 @@ if TYPE_CHECKING:
     from numpy import ndarray
 from abc import ABC, abstractmethod
 from PySide6.QtWidgets import QWidget
-from PySide6.QtGui import QPainter, QPixmap, QPen, QBrush, QColor
-from PySide6.QtCore import Qt, QTimer, QPointF
-from typing import Optional
+from PySide6.QtGui import QPainter, QPixmap, QPen, QColor
+from PySide6.QtCore import Qt, QTimer
 from themes import ColorTheme, get_theme
 from utils import logger
 from ui.overlay import DebugOverlay
@@ -66,7 +65,8 @@ class VisualizerWidget(QWidget):
 
         # Set widget properties
         self.setMinimumSize(800, 600)
-        self.setAttribute(Qt.WA_OpaquePaintEvent)
+        self.setAttribute(Qt.WA_OpaquePaintEvent, False)
+        self.setMouseTracking(True)
 
         # Current visualizer
         self.visualizer: Optional[BaseVisualizer] = None
@@ -263,7 +263,9 @@ class VisualizerWidget(QWidget):
 
     def _draw_background(self, painter: QPainter):
         """Draw widget background and image."""
-        painter.fillRect(self.rect(), self.current_theme.bg_color)
+        bg_color = QColor(self.current_theme.bg_color)
+        bg_color.setAlphaF(self.background_opacity)
+        painter.fillRect(self.rect(), bg_color)
 
         if self.background_image:
             painter.save()
@@ -286,6 +288,16 @@ class VisualizerWidget(QWidget):
         """Draw message when no visualizer is active."""
         painter.setPen(QPen(QColor(255, 255, 255)))
         painter.drawText(self.rect(), Qt.AlignCenter, "No visualizer set")
+
+    def mouseMoveEvent(self, event):
+        """Pass mouse move events to parent for resize cursor tracking."""
+        event.ignore()
+        super().mouseMoveEvent(event)
+
+    def mousePressEvent(self, event):
+        """Pass mouse press events to parent for dragging/resizing."""
+        event.ignore()
+        super().mousePressEvent(event)
 
     def resizeEvent(self, event):
         """Handle resize events."""

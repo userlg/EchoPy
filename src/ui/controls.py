@@ -33,7 +33,7 @@ class ControlPanel(QWidget):
         """Initialize control panel."""
         super().__init__(parent)
 
-        self.setWindowFlags(Qt.Tool | Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
+        self.setWindowFlags(Qt.Tool | Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setObjectName("ControlPanel")
 

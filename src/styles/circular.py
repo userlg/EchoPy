@@ -16,7 +16,11 @@ class CircularSpectrum(BaseVisualizer):
         self.min_radius = 80
         self.bar_width = 3
         self.smoothed_bass = 0.0
-        # La interpolación la controla CavaFilter, quitamos smoothing_factor manual.
+        # Fluididad local para compensar los saltos rápidos del audio
+        self.smoothed_bars = np.zeros(self.num_bands, dtype=np.float64)
+        self.smoothing_factor = (
+            0.75  # Interpolación suave (75% frame anterior, 25% nuevo)
+        )
 
         # --- NUEVO: Estado para la animación de reposo de las barras superiores ---
         self.idle_phase = 0.0
@@ -97,10 +101,16 @@ class CircularSpectrum(BaseVisualizer):
                 blend_factor = 1.0 - (magnitudes[i] / threshold)
                 magnitudes[i] += idle_magnitude * blend_factor
 
-        # ──────────────── Suavizado Delegado a AudioProcessor ────────────────
-        target_lengths = magnitudes * bar_zone * 25.0
-        # El suavizado se aplica desde el AudioProcessor globalmente.
-        current_bar_lengths = target_lengths
+        # ──────────────── Suavizado y Escalado Final ────────────────
+        # El multiplicador original 25.0 era extremo y saturaba el visualizador.
+        # Ajustamos a 1.8 para un mayor rango dinámico sensible al gain global.
+        target_lengths = magnitudes * bar_zone * 1.8
+
+        # Suavizado local para lograr el movimiento "fluido" deseado
+        self.smoothed_bars = (self.smoothed_bars * self.smoothing_factor) + (
+            target_lengths * (1.0 - self.smoothing_factor)
+        )
+        current_bar_lengths = self.smoothed_bars
 
         bar_lengths = np.clip(current_bar_lengths, 3.0, bar_zone)
 

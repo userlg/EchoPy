@@ -232,10 +232,15 @@ class SettingsDialog(QDialog):
     def _on_smoothing_changed(self, value: int):
         """Handle smoothing slider change."""
         self.smoothing_label.setText(f"{value / 100:.2f}")
+        new_smoothing = value / 100.0
+        self.smoothing_changed.emit(new_smoothing)
+        self.current_state["smoothing"] = new_smoothing
 
     def _on_gain_changed(self, value: int):
         """Handle gain slider change."""
         self.gain_label.setText(f"{value}%")
+        self.gain_changed.emit(float(value))
+        self.current_state["gain"] = float(value)
 
     def _on_opacity_changed(self, value: int):
         """Handle opacity slider change."""
