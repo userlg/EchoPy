@@ -113,13 +113,19 @@ python src/main.py
 
 - `F11` - Toggle fullscreen
 - `Ctrl+H` - Show/hide control panel
+- `Ctrl+V` - Cycle Visualization Style
+- `Ctrl+T` - Cycle Color Theme
 - `Ctrl+,` - Open settings
-- `Ctrl+Q` - Quit application
+- `S` - Take Screenshot
+- `Ctrl+M` - Minimize application
+- `Ctrl+X` - Quit application
 - `ESC` - Exit fullscreen
 
-### �️ Mouse Controls
+### 🖱️ Mouse Controls
 
-- **Right-Click** anywhere to open the **Main Menu** (Settings, Toggle Controls, Fullscreen, Exit).
+- **Left-Click & Drag** anywhere on the visualizer to move the frameless window freely.
+- **Hover Edges** to dynamically resize the application window.
+- *(Note: Right-click context menu is intentionally disabled in this version. Please rely on the keyboard shortcuts above to access settings and controls).*
 
 ## 📦 Building Executables
 

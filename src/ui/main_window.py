@@ -162,9 +162,15 @@ class MainWindow(QMainWindow):
         sc_act.triggered.connect(self._take_screenshot)
         self.addAction(sc_act)
 
-        # Exit (Ctrl+Q)
+        # Minimize (Ctrl+M)
+        min_act = QAction(self)
+        min_act.setShortcut(QKeySequence("Ctrl+M"))
+        min_act.triggered.connect(self.showMinimized)
+        self.addAction(min_act)
+
+        # Exit (Ctrl+X)
         exit_act = QAction(self)
-        exit_act.setShortcut(QKeySequence("Ctrl+Q"))
+        exit_act.setShortcut(QKeySequence("Ctrl+X"))
         exit_act.triggered.connect(self.close)
         self.addAction(exit_act)
 
