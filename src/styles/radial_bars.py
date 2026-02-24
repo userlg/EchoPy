@@ -1,9 +1,7 @@
 from __future__ import annotations
 import numpy as np
-import math
 from PySide6.QtGui import (
     QPainter,
-    QPen,
     QBrush,
     QColor,
     QRadialGradient,
@@ -19,7 +17,6 @@ class RadialBars(BaseVisualizer):
     def __init__(self):
         super().__init__("Radial Bars")
         self.num_rays = 120
-        self.min_radius = 60  # Núcleo más sólido
         self.smoothed_bass = 0.0
 
     def render(self, painter: QPainter, waveform: np.ndarray, fft_data: np.ndarray):
@@ -30,8 +27,11 @@ class RadialBars(BaseVisualizer):
 
         center_x = self.width / 2
         center_y = self.height / 2
+
+        # Tamaño dinámico basado en la pantalla (mucho más grande)
+        min_radius = min(self.width, self.height) * 0.18
         max_radius = min(self.width, self.height) / 2 - 20
-        bar_len_max = max_radius - self.min_radius
+        bar_len_max = max_radius - min_radius
 
         # ──────────── Frequency Binning (Vocal focus: 25%) ────────────
         n_fft = len(fft_data)
@@ -66,7 +66,7 @@ class RadialBars(BaseVisualizer):
         # Pulso del núcleo central
         bass_energy = float(np.mean(magnitudes[: max(1, bass_end)]))
         self.smoothed_bass += (bass_energy - self.smoothed_bass) * 0.2
-        pulse_r = self.min_radius + (self.smoothed_bass * 40.0)
+        pulse_r = min_radius + (self.smoothed_bass * 70.0)  # Pulso más pronunciado
 
         # ──────────── Renderizado Estático (Sin Giro) ────────────
         # Guardamos el estado central
@@ -79,8 +79,8 @@ class RadialBars(BaseVisualizer):
             mag = magnitudes[i]
 
             # Longitud de barra con multiplicador de impacto
-            bar_len = mag * bar_len_max * 1.8
-            bar_len = np.clip(bar_len, 4.0, bar_len_max)
+            bar_len = mag * bar_len_max * 2.5
+            bar_len = np.clip(bar_len, 6.0, bar_len_max)
 
             # Color según posición radial (Armonía)
             color_pos = i / self.num_rays

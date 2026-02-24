@@ -24,13 +24,14 @@ EchoPy is a real-time music visualizer built with Python, PySide6, and NumPy. It
 - **NumPy 2.0 Compatibility**: The system uses NumPy 2.4.1.
   - **Optimization**: `AudioProcessor` callback has been refactored for vectorized Boolean masking to avoid performance bottlenecks (Input Overflow).
 
-## Current State (Updated 2026-01-28)
+## Current State (Updated 2026-02-20)
 
 - **Logic**: Fully optimized for NumPy 2.0.
 - **Audio Capture**: IMPROVED.
   - Integrated **Weighted Multichannel Downmixing** (inspired by CAVA) to preserve surround audio fidelity on NVIDIA SyncMaster/HDMI drivers.
   - Enhanced **WASAPI Loopback Discovery** with name-matching and "SyncMaster" prioritization.
-- **Visuals**: Superior 'liquid' movement achieved via **CavaFilter** (Integral + Fall-off filters), replacing simple EMA smoothing.
+- **Visuals**: Superior 'liquid' movement achieved via **CavaFilter** (Integral + Fall-off filters) tuned for elasticity.
+   - Glassmorphism UI enhanced with deeper transparencies and vibrant glow effects (Spectrum/Circular).
 - **Calibration**: `NOISE_FLOOR = 0.00020` and `GAIN = 15000` maintained for clean response.
 
 ## Advanced Deployment (Frozen App Strategy)
