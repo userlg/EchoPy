@@ -36,4 +36,5 @@ Thumbs.db
 dist/
 build/
 .venv/
+.coverage
 
