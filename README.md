@@ -129,31 +129,22 @@ python src/main.py
 
 ## 📦 Building Executables
 
-### Windows
+The project includes a fully cross-platform `build.spec` file. 
+
+* **Windows**: Running `pyinstaller build.spec` on Windows will automatically generate a high-quality `resources/favicon.ico` from `resources/favicon.png` using the `Pillow` library and embed it into the generated `.exe` executable.
+* **Linux**: Running `pyinstaller build.spec` on Linux packages the binary into a single-file executable, and the application's runtime code loads the PNG icon for the window.
+
+### Build commands:
 
 ```bash
-# Install PyInstaller
-pip install pyinstaller
+# Ensure dependencies are installed (including Pillow for icon generation on Windows)
+pip install -r requirements.txt
 
-# Build executable
+# Run the build
 pyinstaller build.spec
-
-# Find executable in dist/EchoPy.exe
 ```
 
-### Linux
-
-```bash
-# Install PyInstaller
-pip install pyinstaller
-
-# Build executable
-pyinstaller build.spec
-
-# Find executable in dist/EchoPy
-```
-
-The generated executable will be approximately 100-150MB due to bundled dependencies.
+The compiled binary will be placed inside the `dist/` directory (`dist/EchoPy.exe` on Windows, or `dist/EchoPy` on Linux).
 
 ## 🎮 Controls
 
@@ -164,6 +155,17 @@ Access via `Ctrl+H` or `Right-Click > Toggle Controls`.
 - **Visualization Style** - Dropdown to select visualization mode
 - **Color Theme** - Grid of theme buttons for quick switching
 - **Background** - Load custom images or clear background
+
+### Capturing System Audio
+
+EchoPy is designed to capture system sound playing on your computer:
+
+**Windows:**
+- EchoPy natively supports **WASAPI Loopback** (via `PyAudioWPatch`).
+- It automatically detects your default output device (even digital/HDMI outputs like NVIDIA SyncMaster) and captures system audio directly, **without needing virtual audio cables** or extra drivers.
+
+**Linux:**
+- EchoPy captures from the default audio system. You can redirect output to the visualizer using PulseAudio Volume Control (`pavucontrol`), Pipewire routing, or ALSA loopback channels.
 
 ### Settings Dialog
 
@@ -235,20 +237,7 @@ EchoPy/
 - Try simpler visualization styles
 - Lower FFT size
 
-### Capturing System Audio
 
-By default, EchoPy captures from microphone. To visualize music playing on your computer:
-
-**Windows:**
-
-- Install [VB-Audio Virtual Cable](https://vb-audio.com/Cable/)
-- Set it as default playback device
-- Select "CABLE Output" in EchoPy settings
-
-**Linux:**
-
-- Use PulseAudio Monitor: `pavucontrol`
-- Or JACK audio routing
 
 ## 📄 License
 

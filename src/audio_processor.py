@@ -174,7 +174,12 @@ class AudioProcessor(QObject):
         last_error = None
         for current_idx in device_list:
             try:
-                device_info = sd.query_devices(current_idx)
+                if current_idx is None:
+                    device_info = sd.query_devices(kind='input')
+                    actual_idx = device_info['index']
+                else:
+                    device_info = sd.query_devices(current_idx)
+                    actual_idx = current_idx
                 host_api = sd.query_hostapis(device_info["hostapi"])["name"]
 
                 # Check hardware capabilities
@@ -220,7 +225,7 @@ class AudioProcessor(QObject):
                             )
 
                             self.stream = sd.InputStream(
-                                device=current_idx,
+                                device=actual_idx,
                                 channels=chans,
                                 samplerate=rate,
                                 blocksize=self.buffer_size,
@@ -230,7 +235,7 @@ class AudioProcessor(QObject):
                             self.stream.start()
 
                             self.sample_rate = rate
-                            self.device_index = current_idx
+                            self.device_index = actual_idx
                             self.is_running = True
                             logger.info(
                                 f"AUDIO ENGINE ONLINE: {device_info['name']} ({chans}ch @ {rate}Hz)"
