@@ -24,7 +24,7 @@ EchoPy is a real-time music visualizer built with Python, PySide6, and NumPy. It
 - **NumPy 2.0 Compatibility**: The system uses NumPy 2.4.1.
   - **Optimization**: `AudioProcessor` callback has been refactored for vectorized Boolean masking to avoid performance bottlenecks (Input Overflow).
 
-## Current State (Updated 2026-02-20)
+## Current State (Updated 2026-05-22)
 
 - **Logic**: Fully optimized for NumPy 2.0.
 - **Audio Capture**: IMPROVED.
@@ -32,6 +32,9 @@ EchoPy is a real-time music visualizer built with Python, PySide6, and NumPy. It
   - Enhanced **WASAPI Loopback Discovery** with name-matching and "SyncMaster" prioritization.
 - **Visuals**: Superior 'liquid' movement achieved via **CavaFilter** (Integral + Fall-off filters) tuned for elasticity.
    - Glassmorphism UI enhanced with deeper transparencies and vibrant glow effects (Spectrum/Circular).
+   - **Synthwave Grid (New)**: Added a premium 3D perspective scrolling neon grid visualizer with a reactive neon mountain range silhouette and an audio-pulsing sun with horizontal cutout lines.
+   - **Bug Fix**: Fixed a PySide6 `QPen` constructor `TypeError` in the `SynthwaveGrid` visualizer (wrapped the `QLinearGradient` inside a `QBrush` and provided a line width argument).
+- **Testing**: Added `tests/test_visualizers.py` to programmatically verify that all visualizer styles render successfully under the Qt context without runtime exceptions. All 6/6 tests passing.
 - **Calibration**: `NOISE_FLOOR = 0.00020` and `GAIN = 15000` maintained for clean response.
 
 ## Advanced Deployment (Frozen App Strategy)

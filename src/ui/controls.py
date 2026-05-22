@@ -159,6 +159,7 @@ class ControlPanel(QWidget):
                 "Audio Lines",
                 "Sound Wave",
                 "Sound Wave 2",
+                "Synthwave Grid",
             ]
         )
         self.style_combo.currentTextChanged.connect(self._on_style_changed)
@@ -296,6 +297,7 @@ class ControlPanel(QWidget):
             "Audio Lines": "audio_lines",
             "Sound Wave": "sound_wave",
             "Sound Wave 2": "sound_wave_2",
+            "Synthwave Grid": "synthwave_grid",
         }
 
         internal_name = style_map.get(style_name, "spectrum_bars")
@@ -342,6 +344,7 @@ class ControlPanel(QWidget):
             "audio_lines": "Audio Lines",
             "sound_wave": "Sound Wave",
             "sound_wave_2": "Sound Wave 2",
+            "synthwave_grid": "Synthwave Grid",
         }
         display_name = style_map.get(style_name)
         if display_name:

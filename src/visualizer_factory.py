@@ -14,6 +14,7 @@ from styles.frequency_rings import FrequencyRings
 from styles.audio_lines import AudioLines
 from styles.sound_wave import SoundWave
 from styles.sound_wave_2 import SoundWave2
+from styles.synthwave_grid import SynthwaveGrid
 from utils import logger
 
 
@@ -33,6 +34,7 @@ class VisualizerFactory:
         "audio_lines": AudioLines,
         "sound_wave": SoundWave,
         "sound_wave_2": SoundWave2,
+        "synthwave_grid": SynthwaveGrid,
     }
 
     _instances: Dict[str, BaseVisualizer] = {}

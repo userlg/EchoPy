@@ -1,7 +1,7 @@
 import sounddevice as sd
 import numpy as np
 
-def test_device(idx):
+def run_test_device(idx):
     try:
         info = sd.query_devices(idx)
         print(f"\nTesting Device {idx}: {info['name']}")
@@ -32,6 +32,6 @@ def test_device(idx):
         return False
 
 # Test index 12 (SyncMaster)
-test_device(12)
+run_test_device(12)
 # Test index 4 (Fallback)
-test_device(4)
+run_test_device(4)
