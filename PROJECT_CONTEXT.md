@@ -30,11 +30,14 @@ EchoPy is a real-time music visualizer built with Python, PySide6, and NumPy. It
 - **Audio Capture**: IMPROVED.
   - Integrated **Weighted Multichannel Downmixing** (inspired by CAVA) to preserve surround audio fidelity on NVIDIA SyncMaster/HDMI drivers.
   - Enhanced **WASAPI Loopback Discovery** with name-matching and "SyncMaster" prioritization.
-- **Visuals**: Superior 'liquid' movement achieved via **CavaFilter** (Integral + Fall-off filters) tuned for elasticity.
-   - Glassmorphism UI enhanced with deeper transparencies and vibrant glow effects (Spectrum/Circular).
+- **Visuals**: Modernized aesthetics and coherent, high-end retro-neon visuals across core styles:
    - **Synthwave Grid (New)**: Added a premium 3D perspective scrolling neon grid visualizer with a reactive neon mountain range silhouette and an audio-pulsing sun with horizontal cutout lines.
-   - **Bug Fix**: Fixed a PySide6 `QPen` constructor `TypeError` in the `SynthwaveGrid` visualizer (wrapped the `QLinearGradient` inside a `QBrush` and provided a line width argument).
-- **Testing**: Added `tests/test_visualizers.py` to programmatically verify that all visualizer styles render successfully under the Qt context without runtime exceptions. All 6/6 tests passing.
+   - **Circular Spectrum**: Upgraded with a rotating tech grid, erupting neon particle sparks on bass impacts, and gradient sweeps with glowing caps.
+   - **Spectrum Bars**: Rebuilt as segmented LED columns with a glassmorphic backplate, calibration scale lines, rising embers, and falling neon peak caps.
+   - **Radial Bars**: Refactored with an outrun central sun core featuring horizontal cutouts, pulsing dashed concentric rings, and outward erupting neon sparks.
+   - **Waveform**: Enhanced with a vector oscilloscope grid, a moving horizontal laser scanline overlay, glowing energy aura fill, and reactive electron sparks shooting from peaks.
+   - **Compatibility Fixes**: Fixed PySide6 `QPen` constructor errors by wrapping all gradients in a `QBrush` and providing proper line widths.
+- **Testing**: Active verification via `tests/test_visualizers.py` programmatically validating render processes for all 13 styles under the Qt context. All 6/6 tests pass.
 - **Calibration**: `NOISE_FLOOR = 0.00020` and `GAIN = 15000` maintained for clean response.
 
 ## Advanced Deployment (Frozen App Strategy)

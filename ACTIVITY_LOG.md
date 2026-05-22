@@ -18,3 +18,8 @@
 ## [2026-05-22 17:51] FIXED SYNTHWAVE GRID QPEN TYPEERROR & ADDED VISUALIZER TESTS
 - Action: Fixed PySide6 `QPen` constructor call in `src/styles/synthwave_grid.py` by wrapping gradients in a `QBrush` and providing default/dynamic line widths. Created `tests/test_visualizers.py` to execute render checks across all 13 styles.
 - Status: All tests passing successfully (6/6). No exceptions raised during visualizer render cycles.
+
+
+## [2026-05-22 18:30] COHERENT AESTHETIC UPGRADES FOR CORE VISUALIZERS
+- Action: Upgraded Circular Spectrum, Spectrum Bars, Radial Bars, and Waveform visualizers to integrate rotating tech grids, glassmorphism, dashed Concentric rings, segmented LED columns, moving laser scanlines, and reactive particle systems. Resolved QPen type signatures.
+- Status: All tests pass (6/6). Verified application starts and renders correctly. Ready for staging and commit.

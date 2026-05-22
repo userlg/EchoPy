@@ -1,23 +1,32 @@
 from __future__ import annotations
 import numpy as np
-from PySide6.QtGui import QPainter, QBrush, QColor, QLinearGradient
+import random
+from PySide6.QtGui import QPainter, QBrush, QColor, QLinearGradient, QPen
 from PySide6.QtCore import Qt, QPointF, QRectF
 from visualizer import BaseVisualizer
 
 
 class SpectrumBars(BaseVisualizer):
-    """Spectrum analyzer with centered-out harmonious bars for high-impact visuals."""
+    """Spectrum analyzer with segmented LED columns, glassmorphic backplate, and rising embers."""
 
     def __init__(self):
         super().__init__("Spectrum Bars")
         self.num_bars = 64
         self.bar_spacing = 3
-        self.corner_radius = 4  # Estética moderna: bordes redondeados
+        self.corner_radius = 2
 
         # Peak hold state
         self.peaks = np.zeros(self.num_bars, dtype=np.float64)
-        self.peak_decay = 0.94  # Caída más suave y controlada
+        self.peak_decay = 0.94
         self.peak_gravity = 0.003
+
+        # Particle state
+        self.particles = []
+        self.max_particles = 120
+
+    def set_size(self, width: int, height: int):
+        super().set_size(width, height)
+        self.particles = []
 
     def render(self, painter: QPainter, waveform: np.ndarray, fft_data: np.ndarray):
         if self.theme is None:
@@ -25,18 +34,41 @@ class SpectrumBars(BaseVisualizer):
 
         painter.setRenderHint(QPainter.Antialiasing, True)
 
-        # Layout
-        total_width = self.width - (self.num_bars * self.bar_spacing)
-        bar_width = total_width / self.num_bars
-        baseline_y = self.height * 0.82  # Elevamos un poco para la reflexión
+        # 1. Backing Glassmorphic Card Panel
+        card_rect = QRectF(15, 20, self.width - 30, self.height - 40)
+        card_bg = QColor(self.theme.bg_color)
+        card_bg.setAlpha(125)
+        painter.setPen(Qt.NoPen)
+        painter.setBrush(QBrush(card_bg))
+        painter.drawRoundedRect(card_rect, 10, 10)
+
+        # Frosted glass thin border
+        card_border = QColor(255, 255, 255, 25)
+        border_pen = QPen(QBrush(card_border), 1.2)
+        painter.setPen(border_pen)
+        painter.setBrush(Qt.NoBrush)
+        painter.drawRoundedRect(card_rect, 10, 10)
+
+        # Horizontal calibration scale lines
+        grid_color = self.theme.get_color(1)
+        grid_color.setAlpha(22)
+        grid_pen = QPen(QBrush(grid_color), 1.0, Qt.DashLine)
+        painter.setPen(grid_pen)
+        for ratio in [0.25, 0.5, 0.75]:
+            y_grid = card_rect.top() + card_rect.height() * ratio
+            painter.drawLine(card_rect.left(), y_grid, card_rect.right(), y_grid)
+
+        # 2. Layout Geometry
+        total_width = card_rect.width() - (self.num_bars * self.bar_spacing)
+        bar_width = max(3.0, total_width / self.num_bars)
+        baseline_y = card_rect.bottom() - 10
 
         n_fft = len(fft_data)
 
-        # ──────────── Frequency Binning (Vocal Focus) ────────────
-        # Nos enfocamos en el rango de 20Hz a ~5000Hz para máxima respuesta
+        # 3. Frequency Binning (Vocal Focus)
         useful_bins = int(n_fft * 0.20)
         log_indices = np.logspace(
-            np.log10(2), np.log10(useful_bins), self.num_bars + 1
+            np.log10(2), np.log10(max(useful_bins, 10)), self.num_bars + 1
         ).astype(int)
 
         raw_magnitudes = np.empty(self.num_bars, dtype=np.float64)
@@ -47,130 +79,123 @@ class SpectrumBars(BaseVisualizer):
                 np.mean(fft_data[lo : min(hi, n_fft)]) if lo < n_fft else 0.0
             )
 
-        # ──────────── Distribución Simétrica (Center-Out) ────────────
-        # Mapeamos los graves al centro y los agudos a los extremos
+        # Symmetric Center-Out distribution
         magnitudes = np.empty(self.num_bars)
         half = self.num_bars // 2
 
         for i in range(self.num_bars):
-            # Calcula la distancia al centro para traer los graves al medio
             dist_from_center = abs(i - half)
-            # Invertimos: el centro (dist 0) toma el índice 0 de raw_magnitudes (graves)
             magnitudes[i] = raw_magnitudes[dist_from_center]
 
-        # ──────────── Procesamiento Estético ────────────
-        # Boost dinámico: Agudos (ahora en los bordes) necesitan un empuje suave
+        # Dynamic boost
         edge_boost = np.linspace(1.5, 1.0, half)
         boost = np.concatenate([edge_boost, edge_boost[::-1]])
 
         magnitudes *= boost
-        # Curva de potencia (0.7 en lugar de 0.5) para dar más rango dinámico a la música
         magnitudes = np.power(np.clip(magnitudes, 0.0, None), 0.7)
 
-        # El FFT ya viene suavizado desde el AudioProcessor en función de la UI.
-        # Quitamos el suavizado interno para evitar latencia artificial y pérdida de control.
-
-        # Actualizar Picos
+        # Update Peaks
         self.peaks = np.maximum(
             self.peaks * self.peak_decay - self.peak_gravity, magnitudes
         )
 
-        # ──────────── Renderizado de Barras ────────────
+        # 4. Render Segments & Peaks
+        segment_h = 5
+        gap = 2
+        step_y = segment_h + gap
+        max_h = card_rect.height() - 30
+
         for i in range(self.num_bars):
             mag = magnitudes[i]
             peak = self.peaks[i]
 
-            # Altura con piso estético (mínimo 5px) y tope holgado
-            bar_height = max(5, mag * self.height * 0.70)
-            bar_height = min(bar_height, self.height * 0.75)
+            bar_height = min(mag * max_h, max_h)
+            peak_height = min(peak * max_h, max_h)
 
-            peak_height = max(bar_height, peak * self.height * 0.9)
-            peak_height = min(peak_height, self.height * 0.75)
-
-            x = i * (bar_width + self.bar_spacing)
+            x = card_rect.left() + i * (bar_width + self.bar_spacing)
             y_bar = baseline_y - bar_height
             y_peak = baseline_y - peak_height
 
-            # Color dinámico basado en la posición (Armonía visual)
-            color_pos = abs(i - half) / half  # 0 en el centro, 1 en los bordes
+            color_pos = abs(i - half) / half
             color = self.theme.get_gradient_color(color_pos)
 
-            # 1. Glow Base Trasero (Luminiscencia suave)
-            if mag > 0.05:
-                base_glow = QColor(color)
-                base_glow.setAlpha(35)
-                painter.setBrush(QBrush(base_glow))
+            # Draw Segmented Column
+            num_segments = int(bar_height / step_y)
+            for s in range(num_segments):
+                y_seg = baseline_y - (s + 1) * step_y
+                
+                # Dynamic segment color gradient
+                seg_ratio = s / (max_h / step_y)
+                seg_color = self.theme.get_gradient_color(min(1.0, seg_ratio * 1.25))
+
+                # Segment outer glow
+                if mag > 0.04:
+                    sg_color = QColor(seg_color)
+                    sg_color.setAlpha(40)
+                    painter.setPen(Qt.NoPen)
+                    painter.setBrush(QBrush(sg_color))
+                    painter.drawRoundedRect(
+                        QRectF(x - 1, y_seg - 1, bar_width + 2, segment_h + 2),
+                        self.corner_radius + 0.5,
+                        self.corner_radius + 0.5,
+                    )
+
+                painter.setPen(Qt.NoPen)
+                painter.setBrush(QBrush(seg_color))
                 painter.drawRoundedRect(
-                    QRectF(x - 2, y_bar - 2, bar_width + 4, bar_height + 4),
-                    self.corner_radius + 2,
-                    self.corner_radius + 2,
-                )
-
-            # 2. Reflexión Elegante
-            reflection_h = bar_height * 0.4
-            ref_grad = QLinearGradient(
-                QPointF(x, baseline_y), QPointF(x, baseline_y + reflection_h)
-            )
-            ref_col = QColor(color)
-            ref_col.setAlpha(80)  # Reflexión más notoria en la base
-            ref_grad.setColorAt(0.0, ref_col)
-            ref_grad.setColorAt(1.0, Qt.transparent)
-
-            painter.setPen(Qt.NoPen)
-            painter.setBrush(QBrush(ref_grad))
-            painter.drawRoundedRect(
-                QRectF(x, baseline_y + 2, bar_width, reflection_h),
-                self.corner_radius,
-                self.corner_radius,
-            )
-
-            # 3. Barra Principal con Degradado de Potencia
-            bar_grad = QLinearGradient(QPointF(x, baseline_y), QPointF(x, y_bar))
-            # Oscura en la base, brillante en la cima
-            base_color = color.darker(180)
-            base_color.setAlpha(200)
-            bar_grad.setColorAt(0.0, base_color)
-            bar_grad.setColorAt(0.5, color)
-            bar_grad.setColorAt(1.0, color.lighter(130))
-
-            painter.setBrush(QBrush(bar_grad))
-            painter.drawRoundedRect(
-                QRectF(x, y_bar, bar_width, bar_height),
-                self.corner_radius,
-                self.corner_radius,
-            )
-
-            # 4. Glow Cap (Brillo Intenso en la punta)
-            if mag > 0.05:
-                cap_intensity = int(100 + (mag * 155))
-                glow_col = QColor(color.lighter(160))
-                glow_col.setAlpha(min(255, cap_intensity))
-                painter.setBrush(QBrush(glow_col))
-                # Hacemos que la "tapa" ocluya sutilmente la barra final para un highlight vibrante
-                painter.drawRoundedRect(
-                    QRectF(x, y_bar - 1, bar_width, 6 + (mag * 4)),
+                    QRectF(x, y_seg, bar_width, segment_h),
                     self.corner_radius,
                     self.corner_radius,
                 )
 
-            # 5. Peak Dot (Puntos flotantes estilo chispa)
+            # Spawn Ember Particles on active bars
+            if mag > 0.35 and len(self.particles) < self.max_particles and random.random() < 0.18:
+                self.particles.append({
+                    "x": x + bar_width / 2.0 + random.uniform(-1, 1),
+                    "y": y_bar - 4,
+                    "vx": random.uniform(-0.4, 0.4),
+                    "vy": random.uniform(-1.2, -2.6),
+                    "alpha": 1.0,
+                    "size": random.uniform(1.2, 2.8),
+                    "color": color
+                })
+
+            # Draw Glowing Peak Indicators (Laser Caps)
             if peak_height > bar_height + 4:
-                # Color del pico más incandescente
-                p_col = (
-                    QColor(255, 255, 255) if peak > 0.85 else QColor(color.lighter(200))
-                )
-                alpha_val = int(
-                    min(255, max(50, 255 * (peak_height / self.height * 1.5)))
-                )
-                p_col.setAlpha(alpha_val)
-                painter.setBrush(QBrush(p_col))
-                # Dibujar un pequeño "halo" al pico simulando que emite luz
-                halo_col = QColor(color)
-                halo_col.setAlpha(int(alpha_val * 0.4))
-                painter.drawRoundedRect(
-                    QRectF(x - 1, y_peak - 4, bar_width + 2, 5), 2, 2
+                # Translucent Peak Glow Ring
+                glow_col = QColor(color)
+                glow_col.setAlpha(110)
+                painter.setPen(Qt.NoPen)
+                painter.setBrush(QBrush(glow_col))
+                painter.drawEllipse(
+                    QPointF(x + bar_width / 2, y_peak),
+                    bar_width * 0.7 + 2.0,
+                    bar_width * 0.7 + 2.0
                 )
 
-                # Pico central puro
+                # Core incandescent dot
+                p_col = QColor(255, 255, 255) if peak > 0.75 else QColor(color.lighter(170))
+                p_col.setAlpha(210)
                 painter.setBrush(QBrush(p_col))
-                painter.drawRoundedRect(QRectF(x, y_peak - 3, bar_width, 3), 1, 1)
+                painter.drawEllipse(
+                    QPointF(x + bar_width / 2, y_peak),
+                    bar_width * 0.5,
+                    bar_width * 0.5
+                )
+
+        # 5. Update and Draw Ember Particles
+        active_particles = []
+        for p in self.particles:
+            p["x"] += p["vx"]
+            p["y"] += p["vy"]
+            p["alpha"] -= 0.024
+            
+            # Keep inside the card panel boundary
+            if p["alpha"] > 0 and card_rect.top() < p["y"] < card_rect.bottom():
+                p_col = QColor(p["color"])
+                p_col.setAlphaF(p["alpha"] * 0.75)
+                painter.setPen(Qt.NoPen)
+                painter.setBrush(QBrush(p_col))
+                painter.drawEllipse(QPointF(p["x"], p["y"]), p["size"], p["size"])
+                active_particles.append(p)
+        self.particles = active_particles
